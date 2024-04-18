@@ -1,5 +1,5 @@
 {
-	"name": "04 test Garmin data request using Key Vault in Python",
+	"name": "04_Garmin_API_Call_Key_Vault_Python",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -13,7 +13,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "7e575ca1-3e89-4dfe-8042-b4154380d9ae"
+				"spark.autotune.trackingId": "e42c2b33-d6c5-42b0-84d1-433febdf1ee6"
 			}
 		},
 		"metadata": {
@@ -32,17 +32,35 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"# 03 test Garmin data request last three months in Python\r\n",
+					"# Test connecting to Azure Key Vault in Python\r\n",
+					"# If in VS Code, then \"Connect-AzAccount\" within the Terminal Powershell to log into Azure so Key Vault can authenticate the request using Entra ID\r\n",
+					"# How authetication works in Azure Key Vault # How authentication works https://learn.microsoft.com/en-us/python/api/overview/azure/identity-readme?view=azure-python#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential\r\n",
+					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault or\r\n",
+					"#%pip install garminconnect azure-identity azure-keyvault-secrets azure-keyvault\r\n",
 					"\r\n",
-					"# Python 3 API wrapper for Garmin Connect\r\n",
-					"#  az login within the environment Powershell to log into Azure so Key Vault can authenticate the request using Entra ID\r\n",
-					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault\r\n",
-					"# Comment out the KeyVaultRequest line if hard-coding your Garmin credentials\r\n",
+					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault or\r\n",
+					"#%pip install garminconnect azure-identity azure-keyvault-secrets azure-keyvault\r\n",
 					"\r\n",
 					"import garminconnect\r\n",
-					"from 02_test_key_vault_connection_Python import get_api_key_from_keyvault\r\n",
 					"from datetime import datetime, timedelta\r\n",
+					"from azure.identity import DefaultAzureCredential\r\n",
+					"from azure.keyvault.secrets import SecretClient\r\n",
 					"\r\n",
+					"def get_api_key_from_keyvault(key_vault_name, secret_name, secret_version=None): \r\n",
+					"    try:\r\n",
+					"        # Initialize Azure Key Vault client\r\n",
+					"        #key_vault_name = \"judeskv\"\r\n",
+					"        kv_uri = f\"https://{key_vault_name}.vault.azure.net\"\r\n",
+					"        credential = DefaultAzureCredential()\r\n",
+					"        secret_client = SecretClient(vault_url=kv_uri, credential=credential)\r\n",
+					"\r\n",
+					"        # Retrieve your API credentials (secret) from Key Vault\r\n",
+					"        #secret_name = \"GarminPassword\"\r\n",
+					"        api_key = secret_client.get_secret(secret_name).value\r\n",
+					"        return api_key\r\n",
+					"    except Exception as e:\r\n",
+					"        print(f\"Error retrieving API key from Key Vault: {e}\")\r\n",
+					"        return None\r\n",
 					"\r\n",
 					"def main():\r\n",
 					"    try:\r\n",

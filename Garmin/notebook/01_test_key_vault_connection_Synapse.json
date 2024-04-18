@@ -1,5 +1,5 @@
 {
-	"name": "01 test key vault connection Synapse",
+	"name": "01_test_key_vault_connection_Synapse",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "323d094b-3c08-4ae2-a9a3-9958adaca58a"
+				"spark.autotune.trackingId": "b6f9027f-6a0a-4fdb-b4f7-11689fd7b5e7"
 			}
 		},
 		"metadata": {

@@ -1,5 +1,5 @@
 {
-	"name": "03_test_Garmin_API_Call",
+	"name": "04 test Garmin data request using Key Vault in Python",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -13,7 +13,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "30e1c909-e50e-4868-9f58-f114fdaa7cac"
+				"spark.autotune.trackingId": "7e575ca1-3e89-4dfe-8042-b4154380d9ae"
 			}
 		},
 		"metadata": {
@@ -32,12 +32,15 @@
 			{
 				"cell_type": "code",
 				"source": [
+					"# 03 test Garmin data request last three months in Python\r\n",
+					"\r\n",
 					"# Python 3 API wrapper for Garmin Connect\r\n",
 					"#  az login within the environment Powershell to log into Azure so Key Vault can authenticate the request using Entra ID\r\n",
 					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault\r\n",
 					"# Comment out the KeyVaultRequest line if hard-coding your Garmin credentials\r\n",
 					"\r\n",
 					"import garminconnect\r\n",
+					"from 02_test_key_vault_connection_Python import get_api_key_from_keyvault\r\n",
 					"from datetime import datetime, timedelta\r\n",
 					"\r\n",
 					"\r\n",
@@ -45,9 +48,9 @@
 					"    try:\r\n",
 					"        # Get API password from Key Vault. Replace with hard-coded values to avoid the KeyVault request\r\n",
 					"        # Garmin_Username = \"My Garmin email/login\"\r\n",
-					"        Garmin_Username = \"\"\r\n",
+					"        Garmin_Username = get_api_key_from_keyvault(\"judeskv\", \"GarminUsername\")\r\n",
 					"        # Garmin_Username = \"My Garmin password\"\r\n",
-					"        Garmin_Password = \"\"\r\n",
+					"        Garmin_Password = get_api_key_from_keyvault(\"judeskv\", \"GarminPassword\")\r\n",
 					"\r\n",
 					"        if not Garmin_Username:\r\n",
 					"            print(\"Garmin_Username retrieval/initialisation failed. Check your Key Vault configuration/python.\")\r\n",

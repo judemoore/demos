@@ -1,0 +1,10 @@
+{
+	"name": "linked_keyvault_judeskv",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://judeskv.vault.azure.net/"
+		}
+	}
+}

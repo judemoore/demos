@@ -1,5 +1,5 @@
 {
-	"name": "02 test keyvault connection Python",
+	"name": "02 test key vault connection Python",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "c043e8be-2123-4224-9340-421f4e5f5366"
+				"spark.autotune.trackingId": "3e3ecdeb-d98b-4f8d-976a-8c3bf1b9d316"
 			}
 		},
 		"metadata": {

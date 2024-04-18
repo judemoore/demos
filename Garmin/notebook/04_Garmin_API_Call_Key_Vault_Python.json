@@ -3,17 +3,21 @@
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "personalsparkp",
+			"type": "BigDataPoolReference"
+		},
 		"sessionProperties": {
 			"driverMemory": "28g",
 			"driverCores": 4,
 			"executorMemory": "28g",
 			"executorCores": 4,
-			"numExecutors": 2,
+			"numExecutors": 1,
 			"conf": {
-				"spark.dynamicAllocation.enabled": "false",
-				"spark.dynamicAllocation.minExecutors": "2",
-				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e42c2b33-d6c5-42b0-84d1-433febdf1ee6"
+				"spark.dynamicAllocation.enabled": "true",
+				"spark.dynamicAllocation.minExecutors": "1",
+				"spark.dynamicAllocation.maxExecutors": "4",
+				"spark.autotune.trackingId": "8e7efc41-ddd1-460c-a2af-ba3304ad878b"
 			}
 		},
 		"metadata": {
@@ -21,10 +25,25 @@
 			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
-				"display_name": "python"
+				"display_name": "Synapse PySpark"
 			},
 			"language_info": {
 				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/91972177-b241-4547-980b-98433788152e/resourceGroups/personalprojectsrg/providers/Microsoft.Synapse/workspaces/personalprojectsrgsynapse/bigDataPools/personalsparkp",
+				"name": "personalsparkp",
+				"type": "Spark",
+				"endpoint": "https://personalprojectsrgsynapse.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/personalsparkp",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": true
 			},
 			"sessionKeepAliveTimeout": 30
 		},
@@ -38,8 +57,6 @@
 					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault or\r\n",
 					"#%pip install garminconnect azure-identity azure-keyvault-secrets azure-keyvault\r\n",
 					"\r\n",
-					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault or\r\n",
-					"#%pip install garminconnect azure-identity azure-keyvault-secrets azure-keyvault\r\n",
 					"\r\n",
 					"import garminconnect\r\n",
 					"from datetime import datetime, timedelta\r\n",
@@ -103,7 +120,7 @@
 					"    main()\r\n",
 					""
 				],
-				"execution_count": null
+				"execution_count": 1
 			}
 		]
 	}

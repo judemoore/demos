@@ -16,8 +16,8 @@
 			"conf": {
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
-				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "e701d50d-b4ba-4b51-a18b-bb0284db0376"
+				"spark.dynamicAllocation.maxExecutors": "4",
+				"spark.autotune.trackingId": "5020615c-a45e-4328-b8d8-4807a95facd9"
 			}
 		},
 		"metadata": {
@@ -78,7 +78,7 @@
 					"# Test\r\n",
 					"print(get_api_key_from_keyvault(\"judeskv\",\"GarminUsername\"))"
 				],
-				"execution_count": 8
+				"execution_count": 1
 			}
 		]
 	}

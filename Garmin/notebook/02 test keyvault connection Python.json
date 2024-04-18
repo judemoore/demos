@@ -1,0 +1,85 @@
+{
+	"name": "02 test keyvault connection Python",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "personalsparkp",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 1,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "true",
+				"spark.dynamicAllocation.minExecutors": "1",
+				"spark.dynamicAllocation.maxExecutors": "1",
+				"spark.autotune.trackingId": "e701d50d-b4ba-4b51-a18b-bb0284db0376"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/91972177-b241-4547-980b-98433788152e/resourceGroups/personalprojectsrg/providers/Microsoft.Synapse/workspaces/personalprojectsrgsynapse/bigDataPools/personalsparkp",
+				"name": "personalsparkp",
+				"type": "Spark",
+				"endpoint": "https://personalprojectsrgsynapse.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/personalsparkp",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": true
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"# Test retriveal in pure Python\r\n",
+					"# Follow Steps 1, and 2 (option1) from here https://medium.com/@tophamcherie/authenticating-connecting-to-azure-key-vault-or-resources-programmatically-2e1936618789\r\n",
+					"# When in VS Code, Log into azure within the environment Powershell to log into Azure so Key Vault can authenticate the request using Entra ID, \r\n",
+					"# Install the packages using the below \r\n",
+					"# %pip install azure-identity azure-keyvault-secrets azure-keyvault\r\n",
+					"\r\n",
+					"from azure.identity import DefaultAzureCredential\r\n",
+					"from azure.keyvault.secrets import SecretClient\r\n",
+					"\r\n",
+					"def get_api_key_from_keyvault(key_vault_name, secret_name, secret_version=None): \r\n",
+					"    try:\r\n",
+					"        # Initialize Azure Key Vault client\r\n",
+					"        #key_vault_name = \"judeskv\"\r\n",
+					"        kv_uri = f\"https://{key_vault_name}.vault.azure.net\"\r\n",
+					"        credential = DefaultAzureCredential()\r\n",
+					"        secret_client = SecretClient(vault_url=kv_uri, credential=credential)\r\n",
+					"\r\n",
+					"        # Retrieve your API credentials (secret) from Key Vault\r\n",
+					"        #secret_name = \"GarminPassword\"\r\n",
+					"        api_key = secret_client.get_secret(secret_name).value\r\n",
+					"        return api_key\r\n",
+					"    except Exception as e:\r\n",
+					"        print(f\"Error retrieving API key from Key Vault: {e}\")\r\n",
+					"        return None\r\n",
+					"# Test\r\n",
+					"print(get_api_key_from_keyvault(\"judeskv\",\"GarminUsername\"))"
+				],
+				"execution_count": 8
+			}
+		]
+	}
+}

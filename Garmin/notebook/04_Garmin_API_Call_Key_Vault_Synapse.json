@@ -1,0 +1,118 @@
+{
+	"name": "04_Garmin_API_Call_Key_Vault_Synapse",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "personalsparkp",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 1,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "true",
+				"spark.dynamicAllocation.minExecutors": "1",
+				"spark.dynamicAllocation.maxExecutors": "4",
+				"spark.autotune.trackingId": "002f42bf-cb97-4366-b098-f57d5079b99a"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/91972177-b241-4547-980b-98433788152e/resourceGroups/personalprojectsrg/providers/Microsoft.Synapse/workspaces/personalprojectsrgsynapse/bigDataPools/personalsparkp",
+				"name": "personalsparkp",
+				"type": "Spark",
+				"endpoint": "https://personalprojectsrgsynapse.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/personalsparkp",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": true
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"# Test connecting to Azure Key Vault in Python\r\n",
+					"# If in VS Code, then \"Connect-AzAccount\" within the Terminal Powershell to log into Azure so Key Vault can authenticate the request using Entra ID\r\n",
+					"# How authetication works in Azure Key Vault # How authentication works https://learn.microsoft.com/en-us/python/api/overview/azure/identity-readme?view=azure-python#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential\r\n",
+					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault or\r\n",
+					"#%pip install garminconnect azure-identity azure-keyvault-secrets azure-keyvault\r\n",
+					"\r\n",
+					"import garminconnect\r\n",
+					"from datetime import datetime, timedelta\r\n",
+					"from notebookutils import mssparkutils\r\n",
+					"\r\n",
+					"\r\n",
+					"def get_api_key_from_keyvault(key_vault_name, secret_name, linked_keyvault_name): \r\n",
+					"    try:\r\n",
+					"        api_key = mssparkutils.credentials.getSecret(key_vault_name,secret_name,linked_keyvault_name)\r\n",
+					"        return api_key\r\n",
+					"    except Exception as e:\r\n",
+					"        print(f\"Error retrieving API key from Key Vault: {e}\")\r\n",
+					"        return None\r\n",
+					"\r\n",
+					"def main():\r\n",
+					"    try:\r\n",
+					"        # Get API password from Key Vault. Replace with hard-coded values to avoid the KeyVault request\r\n",
+					"        # Garmin_Username = \"My Garmin email/login\"\r\n",
+					"        Garmin_Username = get_api_key_from_keyvault(\"judeskv\", \"GarminUsername\",\"linked_keyvault_judeskv\")\r\n",
+					"        # Garmin_Username = \"My Garmin password\"\r\n",
+					"        Garmin_Password = get_api_key_from_keyvault(\"judeskv\", \"GarminPassword\",\"linked_keyvault_judeskv\")\r\n",
+					"\r\n",
+					"        if not Garmin_Username:\r\n",
+					"            print(\"Garmin_Username retrieval/initialisation failed. Check your Key Vault configuration/python.\")\r\n",
+					"            return\r\n",
+					"        \r\n",
+					"        if not Garmin_Password:\r\n",
+					"            print(\"Garmin_Password retrieval/initialisation failed. Check your Key Vault configuration/python.\")\r\n",
+					"            return\r\n",
+					"\r\n",
+					"        # Initialize Garmin Connect client\r\n",
+					"        client = garminconnect.Garmin(Garmin_Username, Garmin_Password)\r\n",
+					"        client.login()\r\n",
+					"\r\n",
+					"        # Calculate start and end dates for the last three months\r\n",
+					"        today = datetime.today()\r\n",
+					"        three_months_ago = today - timedelta(days=90)\r\n",
+					"\r\n",
+					"        # Example: Get activity data for the last three months\r\n",
+					"        activities_data = client.get_activities_by_date(three_months_ago.strftime(\"%Y-%m-%d\"), today.strftime(\"%Y-%m-%d\"))\r\n",
+					"        print(f\"Activities data for the last three months: {activities_data}\")\r\n",
+					"\r\n",
+					"        # # Example: Get body composition data for the last three months\r\n",
+					"        # body_composition_data = client.get_body_composition_data(three_months_ago.strftime(\"%Y-%m-%d\"), today.strftime(\"%Y-%m-%d\"))\r\n",
+					"        # print(f\"Body composition data for the last three months: {body_composition_data}\")\r\n",
+					"\r\n",
+					"        # Add more API calls as needed for other statistics and activities\r\n",
+					"\r\n",
+					"    except Exception as e:\r\n",
+					"        print(f\"Error: {e}\")\r\n",
+					"\r\n",
+					"if __name__ == \"__main__\":\r\n",
+					"    main()\r\n",
+					""
+				],
+				"execution_count": 1
+			}
+		]
+	}
+}

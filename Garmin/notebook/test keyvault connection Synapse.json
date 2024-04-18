@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "bcfddd2d-7f58-4a7b-ad21-0f11763ce2e4"
+				"spark.autotune.trackingId": "e07f890b-5e37-444d-96db-35d4d8f7f626"
 			}
 		},
 		"metadata": {
@@ -43,7 +43,7 @@
 				"nodeCount": 3,
 				"cores": 4,
 				"memory": 28,
-				"automaticScaleJobs": false
+				"automaticScaleJobs": true
 			},
 			"sessionKeepAliveTimeout": 30
 		},
@@ -51,11 +51,31 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"# Follow this to create a linked service to the Key vault on Azure https://stackoverflow.com/questions/77846845/access-key-vault-in-azure-synapse-analytical-pipeline-notebook\r\n",
+					"# Follow this to create a linked service to the Key vault on Azure, then apply permission to the App ID from the Synapse Instance https://stackoverflow.com/questions/77846845/access-key-vault-in-azure-synapse-analytical-pipeline-notebook\r\n",
 					"from notebookutils import mssparkutils\r\n",
-					"mssparkutils.credentials.getSecret('judeskv','GarminUsername','linked_keyvault_judeskv')"
+					"mssparkutils.credentials.getSecret('judeskv','GarminUsername','linked_keyvault_judeskv')\r\n",
+					"# works ! \r\n",
+					"# we get '[REDACTED]' "
 				],
-				"execution_count": 1
+				"execution_count": 5
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				],
+				"execution_count": null
 			}
 		]
 	}

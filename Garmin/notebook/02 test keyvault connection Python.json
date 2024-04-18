@@ -16,8 +16,8 @@
 			"conf": {
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
-				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "5020615c-a45e-4328-b8d8-4807a95facd9"
+				"spark.dynamicAllocation.maxExecutors": "1",
+				"spark.autotune.trackingId": "c043e8be-2123-4224-9340-421f4e5f5366"
 			}
 		},
 		"metadata": {
@@ -51,11 +51,11 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"# Test retriveal in pure Python\r\n",
-					"# Follow Steps 1, and 2 (option1) from here https://medium.com/@tophamcherie/authenticating-connecting-to-azure-key-vault-or-resources-programmatically-2e1936618789\r\n",
-					"# When in VS Code, Log into azure within the environment Powershell to log into Azure so Key Vault can authenticate the request using Entra ID, \r\n",
-					"# Install the packages using the below \r\n",
-					"# %pip install azure-identity azure-keyvault-secrets azure-keyvault\r\n",
+					"# Test connecting to Azure Key Vault in Python\r\n",
+					"# If in VS Code, then \"Connect-AzAccount\" within the Terminal Powershell to log into Azure so Key Vault can authenticate the request using Entra ID\r\n",
+					"# How authetication works in Azure Key Vault # How authentication works https://learn.microsoft.com/en-us/python/api/overview/azure/identity-readme?view=azure-python#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential\r\n",
+					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault or\r\n",
+					"#%pip install garminconnect azure-identity azure-keyvault-secrets azure-keyvault\r\n",
 					"\r\n",
 					"from azure.identity import DefaultAzureCredential\r\n",
 					"from azure.keyvault.secrets import SecretClient\r\n",
@@ -75,10 +75,12 @@
 					"    except Exception as e:\r\n",
 					"        print(f\"Error retrieving API key from Key Vault: {e}\")\r\n",
 					"        return None\r\n",
-					"# Test\r\n",
+					"    \r\n",
+					"# Test and bring back and sow the key vaul secrete (beware!)\r\n",
+					"# Replace judeskv with your own key_vault_name and GarminUsername with your own secret_name\r\n",
 					"print(get_api_key_from_keyvault(\"judeskv\",\"GarminUsername\"))"
 				],
-				"execution_count": 1
+				"execution_count": 11
 			}
 		]
 	}

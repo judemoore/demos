@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "8e7efc41-ddd1-460c-a2af-ba3304ad878b"
+				"spark.autotune.trackingId": "c0ea2d7a-1c01-4a76-8933-768a815f130b"
 			}
 		},
 		"metadata": {
@@ -107,9 +107,14 @@
 					"        activities_data = client.get_activities_by_date(three_months_ago.strftime(\"%Y-%m-%d\"), today.strftime(\"%Y-%m-%d\"))\r\n",
 					"        print(f\"Activities data for the last three months: {activities_data}\")\r\n",
 					"\r\n",
+					"\r\n",
 					"        # # Example: Get body composition data for the last three months\r\n",
 					"        # body_composition_data = client.get_body_composition_data(three_months_ago.strftime(\"%Y-%m-%d\"), today.strftime(\"%Y-%m-%d\"))\r\n",
 					"        # print(f\"Body composition data for the last three months: {body_composition_data}\")\r\n",
+					"\r\n",
+					"        # Example: Get sleep data for the last three months\r\n",
+					"        # sleep_data = client.get_sleep_data(three_months_ago.strftime(\"%Y-%m-%d\"), today.strftime(\"%Y-%m-%d\"))\r\n",
+					"        # print(f\"Sleep data for the last three months: {sleep_data}\")\r\n",
 					"\r\n",
 					"        # Add more API calls as needed for other statistics and activities\r\n",
 					"\r\n",

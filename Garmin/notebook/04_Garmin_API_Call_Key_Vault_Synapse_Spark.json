@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "7d56ce3b-08ed-4329-b4ac-b879629773a7"
+				"spark.autotune.trackingId": "f4c67704-b469-415d-84f6-b44e23fb691b"
 			}
 		},
 		"metadata": {
@@ -54,12 +54,13 @@
 					"# Test connecting to Azure Key Vault in Python\r\n",
 					"# Follow this to create a linked service to the Key vault on Azure, then apply permission to the App ID from the Synapse Instance https://stackoverflow.com/questions/77846845/access-key-vault-in-azure-synapse-analytical-pipeline-notebook\r\n",
 					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault or\r\n",
-					"%pip install garminconnect notebookutils\r\n",
+					"#%pip install garminconnect notebookutils\r\n",
 					"\r\n",
 					"import garminconnect\r\n",
 					"from datetime import datetime, timedelta\r\n",
 					"from notebookutils import mssparkutils\r\n",
-					"\r\n",
+					"from azure.identity import DefaultAzureCredential\r\n",
+					"from azure.storage.filedatalake import DataLakeServiceClient\r\n",
 					"\r\n",
 					"def get_api_key_from_keyvault(key_vault_name, secret_name, linked_keyvault_name): \r\n",
 					"    try:\r\n",
@@ -95,7 +96,25 @@
 					"\r\n",
 					"        # Example: Get activity data for the last three months\r\n",
 					"        activities_data = client.get_activities_by_date(three_months_ago.strftime(\"%Y-%m-%d\"), today.strftime(\"%Y-%m-%d\"))\r\n",
+					"        # show retreived data\r\n",
 					"        #print(f\"Activities data for the last three months: {activities_data}\")\r\n",
+					"\r\n",
+					"        # Initialize Azure Data Lake Storage Gen2 client using linked service\r\n",
+					"        linked_service_name = \"personalprojectsrgsynapse\"\r\n",
+					"        service_client = DataLakeServiceClient(account_url=f\"https://{linked_service_name}.dfs.core.windows.net\", credential=DefaultAzureCredential())\r\n",
+					"\r\n",
+					"        # Example: Assume you have a DataFrame 'sleep_data' containing sleep data\r\n",
+					"        # Write activities_data data to the Data Lake Storage Gen2\r\n",
+					"        container_name = \"personalprojectsfs\"\r\n",
+					"        file_name = \"activity_data.csv\"\r\n",
+					"        activities_data.to_csv(file_name, index=False)\r\n",
+					"        file_system_client = service_client.get_file_system_client(container_name)\r\n",
+					"        file_system_client.create_file(file_name)\r\n",
+					"\r\n",
+					"        print(f\"Data written to {file_name} in {container_name}\")\r\n",
+					"        \r\n",
+					"    except Exception as e:\r\n",
+					"        print(f\"Error: {e}\")\r\n",
 					"\r\n",
 					"        # # Example: Get body composition data for the last three months\r\n",
 					"        # body_composition_data = client.get_body_composition_data(three_months_ago.strftime(\"%Y-%m-%d\"), today.strftime(\"%Y-%m-%d\"))\r\n",
@@ -107,14 +126,11 @@
 					"\r\n",
 					"        # Add more API calls as needed for other statistics and activities\r\n",
 					"\r\n",
-					"    except Exception as e:\r\n",
-					"        print(f\"Error: {e}\")\r\n",
-					"\r\n",
 					"if __name__ == \"__main__\":\r\n",
 					"    main()\r\n",
 					""
 				],
-				"execution_count": 2
+				"execution_count": 14
 			}
 		]
 	}

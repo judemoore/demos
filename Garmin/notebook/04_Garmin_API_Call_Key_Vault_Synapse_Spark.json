@@ -1,5 +1,5 @@
 {
-	"name": "04_Garmin_API_Call_Key_Vault_Synapse",
+	"name": "04_Garmin_API_Call_Key_Vault_Synapse_Spark",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -16,8 +16,8 @@
 			"conf": {
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
-				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "002f42bf-cb97-4366-b098-f57d5079b99a"
+				"spark.dynamicAllocation.maxExecutors": "1",
+				"spark.autotune.trackingId": "cfe23e1e-3ad8-4fea-a919-32d3af02a6d3"
 			}
 		},
 		"metadata": {
@@ -52,10 +52,9 @@
 				"cell_type": "code",
 				"source": [
 					"# Test connecting to Azure Key Vault in Python\r\n",
-					"# If in VS Code, then \"Connect-AzAccount\" within the Terminal Powershell to log into Azure so Key Vault can authenticate the request using Entra ID\r\n",
-					"# How authetication works in Azure Key Vault # How authentication works https://learn.microsoft.com/en-us/python/api/overview/azure/identity-readme?view=azure-python#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential\r\n",
+					"# Follow this to create a linked service to the Key vault on Azure, then apply permission to the App ID from the Synapse Instance https://stackoverflow.com/questions/77846845/access-key-vault-in-azure-synapse-analytical-pipeline-notebook\r\n",
 					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault or\r\n",
-					"#%pip install garminconnect azure-identity azure-keyvault-secrets azure-keyvault\r\n",
+					"%pip install garminconnect notebookutils\r\n",
 					"\r\n",
 					"import garminconnect\r\n",
 					"from datetime import datetime, timedelta\r\n",
@@ -102,6 +101,10 @@
 					"        # body_composition_data = client.get_body_composition_data(three_months_ago.strftime(\"%Y-%m-%d\"), today.strftime(\"%Y-%m-%d\"))\r\n",
 					"        # print(f\"Body composition data for the last three months: {body_composition_data}\")\r\n",
 					"\r\n",
+					"        # Example: Get sleep data for the last three months\r\n",
+					"        # sleep_data = client.get_sleep_data(three_months_ago.strftime(\"%Y-%m-%d\"), today.strftime(\"%Y-%m-%d\"))\r\n",
+					"        # print(f\"Sleep data for the last three months: {sleep_data}\")\r\n",
+					"\r\n",
 					"        # Add more API calls as needed for other statistics and activities\r\n",
 					"\r\n",
 					"    except Exception as e:\r\n",
@@ -111,7 +114,7 @@
 					"    main()\r\n",
 					""
 				],
-				"execution_count": 1
+				"execution_count": 2
 			}
 		]
 	}

@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "cfe23e1e-3ad8-4fea-a919-32d3af02a6d3"
+				"spark.autotune.trackingId": "7d56ce3b-08ed-4329-b4ac-b879629773a7"
 			}
 		},
 		"metadata": {
@@ -95,7 +95,7 @@
 					"\r\n",
 					"        # Example: Get activity data for the last three months\r\n",
 					"        activities_data = client.get_activities_by_date(three_months_ago.strftime(\"%Y-%m-%d\"), today.strftime(\"%Y-%m-%d\"))\r\n",
-					"        print(f\"Activities data for the last three months: {activities_data}\")\r\n",
+					"        #print(f\"Activities data for the last three months: {activities_data}\")\r\n",
 					"\r\n",
 					"        # # Example: Get body composition data for the last three months\r\n",
 					"        # body_composition_data = client.get_body_composition_data(three_months_ago.strftime(\"%Y-%m-%d\"), today.strftime(\"%Y-%m-%d\"))\r\n",

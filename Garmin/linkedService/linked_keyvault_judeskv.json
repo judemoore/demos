@@ -4,11 +4,7 @@
 		"annotations": [],
 		"type": "AzureKeyVault",
 		"typeProperties": {
-			"baseUrl": "https://judeskv.vault.azure.net/",
-			"credential": {
-				"referenceName": "UserMangedIDCreds",
-				"type": "CredentialReference"
-			}
+			"baseUrl": "https://judeskv.vault.azure.net/"
 		}
 	}
 }

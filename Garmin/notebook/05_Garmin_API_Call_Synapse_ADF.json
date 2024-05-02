@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "31a080f1-b019-438e-9578-367a797bde51"
+				"spark.autotune.trackingId": "43091d94-21e1-46f7-99e8-7e588e752af9"
 			}
 		},
 		"metadata": {
@@ -65,22 +65,29 @@
 					]
 				},
 				"source": [
-					"API = dbutils.widgets.get(\"API\")\r\n",
-					"DAYS_AGO= dbutils.widgets.get(\"DAYS_AGO\")\r\n",
-					"DAYS_UNTIL = dbutils.widgets.get(\"DAYS_UNTIL\")\r\n",
-					"KEYVAULTNAME = dbutils.widgets.get(\"KEYVAULTNAME\")\r\n",
-					"GARMIN_UNAME_KEY = dbutils.widgets.get(\"GARMIN_UNAME_KEY\")\r\n",
-					"GARMIN_PASSW_KEY = dbutils.widgets.get(\"GARMIN_PASSW_KEY\")\r\n",
-					"KEYVAULT_LINKED_SNAME = dbutils.widgets.get(\"KEYVAULT_LINKED_SNAME\")\r\n",
+					"API = 'Activities'\r\n",
+					"DAYS_AGO = 730\r\n",
+					"DAYS_UNTIL  = 0\r\n",
+					"KEYVAULTNAME = 'judeskv'\r\n",
+					"GARMIN_UNAME_KEY = 'GarminUsername'\r\n",
+					"GARMIN_PASSW_KEY = 'GarminPassword'\r\n",
+					"KEYVAULT_LINKED_SNAME = 'linked_keyvault_judeskv'\r\n",
 					"\r\n",
-					"\r\n",
-					"print(API + \" \",DAYS_AGO+ \" \",DAYS_UNTIL+ \" \",KEYVAULTNAME+ \" \",GARMIN_UNAME_KEY+ \" \",GARMIN_PASSW_KEY+ \" \",KEYVAULT_LINKED_SNAME+ \" \")"
+					"print(KEYVAULTNAME)\r\n",
+					"print(GARMIN_UNAME_KEY)\r\n",
+					"print(GARMIN_PASSW_KEY)\r\n",
+					"print(KEYVAULT_LINKED_SNAME)\r\n",
+					""
 				],
-				"execution_count": null
+				"execution_count": 12
 			},
 			{
-				"cell_type": "markdown",
+				"cell_type": "code",
 				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
 					"nteract": {
 						"transient": {
 							"deleting": false
@@ -111,9 +118,9 @@
 					"    try:\r\n",
 					"        # Get API password from Key Vault. Replace with hard-coded values to avoid the KeyVault request\r\n",
 					"        # Garmin_Username = \"My Garmin email/login\"\r\n",
-					"        Garmin_Username = get_api_key_from_keyvault(\"judeskv\", \"GarminUsername\",\"linked_keyvault_judeskv\")\r\n",
+					"        Garmin_Username = get_api_key_from_keyvault('judeskv', 'GarminUsername','linked_keyvault_judeskv')\r\n",
 					"        # Garmin_Username = \"My Garmin password\"\r\n",
-					"        Garmin_Password = get_api_key_from_keyvault(\"judeskv\", \"GarminPassword\",\"linked_keyvault_judeskv\")\r\n",
+					"        Garmin_Password = get_api_key_from_keyvault('judeskv', 'GarminPassword','linked_keyvault_judeskv')\r\n",
 					"\r\n",
 					"        if not Garmin_Username:\r\n",
 					"            print(\"Garmin_Username retrieval/initialisation failed. Check your Key Vault configuration/python.\")\r\n",
@@ -128,14 +135,18 @@
 					"        client.login()\r\n",
 					"\r\n",
 					"        # Calculate start and end dates for the last three months\r\n",
-					"        to_date = datetime.to_date()\r\n",
-					"        from_date = to_date - timedelta(days=730)\r\n",
+					"        to_date = datetime.to_date()-DAYS_UNTIL\r\n",
+					"        from_date = to_date - timedelta(days=DAYS_AGO)\r\n",
 					"\r\n",
 					"        # Example: Get activity data for the last three months\r\n",
-					"        activities_data = client.get_activities_by_date(from_date.strftime(\"%Y-%m-%d\"), to_date.strftime(\"%Y-%m-%d\"))\r\n",
+					"        match API:\r\n",
+					"            case \"Activities\":\r\n",
+					"                api_data  = client.get_activities_by_date(from_date.strftime(\"%Y-%m-%d\"), to_date.strftime(\"%Y-%m-%d\"))\r\n",
+					"            case _:\r\n",
+					"                api_data  = client.get_activities_by_date(from_date.strftime(\"%Y-%m-%d\"), to_date.strftime(\"%Y-%m-%d\"))\r\n",
 					"\r\n",
 					"        # show retreived data\r\n",
-					"        #print(f\"Activities data for the last three months: {activities_data}\")\r\n",
+					"        print({api_data})\r\n",
 					"\r\n",
 					"        # # Initialize Azure Data Lake Storage Gen2 client using linked service\r\n",
 					"        # linked_service_name = \"personalprojectsrgsynapse\"\r\n",
@@ -167,7 +178,8 @@
 					"if __name__ == \"__main__\":\r\n",
 					"    main()\r\n",
 					""
-				]
+				],
+				"execution_count": 13
 			}
 		]
 	}

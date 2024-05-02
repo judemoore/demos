@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "0b7f9b33-9c2f-4fac-8f16-249461e63a6a"
+				"spark.autotune.trackingId": "c7a9c002-c9af-4ff6-9da1-49d34cc21dfb"
 			}
 		},
 		"metadata": {
@@ -54,17 +54,24 @@
 					"# Test connecting to Azure Key Vault in Python\r\n",
 					"# Follow this to create a linked service to the Key vault on Azure, then apply permission to the App ID from the Synapse Instance https://stackoverflow.com/questions/77846845/access-key-vault-in-azure-synapse-analytical-pipeline-notebook\r\n",
 					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault or\r\n",
-					"#%pip install garminconnect notebookutils\r\n",
+					"%pip install garminconnect notebookutils\r\n",
 					"\r\n",
 					"import garminconnect\r\n",
 					"from datetime import datetime, timedelta\r\n",
-					"from notebookutils import mssparkutils\r\n",
-					"from azure.identity import DefaultAzureCredential\r\n",
-					"from azure.storage.filedatalake import DataLakeServiceClient\r\n",
+					"import sys from pyspark.sql \r\n",
+					"import SparkSession  \r\n",
+					"# from notebookutils import mssparkutils\r\n",
+					"# from azure.identity import DefaultAzureCredential\r\n",
+					"# from azure.storage.filedatalake import DataLakeServiceClient\r\n",
+					"\r\n",
+					"\r\n",
 					"\r\n",
 					"def get_api_key_from_keyvault(key_vault_name, secret_name, linked_keyvault_name): \r\n",
 					"    try:\r\n",
-					"        api_key = mssparkutils.credentials.getSecret(key_vault_name,secret_name,linked_keyvault_name)\r\n",
+					"        sc = SparkSession.builder.getOrCreate()  \r\n",
+					"        token_library = sc._jvm.com.microsoft.azure.synapse.tokenlibrary.TokenLibrary  \r\n",
+					"        api_key = token_library.getSecret(key_vault_name, secret_name, linked_keyvault_name)  \r\n",
+					"       # api_key = mssparkutils.credentials.getSecret(key_vault_name,secret_name,linked_keyvault_name)\r\n",
 					"        return api_key\r\n",
 					"    except Exception as e:\r\n",
 					"        print(f\"Error retrieving API key from Key Vault: {e}\")\r\n",
@@ -131,7 +138,7 @@
 					"    main()\r\n",
 					""
 				],
-				"execution_count": 1
+				"execution_count": 2
 			}
 		]
 	}

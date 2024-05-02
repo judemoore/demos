@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "a3beb1e7-ec52-4adc-8385-32f7acaa16ff"
+				"spark.autotune.trackingId": "c59c0910-93e3-4da5-b01c-3e3fca012977"
 			}
 		},
 		"metadata": {
@@ -50,11 +50,14 @@
 		"cells": [
 			{
 				"cell_type": "code",
+				"metadata": {
+					"tags": []
+				},
 				"source": [
 					"# Test connecting to Azure Key Vault in Python\r\n",
 					"# Follow this to create a linked service to the Key vault on Azure, then apply permission to the App ID from the Synapse Instance https://stackoverflow.com/questions/77846845/access-key-vault-in-azure-synapse-analytical-pipeline-notebook\r\n",
 					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault or\r\n",
-					"#%pip install garminconnect notebookutils\r\n",
+					"!pip install garminconnect notebookutils\r\n",
 					"\r\n",
 					"import garminconnect\r\n",
 					"from datetime import datetime, timedelta\r\n",

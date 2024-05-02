@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "effc7195-6601-42f6-bad9-a19b3f905fe0"
+				"spark.autotune.trackingId": "9b94f971-302b-4dc2-b59b-b549644939b2"
 			}
 		},
 		"metadata": {
@@ -92,7 +92,7 @@
 					"\r\n",
 					"        # Calculate start and end dates for the last three months\r\n",
 					"        to_date = datetime.to_date()\r\n",
-					"        from_date = to_date - timedelta(days=90)\r\n",
+					"        from_date = to_date - timedelta(days=730)\r\n",
 					"\r\n",
 					"        # Example: Get activity data for the last three months\r\n",
 					"        activities_data = client.get_activities_by_date(from_date.strftime(\"%Y-%m-%d\"), to_date.strftime(\"%Y-%m-%d\"))\r\n",
@@ -131,7 +131,7 @@
 					"    main()\r\n",
 					""
 				],
-				"execution_count": 14
+				"execution_count": 1
 			}
 		]
 	}

@@ -1,0 +1,67 @@
+{
+	"name": "GaminOnetimeBigLoad",
+	"properties": {
+		"activities": [
+			{
+				"name": "05_Garmin_API_Call_Synapse_ADF",
+				"type": "SynapseNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebook": {
+						"referenceName": "05_Garmin_API_Call_Synapse_ADF",
+						"type": "NotebookReference"
+					},
+					"parameters": {
+						"API": {
+							"value": "Activities",
+							"type": "string"
+						},
+						"DAYS_AGO": {
+							"value": {
+								"value": "730",
+								"type": "Expression"
+							},
+							"type": "int"
+						},
+						"DAYS_UNTIL": {
+							"value": "0",
+							"type": "int"
+						},
+						"KEYVAULTNAME": {
+							"value": "'judeskv'",
+							"type": "string"
+						},
+						"GARMIN_UNAME_KEY": {
+							"value": "'GarminUsername'",
+							"type": "string"
+						},
+						"GARMIN_PASSW_KEY": {
+							"value": "'GarminPassword'",
+							"type": "string"
+						},
+						"KEYVAULT_LINKED_SNAME": {
+							"value": "'linked_keyvault_judeskv'",
+							"type": "string"
+						}
+					},
+					"snapshot": true,
+					"sparkPool": {
+						"referenceName": "personalsparkp",
+						"type": "BigDataPoolReference"
+					},
+					"executorSize": "Small",
+					"driverSize": "Small"
+				}
+			}
+		],
+		"annotations": []
+	}
+}

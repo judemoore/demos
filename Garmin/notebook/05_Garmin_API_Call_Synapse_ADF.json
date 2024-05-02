@@ -1,0 +1,138 @@
+{
+	"name": "05_Garmin_API_Call_Synapse_ADF",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "personalsparkp",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 1,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "true",
+				"spark.dynamicAllocation.minExecutors": "1",
+				"spark.dynamicAllocation.maxExecutors": "1",
+				"spark.autotune.trackingId": "a3beb1e7-ec52-4adc-8385-32f7acaa16ff"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/91972177-b241-4547-980b-98433788152e/resourceGroups/personalprojectsrg/providers/Microsoft.Synapse/workspaces/personalprojectsrgsynapse/bigDataPools/personalsparkp",
+				"name": "personalsparkp",
+				"type": "Spark",
+				"endpoint": "https://personalprojectsrgsynapse.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/personalsparkp",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": true
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"# Test connecting to Azure Key Vault in Python\r\n",
+					"# Follow this to create a linked service to the Key vault on Azure, then apply permission to the App ID from the Synapse Instance https://stackoverflow.com/questions/77846845/access-key-vault-in-azure-synapse-analytical-pipeline-notebook\r\n",
+					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault or\r\n",
+					"#%pip install garminconnect notebookutils\r\n",
+					"\r\n",
+					"import garminconnect\r\n",
+					"from datetime import datetime, timedelta\r\n",
+					"from notebookutils import mssparkutils\r\n",
+					"from azure.identity import DefaultAzureCredential\r\n",
+					"from azure.storage.filedatalake import DataLakeServiceClient\r\n",
+					"\r\n",
+					"def get_api_key_from_keyvault(key_vault_name, secret_name, linked_keyvault_name): \r\n",
+					"    try:\r\n",
+					"        api_key = mssparkutils.credentials.getSecret(key_vault_name,secret_name,linked_keyvault_name)\r\n",
+					"        return api_key\r\n",
+					"    except Exception as e:\r\n",
+					"        print(f\"Error retrieving API key from Key Vault: {e}\")\r\n",
+					"        return None\r\n",
+					"\r\n",
+					"def main():\r\n",
+					"    try:\r\n",
+					"        # Get API password from Key Vault. Replace with hard-coded values to avoid the KeyVault request\r\n",
+					"        # Garmin_Username = \"My Garmin email/login\"\r\n",
+					"        Garmin_Username = get_api_key_from_keyvault(\"judeskv\", \"GarminUsername\",\"linked_keyvault_judeskv\")\r\n",
+					"        # Garmin_Username = \"My Garmin password\"\r\n",
+					"        Garmin_Password = get_api_key_from_keyvault(\"judeskv\", \"GarminPassword\",\"linked_keyvault_judeskv\")\r\n",
+					"\r\n",
+					"        if not Garmin_Username:\r\n",
+					"            print(\"Garmin_Username retrieval/initialisation failed. Check your Key Vault configuration/python.\")\r\n",
+					"            return\r\n",
+					"        \r\n",
+					"        if not Garmin_Password:\r\n",
+					"            print(\"Garmin_Password retrieval/initialisation failed. Check your Key Vault configuration/python.\")\r\n",
+					"            return\r\n",
+					"\r\n",
+					"        # Initialize Garmin Connect client\r\n",
+					"        client = garminconnect.Garmin(Garmin_Username, Garmin_Password)\r\n",
+					"        client.login()\r\n",
+					"\r\n",
+					"        # Calculate start and end dates for the last three months\r\n",
+					"        to_date = datetime.to_date()\r\n",
+					"        from_date = to_date - timedelta(days=730)\r\n",
+					"\r\n",
+					"        # Example: Get activity data for the last three months\r\n",
+					"        activities_data = client.get_activities_by_date(from_date.strftime(\"%Y-%m-%d\"), to_date.strftime(\"%Y-%m-%d\"))\r\n",
+					"\r\n",
+					"        # show retreived data\r\n",
+					"        #print(f\"Activities data for the last three months: {activities_data}\")\r\n",
+					"\r\n",
+					"        # # Initialize Azure Data Lake Storage Gen2 client using linked service\r\n",
+					"        # linked_service_name = \"personalprojectsrgsynapse\"\r\n",
+					"        # service_client = DataLakeServiceClient(account_url=f\"https://{linked_service_name}.dfs.core.windows.net\", credential=DefaultAzureCredential())\r\n",
+					"\r\n",
+					"        # # Example: Assume you have a DataFrame 'sleep_data' containing sleep data\r\n",
+					"        # # Write activities_data data to the Data Lake Storage Gen2\r\n",
+					"        # container_name = \"personalprojectsfs\"\r\n",
+					"        # file_name = \"activity_data.csv\"\r\n",
+					"        # activities_data.to_csv(file_name, index=False)\r\n",
+					"        # file_system_client = service_client.get_file_system_client(container_name)\r\n",
+					"        # file_system_client.create_file(file_name)\r\n",
+					"\r\n",
+					"        # print(f\"Data written to {file_name} in {container_name}\")\r\n",
+					"        \r\n",
+					"    except Exception as e:\r\n",
+					"        print(f\"Error: {e}\")\r\n",
+					"\r\n",
+					"        # # Example: Get body composition data for the last three months\r\n",
+					"        # body_composition_data = client.get_body_composition_data(from_date.strftime(\"%Y-%m-%d\"), to_date.strftime(\"%Y-%m-%d\"))\r\n",
+					"        # print(f\"Body composition data for the last three months: {body_composition_data}\")\r\n",
+					"\r\n",
+					"        # Example: Get sleep data for the last three months\r\n",
+					"        # sleep_data = client.get_sleep_data(from_date.strftime(\"%Y-%m-%d\"), to_date.strftime(\"%Y-%m-%d\"))\r\n",
+					"        # print(f\"Sleep data for the last three months: {sleep_data}\")\r\n",
+					"\r\n",
+					"        # Add more API calls as needed for other statistics and activities\r\n",
+					"\r\n",
+					"if __name__ == \"__main__\":\r\n",
+					"    main()\r\n",
+					""
+				],
+				"execution_count": 1
+			}
+		]
+	}
+}

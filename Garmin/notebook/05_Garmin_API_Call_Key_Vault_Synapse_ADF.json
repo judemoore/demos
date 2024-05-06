@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "05b1e09e-cd5d-4d91-bd55-c6e607c5a988"
+				"spark.autotune.trackingId": "d9edb296-c727-4414-bc8e-02d459191172"
 			}
 		},
 		"metadata": {
@@ -74,7 +74,7 @@
 					"GARMIN_PASSW_KEY = 'GarminPassword'\r\n",
 					""
 				],
-				"execution_count": 5
+				"execution_count": 14
 			},
 			{
 				"cell_type": "code",
@@ -90,15 +90,17 @@
 					}
 				},
 				"source": [
-					"# Install the Garmin library if required\r\n",
-					"%pip install garminconnect \r\n",
+					"# Install the Garmin library if required. Used to log into the Garmin API, so critical.\r\n",
+					"# The mssarkutils to retreive the Data Vault secrets. \r\n",
+					"# The json and pandas for downstream data manipulation only\r\n",
+					"!pip install garminconnect \r\n",
 					"import garminconnect\r\n",
 					"from datetime import datetime, timedelta\r\n",
 					"from notebookutils import mssparkutils\r\n",
 					"import json\r\n",
 					"import pandas as pd"
 				],
-				"execution_count": 6
+				"execution_count": 15
 			},
 			{
 				"cell_type": "code",
@@ -123,7 +125,7 @@
 					"        print(f\"Error retrieving API key from Key Vault: {e}\")\r\n",
 					"        return None"
 				],
-				"execution_count": 7
+				"execution_count": 16
 			},
 			{
 				"cell_type": "code",
@@ -141,16 +143,16 @@
 				"source": [
 					"# Get API password from Key Vault. Replace with hard-coded values to avoid the KeyVault request\r\n",
 					"try:\r\n",
-					"    Garmin_Username = get_api_key_from_keyvault(\"judeskv\", \"GarminUsername\")\r\n",
+					"    Garmin_Username = get_api_key_from_keyvault(KEYVAULTNAME, GARMIN_UNAME_KEY)\r\n",
 					"except Exception as e:\r\n",
 					"    print(\"Garmin_Username retrieval/initialisation failed. Check your Key Vault configuration/python. {e}\")\r\n",
 					"\r\n",
 					"try:\r\n",
-					"    Garmin_Password = get_api_key_from_keyvault(\"judeskv\", \"GarminPassword\")\r\n",
+					"    Garmin_Password = get_api_key_from_keyvault(KEYVAULTNAME, GARMIN_PASSW_KEY)\r\n",
 					"except Exception as e:\r\n",
 					"    print(\"Garmin_Password retrieval/initialisation failed. Check your Key Vault configuration/python. {e}\")"
 				],
-				"execution_count": 8
+				"execution_count": 17
 			},
 			{
 				"cell_type": "code",
@@ -176,7 +178,7 @@
 					"except Exception as e:\r\n",
 					"        print(f\"Error logging into Garmin API: {e}\")"
 				],
-				"execution_count": 9
+				"execution_count": 18
 			},
 			{
 				"cell_type": "code",
@@ -193,10 +195,10 @@
 				},
 				"source": [
 					"# Calculate start and end dates for the last three months\r\n",
-					"to_date = datetime.today()-DAYS_UNTIL\r\n",
+					"to_date = datetime.today()-timedelta(days=DAYS_UNTIL)\r\n",
 					"from_date = to_date - timedelta(days=DAYS_AGO)"
 				],
-				"execution_count": 10
+				"execution_count": 19
 			},
 			{
 				"cell_type": "code",
@@ -224,7 +226,7 @@
 					"except Exception as e:\r\n",
 					"    print(f\"Error feteching data from Garmin API: Call was: client.get_activities_by_date({from_date.isoformat()}, {to_date.isoformat()}\")"
 				],
-				"execution_count": 13
+				"execution_count": 20
 			},
 			{
 				"cell_type": "code",
@@ -245,7 +247,7 @@
 					"#print(activities_df.head)\r\n",
 					"#print(activities_df.columns)"
 				],
-				"execution_count": 14
+				"execution_count": 21
 			},
 			{
 				"cell_type": "code",
@@ -275,7 +277,7 @@
 					"# Add more API calls as needed for other statistics and activities\r\n",
 					""
 				],
-				"execution_count": 15
+				"execution_count": 22
 			}
 		]
 	}

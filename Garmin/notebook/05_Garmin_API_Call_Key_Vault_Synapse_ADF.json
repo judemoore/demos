@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "d9edb296-c727-4414-bc8e-02d459191172"
+				"spark.autotune.trackingId": "5dac5d0b-896a-4944-9add-e4fe49c3fdd7"
 			}
 		},
 		"metadata": {
@@ -72,9 +72,12 @@
 					"KEYVAULTNAME = 'judeskv'\r\n",
 					"GARMIN_UNAME_KEY = 'GarminUsername'\r\n",
 					"GARMIN_PASSW_KEY = 'GarminPassword'\r\n",
+					"ABFS_DEST_BLOB = 'https://personalprojectsrslake.blob.core.windows.net/personalprojectsfs'\r\n",
+					"ABFS_DEST_FOLDER = 'personalprojectsfs/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin'\r\n",
+					"  # df.to_parquet('abfs[s]://file_system_name@account_name.dfs.core.windows.net/   parquet_file_path')\r\n",
 					""
 				],
-				"execution_count": 14
+				"execution_count": 52
 			},
 			{
 				"cell_type": "code",
@@ -98,9 +101,11 @@
 					"from datetime import datetime, timedelta\r\n",
 					"from notebookutils import mssparkutils\r\n",
 					"import json\r\n",
-					"import pandas as pd"
+					"from pyspark.sql import SparkSession\r\n",
+					"import pandas as pd\r\n",
+					"import os"
 				],
-				"execution_count": 15
+				"execution_count": 53
 			},
 			{
 				"cell_type": "code",
@@ -125,7 +130,7 @@
 					"        print(f\"Error retrieving API key from Key Vault: {e}\")\r\n",
 					"        return None"
 				],
-				"execution_count": 16
+				"execution_count": 54
 			},
 			{
 				"cell_type": "code",
@@ -152,7 +157,7 @@
 					"except Exception as e:\r\n",
 					"    print(\"Garmin_Password retrieval/initialisation failed. Check your Key Vault configuration/python. {e}\")"
 				],
-				"execution_count": 17
+				"execution_count": 55
 			},
 			{
 				"cell_type": "code",
@@ -178,7 +183,7 @@
 					"except Exception as e:\r\n",
 					"        print(f\"Error logging into Garmin API: {e}\")"
 				],
-				"execution_count": 18
+				"execution_count": 56
 			},
 			{
 				"cell_type": "code",
@@ -198,7 +203,7 @@
 					"to_date = datetime.today()-timedelta(days=DAYS_UNTIL)\r\n",
 					"from_date = to_date - timedelta(days=DAYS_AGO)"
 				],
-				"execution_count": 19
+				"execution_count": 57
 			},
 			{
 				"cell_type": "code",
@@ -226,7 +231,7 @@
 					"except Exception as e:\r\n",
 					"    print(f\"Error feteching data from Garmin API: Call was: client.get_activities_by_date({from_date.isoformat()}, {to_date.isoformat()}\")"
 				],
-				"execution_count": 20
+				"execution_count": 58
 			},
 			{
 				"cell_type": "code",
@@ -242,18 +247,66 @@
 					}
 				},
 				"source": [
-					"# Frame the retreived data\r\n",
-					"activities_df = pd.DataFrame(activities_data)\r\n",
+					"# Show the raw dta using json formatting\r\n",
+					"# print(json.dumps(activities_df, indent = 1))"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Frame the retreived data in PySpark\r\n",
+					"#df = spark.sparkContext.parallelize(activities_data)\r\n",
+					"#print(df.take(10))\r\n",
+					"#df = df.toDF()\r\n",
+					"#df.show()\r\n",
+					"#activities_df = pd.DataFrame(activities_data)\r\n",
 					"#print(activities_df.head)\r\n",
 					"#print(activities_df.columns)"
 				],
-				"execution_count": 21
+				"execution_count": 59
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Frame the retreived data in Python\r\n",
+					"df = pd.DataFrame(activities_data)\r\n",
+					"\r\n",
+					"df.to_parquet(\"datafgarminonetime.parquet\")\r\n",
+					"print(\"Listing the contents of the current directory:\")\r\n",
+					"print(os.listdir('.'))\r\n",
+					"#print(activities_df.head)\r\n",
+					"#print(activities_df.columns)"
+				],
+				"execution_count": 62
 			},
 			{
 				"cell_type": "code",
 				"source": [
 					"# Show the retreived data\r\n",
-					"print(json.dumps(activities_data, indent = 1))\r\n",
+					"\r\n",
 					"# pathway = \"abfss://cdf6e060-d604-4869-9fdb-b4afea0ab27e@onelake.dfs.fabric.microsoft.com/1a5d0aaf-573b-472b-b0b3-48c8afeb4ff2/Files/DI-Connect-Fitness/\"\r\n",
 					"# file = \"activities.parquet\"\r\n",
 					"# full_path = f\"{pathway}{file}\"\r\n",
@@ -277,7 +330,7 @@
 					"# Add more API calls as needed for other statistics and activities\r\n",
 					""
 				],
-				"execution_count": 22
+				"execution_count": null
 			}
 		]
 	}

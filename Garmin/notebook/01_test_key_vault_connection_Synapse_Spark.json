@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "12269ded-658f-4a17-b7c5-0bd4996e7490"
+				"spark.autotune.trackingId": "d16892cb-6f0c-4459-8cdf-2a205d2d0380"
 			}
 		},
 		"metadata": {
@@ -54,7 +54,7 @@
 					"# Test connection to the Key Vaul via a Synapse notebook. \r\n",
 					"# Follow this to create a linked service to the Key vault on Azure, then apply permission to the App ID from the Synapse Instance https://stackoverflow.com/questions/77846845/access-key-vault-in-azure-synapse-analytical-pipeline-notebook\r\n",
 					"from notebookutils import mssparkutils\r\n",
-					"mssparkutils.credentials.getSecret('judeskv','GarminUsername','linked_keyvault_judeskv')\r\n",
+					"mssparkutils.credentials.getSecret('judeskv','GarminUsername')\r\n",
 					"# it works ! \r\n",
 					"# we get '[REDACTED]' "
 				],

@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "1a104545-6cb7-408a-b4b1-efd4f74c137f"
+				"spark.autotune.trackingId": "685a6066-eeaa-489d-9078-13ffb98beda8"
 			}
 		},
 		"metadata": {
@@ -56,8 +56,8 @@
 					"\"\"\"\r\n",
 					"pip3 install garth requests readchar\r\n",
 					"\r\n",
-					"export EMAIL=jude_moore@outlook.com\r\n",
-					"export PASSWORD=Boris2022!\r\n",
+					"export EMAIL=\r\n",
+					"export PASSWORD=\r\n",
 					"\r\n",
 					"\"\"\"\r\n",
 					"\r\n",
@@ -87,8 +87,8 @@
 					"logger = logging.getLogger(__name__)\r\n",
 					"\r\n",
 					"# Load environment variables if defined\r\n",
-					"email = \"jude_moore@outlook.com\"# os.getenv(\"EMAIL\")\r\n",
-					"password = \"Boris2022!\" # os.getenv(\"PASSWORD\")\r\n",
+					"email = # os.getenv(\"EMAIL\")\r\n",
+					"password =  # os.getenv(\"PASSWORD\")\r\n",
 					"\r\n",
 					"tokenstore = os.getenv(\"GARMINTOKENS\") or \"~/.garminconnect\"\r\n",
 					"tokenstore_base64 = os.getenv(\"GARMINTOKENS_BASE64\") or \"~/.garminconnect_base64\"\r\n",

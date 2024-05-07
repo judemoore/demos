@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "1e69a73f-8480-4cdc-bc4e-e228eff6df18"
+				"spark.autotune.trackingId": "5ec93047-a0d6-4c08-9821-c6436ee0d883"
 			}
 		},
 		"metadata": {
@@ -128,7 +128,7 @@
 					"startdate = today - datetime.timedelta(days=DAYS_AGO)  \r\n",
 					"\r\n",
 					"start = 0\r\n",
-					"limit = 100\r\n",
+					"limit = 300\r\n",
 					"start_badge = 1  # Badge related calls calls start counting at 1\r\n",
 					"activitytype = \"\"  # Possible values are: cycling, running, swimming, multi_sport, fitness_equipment, hiking, walking, other\r\n",
 					"activityfile = \"MY_ACTIVITY.fit\"  # Supported file types are: .fit .gpx .tcx\r\n",
@@ -227,7 +227,7 @@
 					"}\r\n",
 					""
 				],
-				"execution_count": null
+				"execution_count": 19
 			},
 			{
 				"cell_type": "code",
@@ -919,7 +919,7 @@
 					"        print(\"Could not login to Garmin Connect, try again later.\")\r\n",
 					""
 				],
-				"execution_count": null
+				"execution_count": 20
 			},
 			{
 				"cell_type": "code",
@@ -962,7 +962,7 @@
 					"else:\r\n",
 					"    api = init_api(email, password)"
 				],
-				"execution_count": null
+				"execution_count": 21
 			}
 		]
 	}

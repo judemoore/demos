@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "9780e316-011f-4f1f-a8bd-f234ca9206c7"
+				"spark.autotune.trackingId": "a503adcf-7c47-4274-9f4b-3198293aa85f"
 			}
 		},
 		"metadata": {
@@ -118,11 +118,11 @@
 					"logging.basicConfig(level=logging.INFO)\r\n",
 					"logger = logging.getLogger(__name__)\r\n",
 					"\r\n",
-					"# Load environment variables if defined\r\n",
-					"email = # os.getenv(\"EMAIL\")\r\n",
-					"password =  # os.getenv(\"PASSWORD\")\r\n",
+					"# # Load environment variables if defined\r\n",
+					"# email = # os.getenv(\"EMAIL\")\r\n",
+					"# password =  # os.getenv(\"PASSWORD\")\r\n",
 					"\r\n",
-					"api = None\r\n",
+					"\r\n",
 					"\r\n",
 					"# Example selections and settings\r\n",
 					"today = datetime.date.today()\r\n",
@@ -160,27 +160,9 @@
 					"#         }\r\n",
 					"#     ]\r\n",
 					"# }\r\n",
-					"# \"\"\""
-				],
-				"execution_count": null
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
-					"def print_menu():\r\n",
-					"    \"\"\"Print examples menu.\"\"\"\r\n",
-					"    menu_options = {\r\n",
+					"# \"\"\"\r\n",
+					"\r\n",
+					"menu_options = {\r\n",
 					"    \"1\": \"Get full name\",\r\n",
 					"    \"2\": \"Get unit system\",\r\n",
 					"    \"3\": f\"Get activity data for '{today.isoformat()}'\",\r\n",
@@ -242,14 +224,67 @@
 					"    \"S\": \"Get pregnancy summary data\",\r\n",
 					"    \"Z\": \"Remove stored login tokens (logout)\",\r\n",
 					"    \"q\": \"Exit\",\r\n",
-					"    }\r\n",
+					"}\r\n",
+					""
+				],
+				"execution_count": 12
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Function to fetch keys from keyvault\r\n",
+					"def get_api_key_from_keyvault(key_vault_name, secret_name): \r\n",
+					"    try:\r\n",
+					"        api_key = mssparkutils.credentials.getSecret(key_vault_name,secret_name)\r\n",
+					"        return api_key\r\n",
+					"    except Exception as e:\r\n",
+					"        print(f\"Error retrieving API key from Key Vault: {e}\")\r\n",
+					"        return None\r\n",
+					"# Get API password from Key Vault. Replace with hard-coded values to avoid the KeyVault request\r\n",
+					"try:\r\n",
+					"    Garmin_Username = get_api_key_from_keyvault(KEYVAULTNAME, GARMIN_UNAME_KEY)\r\n",
+					"except Exception as e:\r\n",
+					"    print(\"Garmin_Username retrieval/initialisation failed. Check your Key Vault configuration/python. {e}\")\r\n",
+					"\r\n",
+					"try:\r\n",
+					"    Garmin_Password = get_api_key_from_keyvault(KEYVAULTNAME, GARMIN_PASSW_KEY)\r\n",
+					"except Exception as e:\r\n",
+					"    print(\"Garmin_Password retrieval/initialisation failed. Check your Key Vault configuration/python. {e}\")"
+				],
+				"execution_count": 7
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def print_menu():\r\n",
+					"    \"\"\"Print examples menu.\"\"\"\r\n",
 					"    for key in menu_options.keys():\r\n",
 					"        print(f\"{key} -- {menu_options[key]}\")\r\n",
-					"    #print(\"Make your selection: \", end=\"\", flush=True)\r\n",
-					"\r\n",
-					"  print_menu()  "
+					"    #print(\"Make your selection: \", end=\"\", flush=True)"
 				],
-				"execution_count": 1
+				"execution_count": 13
 			},
 			{
 				"cell_type": "code",
@@ -942,11 +977,9 @@
 					"# Main program loop\r\n",
 					"while True:\r\n",
 					"    # Display header and login\r\n",
-					"    print(\"\\n*** Garmin Connect API Demo by cyberjunky ***\\n\")\r\n",
-					"\r\n",
-					"    # Init API\r\n",
-					"    if not api:\r\n",
-					"        api = init_api(email, password)\r\n",
+					"    print(\"\\n*** Original Garmin Connect API Demo by cyberjunky ***\\n\")\r\n",
+					"    \r\n",
+					"    api = init_api(email, password)\r\n",
 					"\r\n",
 					"    if api:\r\n",
 					"        # Display menu\r\n",

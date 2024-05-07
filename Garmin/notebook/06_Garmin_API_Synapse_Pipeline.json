@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "adf234dd-74fe-45fe-a077-e8230ea5101a"
+				"spark.autotune.trackingId": "4a581293-6e3e-40ef-9402-9bea146ee579"
 			}
 		},
 		"metadata": {
@@ -88,7 +88,7 @@
 					"    GarminConnectTooManyRequestsError,\r\n",
 					")"
 				],
-				"execution_count": 18
+				"execution_count": 24
 			},
 			{
 				"cell_type": "code",
@@ -227,7 +227,7 @@
 					"}\r\n",
 					""
 				],
-				"execution_count": 19
+				"execution_count": 25
 			},
 			{
 				"cell_type": "code",
@@ -919,7 +919,7 @@
 					"        print(\"Could not login to Garmin Connect, try again later.\")\r\n",
 					""
 				],
-				"execution_count": 20
+				"execution_count": 26
 			},
 			{
 				"cell_type": "code",
@@ -957,10 +957,11 @@
 					"    #option = readchar.readkey() # jm\r\n",
 					"    option = \"c\"\r\n",
 					"    switch(api, option)\r\n",
+					"    pd.json_normalize(data) \r\n",
 					"else:\r\n",
 					"    print('Issue logging in.')"
 				],
-				"execution_count": 21
+				"execution_count": 27
 			}
 		]
 	}

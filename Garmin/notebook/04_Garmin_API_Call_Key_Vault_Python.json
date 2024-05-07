@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "c0ea2d7a-1c01-4a76-8933-768a815f130b"
+				"spark.autotune.trackingId": "8611bfd4-7a56-46a0-b8c4-9b5cb23a4733"
 			}
 		},
 		"metadata": {
@@ -55,7 +55,7 @@
 					"# If in VS Code, then \"Connect-AzAccount\" within the Terminal Powershell to log into Azure so Key Vault can authenticate the request using Entra ID\r\n",
 					"# How authetication works in Azure Key Vault # How authentication works https://learn.microsoft.com/en-us/python/api/overview/azure/identity-readme?view=azure-python#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential\r\n",
 					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault or\r\n",
-					"#%pip install garminconnect azure-identity azure-keyvault-secrets azure-keyvault\r\n",
+					"!pip install garminconnect azure-identity azure-keyvault-secrets azure-keyvault\r\n",
 					"\r\n",
 					"\r\n",
 					"import garminconnect\r\n",

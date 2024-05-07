@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "a503adcf-7c47-4274-9f4b-3198293aa85f"
+				"spark.autotune.trackingId": "ebbb2dcc-91c7-4de8-8770-ea78d490276f"
 			}
 		},
 		"metadata": {
@@ -262,34 +262,16 @@
 					"except Exception as e:\r\n",
 					"    print(\"Garmin_Password retrieval/initialisation failed. Check your Key Vault configuration/python. {e}\")"
 				],
-				"execution_count": 7
+				"execution_count": 15
 			},
 			{
 				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
 				"source": [
 					"def print_menu():\r\n",
 					"    \"\"\"Print examples menu.\"\"\"\r\n",
 					"    for key in menu_options.keys():\r\n",
 					"        print(f\"{key} -- {menu_options[key]}\")\r\n",
-					"    #print(\"Make your selection: \", end=\"\", flush=True)"
-				],
-				"execution_count": 13
-			},
-			{
-				"cell_type": "code",
-				"source": [
-					"\r\n",
+					"        \r\n",
 					"def display_json(api_call, output):\r\n",
 					"    \"\"\"Format API output for better readability.\"\"\"\r\n",
 					"\r\n",
@@ -978,7 +960,7 @@
 					"while True:\r\n",
 					"    # Display header and login\r\n",
 					"    print(\"\\n*** Original Garmin Connect API Demo by cyberjunky ***\\n\")\r\n",
-					"    \r\n",
+					"\r\n",
 					"    api = init_api(email, password)\r\n",
 					"\r\n",
 					"    if api:\r\n",

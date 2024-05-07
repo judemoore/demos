@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "80ba5111-8f08-413f-b974-5c07bfa31add"
+				"spark.autotune.trackingId": "adf234dd-74fe-45fe-a077-e8230ea5101a"
 			}
 		},
 		"metadata": {
@@ -958,7 +958,7 @@
 					"    option = \"c\"\r\n",
 					"    switch(api, option)\r\n",
 					"else:\r\n",
-					"    api = init_api(email, password)"
+					"    print('Issue logging in.')"
 				],
 				"execution_count": 21
 			}

@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "cf341fed-6467-4903-831d-bfef808f02af"
+				"spark.autotune.trackingId": "0db620b9-0e16-4264-aa0c-0a7bae0aafb8"
 			}
 		},
 		"metadata": {
@@ -106,7 +106,6 @@
 				"source": [
 					"GARMIN_API_OPTION = 'c' # see list above\r\n",
 					"DAYS_AGO = 730\r\n",
-					"DAYS_UNTIL  = 1\r\n",
 					"KEYVAULTNAME = 'judeskv'\r\n",
 					"GARMIN_UNAME_KEY = 'GarminUsername'\r\n",
 					"GARMIN_PASSW_KEY = 'GarminPassword'\r\n",
@@ -126,7 +125,8 @@
 					"\r\n",
 					"# Example selections and settings\r\n",
 					"today = datetime.date.today()\r\n",
-					"startdate = today - datetime.timedelta(days=7)  # Select past week\r\n",
+					"startdate = today - datetime.timedelta(days=DAYS_AGO)  \r\n",
+					"\r\n",
 					"start = 0\r\n",
 					"limit = 100\r\n",
 					"start_badge = 1  # Badge related calls calls start counting at 1\r\n",

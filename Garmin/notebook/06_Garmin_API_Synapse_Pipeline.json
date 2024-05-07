@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "5ec93047-a0d6-4c08-9821-c6436ee0d883"
+				"spark.autotune.trackingId": "80ba5111-8f08-413f-b974-5c07bfa31add"
 			}
 		},
 		"metadata": {
@@ -935,10 +935,8 @@
 					}
 				},
 				"source": [
-					"# Main program loop\r\n",
-					"while True:\r\n",
-					"    # Display header and login\r\n",
-					"    print(\"\\n*** Original Garmin Connect API Demo by cyberjunky ***\\n\")\r\n",
+					"# Main program \r\n",
+					"print(\"\\n*** Original Garmin Connect API Demo by cyberjunky ***\\n\")\r\n",
 					"\r\n",
 					"# Get API password from Key Vault. Replace with hard-coded values to avoid the KeyVault request\r\n",
 					"try:\r\n",
@@ -950,7 +948,7 @@
 					"    password = get_api_key_from_keyvault(KEYVAULTNAME, GARMIN_PASSW_KEY)\r\n",
 					"except Exception as e:\r\n",
 					"    print(\"Garmin_Password retrieval/initialisation failed. Check your Key Vault configuration/python. {e}\")\r\n",
-					"    \r\n",
+					"\r\n",
 					"api = init_api(email, password)\r\n",
 					"\r\n",
 					"if api:\r\n",

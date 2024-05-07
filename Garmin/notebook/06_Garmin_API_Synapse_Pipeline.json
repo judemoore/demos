@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "ebbb2dcc-91c7-4de8-8770-ea78d490276f"
+				"spark.autotune.trackingId": "cf341fed-6467-4903-831d-bfef808f02af"
 			}
 		},
 		"metadata": {
@@ -231,17 +231,6 @@
 			},
 			{
 				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
 				"source": [
 					"# Function to fetch keys from keyvault\r\n",
 					"def get_api_key_from_keyvault(key_vault_name, secret_name): \r\n",
@@ -251,27 +240,12 @@
 					"    except Exception as e:\r\n",
 					"        print(f\"Error retrieving API key from Key Vault: {e}\")\r\n",
 					"        return None\r\n",
-					"# Get API password from Key Vault. Replace with hard-coded values to avoid the KeyVault request\r\n",
-					"try:\r\n",
-					"    Garmin_Username = get_api_key_from_keyvault(KEYVAULTNAME, GARMIN_UNAME_KEY)\r\n",
-					"except Exception as e:\r\n",
-					"    print(\"Garmin_Username retrieval/initialisation failed. Check your Key Vault configuration/python. {e}\")\r\n",
-					"\r\n",
-					"try:\r\n",
-					"    Garmin_Password = get_api_key_from_keyvault(KEYVAULTNAME, GARMIN_PASSW_KEY)\r\n",
-					"except Exception as e:\r\n",
-					"    print(\"Garmin_Password retrieval/initialisation failed. Check your Key Vault configuration/python. {e}\")"
-				],
-				"execution_count": 15
-			},
-			{
-				"cell_type": "code",
-				"source": [
+					"        \r\n",
 					"def print_menu():\r\n",
 					"    \"\"\"Print examples menu.\"\"\"\r\n",
 					"    for key in menu_options.keys():\r\n",
 					"        print(f\"{key} -- {menu_options[key]}\")\r\n",
-					"        \r\n",
+					"\r\n",
 					"def display_json(api_call, output):\r\n",
 					"    \"\"\"Format API output for better readability.\"\"\"\r\n",
 					"\r\n",
@@ -317,17 +291,6 @@
 					"        print(\r\n",
 					"            f\"Trying to login to Garmin Connect...'\\n\"\r\n",
 					"        )\r\n",
-					"\r\n",
-					"        # Using Oauth1 and Oauth2 tokens from base64 encoded string\r\n",
-					"        # print(\r\n",
-					"        #     f\"Trying to login to Garmin Connect using token data from file '{tokenstore_base64}'...\\n\"\r\n",
-					"        # )\r\n",
-					"        # dir_path = os.path.expanduser(tokenstore_base64)\r\n",
-					"        # with open(dir_path, \"r\") as token_file:\r\n",
-					"        #     tokenstore = token_file.read()\r\n",
-					"\r\n",
-					"        # garmin = Garmin() # jm\r\n",
-					"        # garmin.login(tokenstore) # jm\r\n",
 					"        garmin = Garmin(email=email, password=password, is_cn=False, prompt_mfa=get_mfa)\r\n",
 					"        #garmin = Garmin(email, password)\r\n",
 					"        garmin.login()\r\n",
@@ -956,11 +919,21 @@
 					"        print(\"Could not login to Garmin Connect, try again later.\")\r\n",
 					"\r\n",
 					"\r\n",
-					"# Main program loop\r\n",
-					"while True:\r\n",
-					"    # Display header and login\r\n",
-					"    print(\"\\n*** Original Garmin Connect API Demo by cyberjunky ***\\n\")\r\n",
+					"        # Main program loop\r\n",
+					"        while True:\r\n",
+					"            # Display header and login\r\n",
+					"            print(\"\\n*** Original Garmin Connect API Demo by cyberjunky ***\\n\")\r\n",
 					"\r\n",
+					"        # Get API password from Key Vault. Replace with hard-coded values to avoid the KeyVault request\r\n",
+					"        try:\r\n",
+					"            email = get_api_key_from_keyvault(KEYVAULTNAME, GARMIN_UNAME_KEY)\r\n",
+					"        except Exception as e:\r\n",
+					"            print(\"Garmin_Username retrieval/initialisation failed. Check your Key Vault configuration/python. {e}\")\r\n",
+					"\r\n",
+					"        try:\r\n",
+					"            password = get_api_key_from_keyvault(KEYVAULTNAME, GARMIN_PASSW_KEY)\r\n",
+					"        except Exception as e:\r\n",
+					"            print(\"Garmin_Password retrieval/initialisation failed. Check your Key Vault configuration/python. {e}\")\r\n",
 					"    api = init_api(email, password)\r\n",
 					"\r\n",
 					"    if api:\r\n",

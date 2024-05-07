@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "59f59583-eddd-4436-aa85-e652259e9461"
+				"spark.autotune.trackingId": "fa43d8a0-0080-4992-abc4-30ac8ce9b91d"
 			}
 		},
 		"metadata": {
@@ -62,13 +62,13 @@
 					}
 				},
 				"source": [
-					"# Test connecting to Azure Key Vault in Python and gt Garmin data from Garmin API\r\n",
+					"# Test connecting to Azure Key Vault in Python and gt Garmin data from Garmin API ref: https://pypi.org/project/garminconnect/\r\n",
 					"# Follow this to create a linked service to the Key vault on Azure, then apply permission to the App ID from the Synapse Instance https://stackoverflow.com/questions/77846845/access-key-vault-in-azure-synapse-analytical-pipeline-notebook\r\n",
 					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault \r\n",
 					"\r\n",
-					"GARMIN_API_DS = 'activities'\r\n",
+					"GARMIN_API_DS = 'get_sleep_data' # get_activities_by_date, get_sleep_data\r\n",
 					"DAYS_AGO = 730\r\n",
-					"DAYS_UNTIL  = 0\r\n",
+					"DAYS_UNTIL  = 1\r\n",
 					"KEYVAULTNAME = 'judeskv'\r\n",
 					"GARMIN_UNAME_KEY = 'GarminUsername'\r\n",
 					"GARMIN_PASSW_KEY = 'GarminPassword'\r\n",
@@ -77,7 +77,7 @@
 					"  # df.to_parquet('abfs[s]://file_system_name@account_name.dfs.core.windows.net/   parquet_file_path')\r\n",
 					""
 				],
-				"execution_count": 23
+				"execution_count": 133
 			},
 			{
 				"cell_type": "code",
@@ -97,7 +97,12 @@
 					"# The mssarkutils to retreive the Data Vault secrets. \r\n",
 					"# The json and pandas for downstream data manipulation only\r\n",
 					"!pip install garminconnect \r\n",
-					"import garminconnect\r\n",
+					"from garminconnect import (\r\n",
+					"    Garmin,\r\n",
+					"    GarminConnectAuthenticationError,\r\n",
+					"    GarminConnectConnectionError,\r\n",
+					"    GarminConnectTooManyRequestsError,\r\n",
+					")\r\n",
 					"from datetime import datetime, timedelta\r\n",
 					"from notebookutils import mssparkutils\r\n",
 					"import json\r\n",
@@ -105,7 +110,7 @@
 					"import pandas as pd\r\n",
 					"import os"
 				],
-				"execution_count": 24
+				"execution_count": 126
 			},
 			{
 				"cell_type": "code",
@@ -130,7 +135,7 @@
 					"        print(f\"Error retrieving API key from Key Vault: {e}\")\r\n",
 					"        return None"
 				],
-				"execution_count": 25
+				"execution_count": 108
 			},
 			{
 				"cell_type": "code",
@@ -157,7 +162,7 @@
 					"except Exception as e:\r\n",
 					"    print(\"Garmin_Password retrieval/initialisation failed. Check your Key Vault configuration/python. {e}\")"
 				],
-				"execution_count": 26
+				"execution_count": 127
 			},
 			{
 				"cell_type": "code",
@@ -177,33 +182,13 @@
 					"try:\r\n",
 					"    # Attempt to login\r\n",
 					"\r\n",
-					"    client = garminconnect.Garmin(Garmin_Username, Garmin_Password)\r\n",
-					"    client.login()\r\n",
+					"    api = garminconnect.Garmin(Garmin_Username, Garmin_Password)\r\n",
+					"    api.login()\r\n",
 					"    print(\"Login successful.\")\r\n",
 					"except Exception as e:\r\n",
 					"        print(f\"Error logging into Garmin API: {e}\")"
 				],
-				"execution_count": 27
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
-					"# Calculate start and end dates for the last three months\r\n",
-					"to_date = datetime.today()-timedelta(days=DAYS_UNTIL)\r\n",
-					"from_date = to_date - timedelta(days=DAYS_AGO)"
-				],
-				"execution_count": 28
+				"execution_count": 138
 			},
 			{
 				"cell_type": "code",
@@ -220,18 +205,49 @@
 				},
 				"source": [
 					"# Get activity data for the last x days from garmin\r\n",
+					"\r\n",
+					"def display_json(api_call, output):\r\n",
+					"    \"\"\"Format API output for better readability.\"\"\"\r\n",
+					"\r\n",
+					"    dashed = \"-\"*20\r\n",
+					"    header = f\"{dashed} {api_call} {dashed}\"\r\n",
+					"    footer = \"-\"*len(header)\r\n",
+					"\r\n",
+					"    print(header)\r\n",
+					"    print(json.dumps(output, indent=4))\r\n",
+					"    print(footer)\r\n",
+					"\r\n",
+					"\r\n",
 					"try:\r\n",
-					"    activities_data = client.get_activities_by_date(from_date.isoformat(), to_date.isoformat())\r\n",
+					"    # Calculate start and end dates for the period specified\r\n",
+					"    to_date = datetime.today()-timedelta(days=DAYS_UNTIL)\r\n",
+					"    from_date = to_date - timedelta(days=DAYS_AGO)\r\n",
+					"    daterange = pd.date_range(from_date, to_date)\r\n",
+					"    # You can then loop over the daterange to print the date:\r\n",
+					"\r\n",
 					"    match GARMIN_API_DS:\r\n",
-					"        case \"activities\":\r\n",
-					"            activities_data = client.get_activities_by_date(from_date.isoformat(), to_date.isoformat())\r\n",
+					"        case \"get_activities_by_date\":\r\n",
+					"            garmin_ds_data = client.get_activities_by_date(from_date.isoformat(), to_date.isoformat())\r\n",
+					"        case \"get_sleep_data\":\r\n",
+					"            #garmin_ds_data = client.get_sleep_data(from_date.isoformat())\r\n",
+					"            # for single_date in daterange:\r\n",
+					"            #     print (single_date.strftime(\"%Y-%m-%d\"))\r\n",
+					"            #     #json_data[\"data\"][\"items\"].append(i)\r\n",
+					"            #     garmin_ds_data = client.get_sleep_data(single_date.isoformat())\r\n",
+					"            #print(json.dumps(garmin_ds_data, indent = 1))\r\n",
+					"            display_json(f\"api.get_sleep_data('{to_date.isoformat()}')\", api.get_sleep_data(to_date.isoformat()))\r\n",
 					"        case _:\r\n",
-					"            activities_data = client.get_activities_by_date(from_date.isoformat(), to_date.isoformat())\r\n",
-					"    print(f\"Fetched {len(activities_data)} activities.\")\r\n",
-					"except Exception as e:\r\n",
-					"    print(f\"Error feteching data from Garmin API: Call was: client.get_activities_by_date({from_date.isoformat()}, {to_date.isoformat()}\")"
+					"            garmin_ds_data = client.get_activities_by_date(from_date.isoformat(), to_date.isoformat())\r\n",
+					"    print(f\"Fetched {len(garmin_ds_data)} records.\")\r\n",
+					"except (\r\n",
+					"        GarminConnectConnectionError,\r\n",
+					"        GarminConnectAuthenticationError,\r\n",
+					"        GarminConnectTooManyRequestsError,\r\n",
+					"        requests.exceptions.HTTPError,\r\n",
+					"        ) as err:\r\n",
+					"            logger.error(\"Error occurred during Garmin Connect communication: %s\", err)"
 				],
-				"execution_count": 29
+				"execution_count": 139
 			},
 			{
 				"cell_type": "code",
@@ -247,10 +263,15 @@
 					}
 				},
 				"source": [
-					"# Show the raw dta using json formatting\r\n",
-					"# print(json.dumps(activities_df, indent = 1))"
+					"# Frame the data\r\n",
+					"#print(json.dumps(garmin_ds_data, indent = 1))\r\n",
+					"df = pd.DataFrame(garmin_ds_data)\r\n",
+					"# jsondata = json.load(garmin_ds_data)\r\n",
+					"# print(jsondata)\r\n",
+					"# df = pd.DataFrame(jsondata[\"data\"])\r\n",
+					"df.show()"
 				],
-				"execution_count": 30
+				"execution_count": 112
 			},
 			{
 				"cell_type": "code",
@@ -267,15 +288,15 @@
 				},
 				"source": [
 					"# Frame the retreived data in PySpark\r\n",
-					"#df = spark.sparkContext.parallelize(activities_data)\r\n",
+					"#df = spark.sparkContext.parallelize(garmin_ds_data)\r\n",
 					"#print(df.take(10))\r\n",
 					"#df = df.toDF()\r\n",
 					"#df.show()\r\n",
-					"#activities_df = pd.DataFrame(activities_data)\r\n",
+					"#activities_df = pd.DataFrame(garmin_ds_data)\r\n",
 					"#print(activities_df.head)\r\n",
 					"#print(activities_df.columns)"
 				],
-				"execution_count": 31
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -292,12 +313,11 @@
 				},
 				"source": [
 					"# Write the data to parquet file\r\n",
-					"df = pd.DataFrame(activities_data)\r\n",
 					"# https://personalprojectsrslake.dfs.core.windows.net/personalprojectsfs/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/\r\n",
 					"# abfss://<containername>@<storageaccountname>.dfs.core.windows.net</path/>\r\n",
 					"pathacc = ABFS_DEST_ACCOUNT #\"abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/\"\r\n",
 					"pathfolder = ABFS_DEST_FOLDER\r\n",
-					"file = \"garmin_activities_data-\" + to_date.isoformat() + \"-.parquet\"\r\n",
+					"file = \"garmin_garmin_ds_data-\" + to_date.isoformat() + \"-.parquet\"\r\n",
 					"full_path = f\"{pathacc}{pathfolder}{file}\"\r\n",
 					"df.to_parquet(full_path, engine='pyarrow')\r\n",
 					"#dfp.write.mode(\"overwrite\").format(\"delta\").saveAsTable(\"tbl_activities\")\r\n",
@@ -308,7 +328,7 @@
 					"#print(activities_df.head)\r\n",
 					"#print(activities_df.columns)"
 				],
-				"execution_count": 32
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -329,7 +349,7 @@
 					"# # dfp now is a Spark DataFrame containing parquet data from \"Files/DI-Connect-Fitness/activities.parquet\".\r\n",
 					"display(dfp)"
 				],
-				"execution_count": 33
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -359,7 +379,7 @@
 					"# Add more API calls as needed for other statistics and activities\r\n",
 					""
 				],
-				"execution_count": 34
+				"execution_count": null
 			}
 		]
 	}

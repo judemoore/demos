@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "4a581293-6e3e-40ef-9402-9bea146ee579"
+				"spark.autotune.trackingId": "7d392401-df94-44ef-9e01-839e9882a826"
 			}
 		},
 		"metadata": {
@@ -73,9 +73,9 @@
 					"import datetime\r\n",
 					"import json\r\n",
 					"import logging\r\n",
-					"import os\r\n",
-					"import sys\r\n",
-					"from getpass import getpass\r\n",
+					"# import os\r\n",
+					"# import sys\r\n",
+					"# from getpass import getpass\r\n",
 					"\r\n",
 					"#import readchar\r\n",
 					"import requests\r\n",
@@ -957,7 +957,7 @@
 					"    #option = readchar.readkey() # jm\r\n",
 					"    option = \"c\"\r\n",
 					"    switch(api, option)\r\n",
-					"    pd.json_normalize(data) \r\n",
+					"    \r\n",
 					"else:\r\n",
 					"    print('Issue logging in.')"
 				],

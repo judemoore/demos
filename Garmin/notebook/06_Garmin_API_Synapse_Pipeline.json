@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "2a1481bb-dd16-4aeb-8d53-081d0579862e"
+				"spark.autotune.trackingId": "767a5af4-8f1b-4a9e-8b25-c819b8ad3bd6"
 			}
 		},
 		"metadata": {
@@ -133,7 +133,7 @@
 					"start_badge = 1  # Badge related calls calls start counting at 1\r\n",
 					"activitytype = \"\"  # Possible values are: cycling, running, swimming, multi_sport, fitness_equipment, hiking, walking, other\r\n",
 					"activityfile = \"MY_ACTIVITY.fit\"  # Supported file types are: .fit .gpx .tcx\r\n",
-					"weight = 89.6\r\n",
+					"weight = 79.9\r\n",
 					"weightunit = 'kg'\r\n",
 					"# workout_example = \"\"\"\r\n",
 					"# {\r\n",

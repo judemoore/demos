@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "c0a20c79-3d32-49fb-8e08-3ce6523125bd"
+				"spark.autotune.trackingId": "10e44e66-794e-4a9c-b2a7-6ca1fe4ae339"
 			}
 		},
 		"metadata": {
@@ -328,14 +328,14 @@
 					"                startofdata = startdate\r\n",
 					"                endofdatadate = enddate\r\n",
 					"                # Get sleep data for 'YYYY-MM-DD'\r\n",
-					"                display_json(\r\n",
-					"                    f\"api.get_activities_by_date('{startofdata.isoformat()},{endofdatadate.isoformat()}')\",\r\n",
-					"                    api.get_activities_by_date(startofdata.isoformat(),endofdatadate.isoformat()),\r\n",
-					"                )\r\n",
+					"                # display_json(\r\n",
+					"                #     f\"api.get_activities_by_date('{startofdata.isoformat()},{endofdatadate.isoformat()}')\",\r\n",
+					"                #     api.get_activities_by_date(startofdata.isoformat(),endofdatadate.isoformat()),\r\n",
+					"                # )\r\n",
 					"                write_dataframe_to_parquet(\r\n",
 					"                    f\"api.get_activities_by_date('{startofdata.isoformat()},{endofdatadate.isoformat()}')\",\r\n",
 					"                    api.get_activities_by_date(startofdata.isoformat(),endofdatadate.isoformat()),\r\n",
-					"                    \"get_sleget_activities_by_dateep_data\",\r\n",
+					"                    \"get_activities_by_date\",\r\n",
 					"                    endofdatadate.isoformat(),\r\n",
 					"                    ABFS_DEST_ACCOUNT,\r\n",
 					"                    ABFS_DEST_FOLDER\r\n",
@@ -960,13 +960,13 @@
 					"        full_path = f\"{pathacc}{pathfolder}{file}\"\r\n",
 					"        df.to_parquet(full_path, engine='pyarrow')\r\n",
 					"        status = f\"SUCCESS: Data written to :\\n{full_path}\"\r\n",
-					"        print(status)\r\n",
+					"        #print(status)\r\n",
 					"        logger.error(status)\r\n",
 					"    except Exception as e:\r\n",
 					"        print(f\"Error writing data to :\\n{full_path}\\n {e}\")\r\n",
 					"        return None"
 				],
-				"execution_count": 84
+				"execution_count": 88
 			},
 			{
 				"cell_type": "code",
@@ -1010,7 +1010,7 @@
 					"    print(status)\r\n",
 					"    logger.error(status)"
 				],
-				"execution_count": 85
+				"execution_count": 89
 			}
 		]
 	}

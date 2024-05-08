@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "1",
-				"spark.autotune.trackingId": "0d4d6c56-e875-40db-8d02-f30fc1119529"
+				"spark.autotune.trackingId": "9ef25bf7-db3b-42f7-a0f4-83d68d56d903"
 			}
 		},
 		"metadata": {
@@ -77,7 +77,7 @@
 					"  # df.to_parquet('abfs[s]://file_system_name@account_name.dfs.core.windows.net/   parquet_file_path')\r\n",
 					""
 				],
-				"execution_count": 150
+				"execution_count": 158
 			},
 			{
 				"cell_type": "code",
@@ -112,7 +112,7 @@
 					"import pandas as pd\r\n",
 					"#import os"
 				],
-				"execution_count": 151
+				"execution_count": 159
 			},
 			{
 				"cell_type": "code",
@@ -147,7 +147,7 @@
 					"except Exception as e:\r\n",
 					"    print(\"Garmin_Password retrieval/initialisation failed. Check your Key Vault configuration/python. {e}\")"
 				],
-				"execution_count": 155
+				"execution_count": 160
 			},
 			{
 				"cell_type": "code",
@@ -173,7 +173,7 @@
 					"except Exception as e:\r\n",
 					"        print(f\"Error logging into Garmin API: {e}\")"
 				],
-				"execution_count": 156
+				"execution_count": 161
 			},
 			{
 				"cell_type": "code",
@@ -232,7 +232,7 @@
 					"        ) as err:\r\n",
 					"            logger.error(\"Error occurred during Garmin Connect communication: %s\", err)"
 				],
-				"execution_count": 157
+				"execution_count": 162
 			},
 			{
 				"cell_type": "code",
@@ -256,7 +256,7 @@
 					"# df = pd.DataFrame(jsondata[\"data\"])\r\n",
 					"df.show()"
 				],
-				"execution_count": 112
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",

@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "1921656a-e8c8-42b4-b073-5c0817de821d"
+				"spark.autotune.trackingId": "2a1481bb-dd16-4aeb-8d53-081d0579862e"
 			}
 		},
 		"metadata": {
@@ -89,7 +89,7 @@
 					"    GarminConnectTooManyRequestsError,\r\n",
 					")"
 				],
-				"execution_count": 64
+				"execution_count": 70
 			},
 			{
 				"cell_type": "code",
@@ -105,8 +105,8 @@
 					}
 				},
 				"source": [
-					"GARMIN_API_OPTION = 'c' # see list below\r\n",
-					"DAYS_BEFORETODAY = 1\r\n",
+					"GARMIN_API_OPTION = 'act' # see list below\r\n",
+					"DAYS_BEFORETODAY = 0\r\n",
 					"DAYS_AGO = 730\r\n",
 					"KEYVAULTNAME = 'judeskv'\r\n",
 					"GARMIN_UNAME_KEY = 'GarminUsername'\r\n",
@@ -229,7 +229,7 @@
 					"}\r\n",
 					""
 				],
-				"execution_count": 65
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -353,18 +353,18 @@
 					"                startofdata = startdate\r\n",
 					"                endofdatadate = enddate\r\n",
 					"                # Get sleep data for 'YYYY-MM-DD'\r\n",
-					"                # display_json(\r\n",
-					"                #     f\"api.get_sleep_data('{today.isoformat()}')\",\r\n",
-					"                #     api.get_sleep_data(today.isoformat()),\r\n",
-					"                # )\r\n",
-					"                write_dataframe_to_parquet(\r\n",
-					"                    f\"api.get_sleep_data('{startofdata.isoformat()},{endofdatadate.isoformat()}')\",\r\n",
-					"                    api.get_sleep_data(startofdata.isoformat(),endofdatadate.isoformat()),\r\n",
-					"                    \"get_sleep_data\",\r\n",
-					"                    endofdatadate.isoformat(),\r\n",
-					"                    ABFS_DEST_ACCOUNT,\r\n",
-					"                    ABFS_DEST_FOLDER\r\n",
+					"                display_json(\r\n",
+					"                    f\"api.get_activities_by_date('{endofdatadate.isoformat()},{endofdatadate.isoformat()}')\",\r\n",
+					"                    api.get_activities_by_date(endofdatadate.isoformat(),endofdatadate.isoformat()),\r\n",
 					"                )\r\n",
+					"                # write_dataframe_to_parquet(\r\n",
+					"                #     f\"api.get_activities_by_date('{startofdata.isoformat()},{endofdatadate.isoformat()}')\",\r\n",
+					"                #     api.get_activities_by_date(startofdata.isoformat(),endofdatadate.isoformat()),\r\n",
+					"                #     \"get_sleget_activities_by_dateep_data\",\r\n",
+					"                #     endofdatadate.isoformat(),\r\n",
+					"                #     ABFS_DEST_ACCOUNT,\r\n",
+					"                #     ABFS_DEST_FOLDER\r\n",
+					"                # )\r\n",
 					"\r\n",
 					"            # USER BASICS\r\n",
 					"            if i == \"1\":\r\n",
@@ -965,7 +965,7 @@
 					"        print(\"Could not login to Garmin Connect, try again later.\")\r\n",
 					""
 				],
-				"execution_count": 68
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -1007,7 +1007,7 @@
 					"else:\r\n",
 					"    print('Issue logging in.')"
 				],
-				"execution_count": 69
+				"execution_count": null
 			}
 		]
 	}

@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "10e44e66-794e-4a9c-b2a7-6ca1fe4ae339"
+				"spark.autotune.trackingId": "1cb2172e-3bda-4961-88df-f592b06669bf"
 			}
 		},
 		"metadata": {
@@ -107,7 +107,7 @@
 				"source": [
 					"GARMIN_API_OPTION = 'act' # see list below\r\n",
 					"DAYS_BEFORETODAY = 0\r\n",
-					"DAYS_AGO = 730\r\n",
+					"DAYS_AGO = 0\r\n",
 					"KEYVAULTNAME = 'judeskv'\r\n",
 					"GARMIN_UNAME_KEY = 'GarminUsername'\r\n",
 					"GARMIN_PASSW_KEY = 'GarminPassword'\r\n",

@@ -2,7 +2,7 @@
 	"name": "QuerySleepParquetTest",
 	"properties": {
 		"content": {
-			"query": "declare \n@ABFS_DEST_ACCOUNT varchar(255) = (SELECT 'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net' )\n,@ABFS_DEST_FOLDER varchar(255) = (SELECT '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/' )\n,@FILE varchar(255) = (SELECT 'garmin_get_sleep_data-2024-05-07.parquet' )\n\ndeclare\n @FULLPATH varchar(255) =  (SELECT @ABFS_DEST_ACCOUNT+@ABFS_DEST_FOLDER+@FILE )\n\nselect top 10 *\nfrom openrowset(\n    bulk 'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/garmin_get_sleep_data-2024-05-07.parquet' ,\n    format = 'parquet') as rows",
+			"query": "declare \n@ABFS_DEST_ACCOUNT varchar(255) = (SELECT 'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net' )\n,@ABFS_DEST_FOLDER varchar(255) = (SELECT '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/' )\n,@FILE varchar(255) = (SELECT 'garmin_get_sleep_data-2024-05-07.parquet' )\n\ndeclare\n @FULLPATH varchar(255) =  (SELECT @ABFS_DEST_ACCOUNT+@ABFS_DEST_FOLDER+@FILE )\n\nselect top 10 *\nfrom openrowset(\n    bulk 'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/garmin_get_activities_by_date-2024-05-08.parquet' ,\n    format = 'parquet') as rows",
 			"metadata": {
 				"language": "sql"
 			},

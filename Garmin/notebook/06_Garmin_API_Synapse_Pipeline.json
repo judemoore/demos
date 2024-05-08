@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "767a5af4-8f1b-4a9e-8b25-c819b8ad3bd6"
+				"spark.autotune.trackingId": "c0a20c79-3d32-49fb-8e08-3ce6523125bd"
 			}
 		},
 		"metadata": {
@@ -89,7 +89,7 @@
 					"    GarminConnectTooManyRequestsError,\r\n",
 					")"
 				],
-				"execution_count": 70
+				"execution_count": 80
 			},
 			{
 				"cell_type": "code",
@@ -229,36 +229,11 @@
 					"}\r\n",
 					""
 				],
-				"execution_count": null
+				"execution_count": 81
 			},
 			{
 				"cell_type": "code",
 				"source": [
-					"# Function to fetch keys from keyvault\r\n",
-					"def get_api_key_from_keyvault(key_vault_name, secret_name): \r\n",
-					"    try:\r\n",
-					"        api_key = mssparkutils.credentials.getSecret(key_vault_name,secret_name)\r\n",
-					"        return api_key\r\n",
-					"    except Exception as e:\r\n",
-					"        print(f\"Error retrieving API key from Key Vault: {e}\")\r\n",
-					"        return None\r\n",
-					"\r\n",
-					"# Function to write Dartaframe to parquet\r\n",
-					"def write_dataframe_to_parquet(api_call, output, garmin_api_endpoint, endofdatadate ,pathacc, pathfolder ): \r\n",
-					"    try:\r\n",
-					"        # pathacc = ABFS_DEST_ACCOUNT #\"abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/\"\r\n",
-					"        # pathfolder = ABFS_DEST_FOLDER\r\n",
-					"        #df = pd.DataFrame(output)\r\n",
-					"        df = pd.json_normalize(output)\r\n",
-					"        #df.json_normalize(output, max_level=1)\r\n",
-					"        file = \"garmin_\" +garmin_api_endpoint+\"-\" + endofdatadate + \".parquet\"\r\n",
-					"        full_path = f\"{pathacc}{pathfolder}{file}\"\r\n",
-					"        df.to_parquet(full_path, engine='pyarrow')\r\n",
-					"        print(f\"Data written to :\\n{full_path}\")\r\n",
-					"    except Exception as e:\r\n",
-					"        print(f\"Error writing data to :\\n{full_path}\\n {e}\")\r\n",
-					"        return None\r\n",
-					"\r\n",
 					"def print_menu():\r\n",
 					"    \"\"\"Print examples menu.\"\"\"\r\n",
 					"    for key in menu_options.keys():\r\n",
@@ -354,17 +329,17 @@
 					"                endofdatadate = enddate\r\n",
 					"                # Get sleep data for 'YYYY-MM-DD'\r\n",
 					"                display_json(\r\n",
-					"                    f\"api.get_activities_by_date('{endofdatadate.isoformat()},{endofdatadate.isoformat()}')\",\r\n",
-					"                    api.get_activities_by_date(endofdatadate.isoformat(),endofdatadate.isoformat()),\r\n",
+					"                    f\"api.get_activities_by_date('{startofdata.isoformat()},{endofdatadate.isoformat()}')\",\r\n",
+					"                    api.get_activities_by_date(startofdata.isoformat(),endofdatadate.isoformat()),\r\n",
 					"                )\r\n",
-					"                # write_dataframe_to_parquet(\r\n",
-					"                #     f\"api.get_activities_by_date('{startofdata.isoformat()},{endofdatadate.isoformat()}')\",\r\n",
-					"                #     api.get_activities_by_date(startofdata.isoformat(),endofdatadate.isoformat()),\r\n",
-					"                #     \"get_sleget_activities_by_dateep_data\",\r\n",
-					"                #     endofdatadate.isoformat(),\r\n",
-					"                #     ABFS_DEST_ACCOUNT,\r\n",
-					"                #     ABFS_DEST_FOLDER\r\n",
-					"                # )\r\n",
+					"                write_dataframe_to_parquet(\r\n",
+					"                    f\"api.get_activities_by_date('{startofdata.isoformat()},{endofdatadate.isoformat()}')\",\r\n",
+					"                    api.get_activities_by_date(startofdata.isoformat(),endofdatadate.isoformat()),\r\n",
+					"                    \"get_sleget_activities_by_dateep_data\",\r\n",
+					"                    endofdatadate.isoformat(),\r\n",
+					"                    ABFS_DEST_ACCOUNT,\r\n",
+					"                    ABFS_DEST_FOLDER\r\n",
+					"                )\r\n",
 					"\r\n",
 					"            # USER BASICS\r\n",
 					"            if i == \"1\":\r\n",
@@ -963,9 +938,35 @@
 					"            pass\r\n",
 					"    else:\r\n",
 					"        print(\"Could not login to Garmin Connect, try again later.\")\r\n",
-					""
+					"\r\n",
+					"# Function to fetch keys from keyvault\r\n",
+					"def get_api_key_from_keyvault(key_vault_name, secret_name): \r\n",
+					"    try:\r\n",
+					"        api_key = mssparkutils.credentials.getSecret(key_vault_name,secret_name)\r\n",
+					"        return api_key\r\n",
+					"    except Exception as e:\r\n",
+					"        print(f\"Error retrieving API key from Key Vault: {e}\")\r\n",
+					"        return None\r\n",
+					"\r\n",
+					"# Function to write Dartaframe to parquet\r\n",
+					"def write_dataframe_to_parquet(api_call, output, garmin_api_endpoint, endofdatadate ,pathacc, pathfolder ): \r\n",
+					"    try:\r\n",
+					"        # pathacc = ABFS_DEST_ACCOUNT #\"abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/\"\r\n",
+					"        # pathfolder = ABFS_DEST_FOLDER\r\n",
+					"        #df = pd.DataFrame(output)\r\n",
+					"        df = pd.json_normalize(output)\r\n",
+					"        #df.json_normalize(output, max_level=1)\r\n",
+					"        file = \"garmin_\" +garmin_api_endpoint+\"-\" + endofdatadate + \".parquet\"\r\n",
+					"        full_path = f\"{pathacc}{pathfolder}{file}\"\r\n",
+					"        df.to_parquet(full_path, engine='pyarrow')\r\n",
+					"        status = f\"SUCCESS: Data written to :\\n{full_path}\"\r\n",
+					"        print(status)\r\n",
+					"        logger.error(status)\r\n",
+					"    except Exception as e:\r\n",
+					"        print(f\"Error writing data to :\\n{full_path}\\n {e}\")\r\n",
+					"        return None"
 				],
-				"execution_count": null
+				"execution_count": 84
 			},
 			{
 				"cell_type": "code",
@@ -1005,9 +1006,11 @@
 					"    switch(api, option)\r\n",
 					"    \r\n",
 					"else:\r\n",
-					"    print('Issue logging in.')"
+					"    status = 'Issue logging in.'\r\n",
+					"    print(status)\r\n",
+					"    logger.error(status)"
 				],
-				"execution_count": null
+				"execution_count": 85
 			}
 		]
 	}

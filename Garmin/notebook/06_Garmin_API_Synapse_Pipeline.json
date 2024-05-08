@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "bcda6393-21f5-4186-bb17-1306ea0c06db"
+				"spark.autotune.trackingId": "c809dafa-90af-4c07-86e7-ebcf6fb0e521"
 			}
 		},
 		"metadata": {
@@ -89,7 +89,7 @@
 					"    GarminConnectTooManyRequestsError,\r\n",
 					")"
 				],
-				"execution_count": 48
+				"execution_count": 64
 			},
 			{
 				"cell_type": "code",
@@ -124,7 +124,8 @@
 					"# password =  # os.getenv(\"PASSWORD\")\r\n",
 					"\r\n",
 					"# Example selections and settings\r\n",
-					"today = datetime.date.today() - datetime.timedelta(days=DAYS_BEFORETODAY)\r\n",
+					"today = datetime.date.today() \r\n",
+					"enddate = today - datetime.timedelta(days=DAYS_BEFORETODAY)\r\n",
 					"startdate = today - datetime.timedelta(days=DAYS_AGO)  \r\n",
 					"\r\n",
 					"start = 0\r\n",
@@ -227,7 +228,7 @@
 					"}\r\n",
 					""
 				],
-				"execution_count": 49
+				"execution_count": 65
 			},
 			{
 				"cell_type": "code",
@@ -242,14 +243,14 @@
 					"        return None\r\n",
 					"\r\n",
 					"# Function to write Dartaframe to parquet\r\n",
-					"def write_dataframe_to_parquet(api_call, output, garmin_api_option, pathacc, pathfolder ): \r\n",
+					"def write_dataframe_to_parquet(api_call, output, garmin_api_endpoint, endofdatadate ,pathacc, pathfolder ): \r\n",
 					"    try:\r\n",
 					"        # pathacc = ABFS_DEST_ACCOUNT #\"abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/\"\r\n",
 					"        # pathfolder = ABFS_DEST_FOLDER\r\n",
 					"        #df = pd.DataFrame(output)\r\n",
 					"        df = pd.json_normalize(output)\r\n",
 					"        #df.json_normalize(output, max_level=1)\r\n",
-					"        file = \"garmin_data_option-\" +garmin_api_option+\"-\" + today.isoformat() + \".parquet\"\r\n",
+					"        file = \"garmin_\" +garmin_api_endpoint+\"-\" + endofdatadate + \".parquet\"\r\n",
 					"        full_path = f\"{pathacc}{pathfolder}{file}\"\r\n",
 					"        df.to_parquet(full_path, engine='pyarrow')\r\n",
 					"        print(f\"Data written to :\\n{full_path}\")\r\n",
@@ -448,15 +449,17 @@
 					"                    api.get_hydration_data(today.isoformat()),\r\n",
 					"                )\r\n",
 					"            elif i == \"c\":\r\n",
+					"                endofdatadate = enddate\r\n",
 					"                # Get sleep data for 'YYYY-MM-DD'\r\n",
 					"                # display_json(\r\n",
 					"                #     f\"api.get_sleep_data('{today.isoformat()}')\",\r\n",
 					"                #     api.get_sleep_data(today.isoformat()),\r\n",
 					"                # )\r\n",
 					"                write_dataframe_to_parquet(\r\n",
-					"                    f\"api.get_sleep_data('{today.isoformat()}')\",\r\n",
-					"                    api.get_sleep_data(today.isoformat()),\r\n",
-					"                    GARMIN_API_OPTION,\r\n",
+					"                    f\"api.get_sleep_data('{endofdatadate.isoformat()}')\",\r\n",
+					"                    api.get_sleep_data(endofdatadate.isoformat()),\r\n",
+					"                    \"get_sleep_data\",\r\n",
+					"                    endofdatadate.isoformat(),\r\n",
 					"                    ABFS_DEST_ACCOUNT,\r\n",
 					"                    ABFS_DEST_FOLDER\r\n",
 					"                )\r\n",
@@ -943,7 +946,7 @@
 					"        print(\"Could not login to Garmin Connect, try again later.\")\r\n",
 					""
 				],
-				"execution_count": 54
+				"execution_count": 68
 			},
 			{
 				"cell_type": "code",
@@ -985,7 +988,7 @@
 					"else:\r\n",
 					"    print('Issue logging in.')"
 				],
-				"execution_count": 55
+				"execution_count": 69
 			}
 		]
 	}

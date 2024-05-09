@@ -25,7 +25,7 @@
 							"type": "string"
 						},
 						"DAYS_BEFORETODAY": {
-							"value": "0",
+							"value": "1",
 							"type": "int"
 						},
 						"DAYS_AGO": {

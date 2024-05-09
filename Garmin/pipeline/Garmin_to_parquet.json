@@ -19,6 +19,40 @@
 						"referenceName": "06_Garmin_API_Synapse_Pipeline",
 						"type": "NotebookReference"
 					},
+					"parameters": {
+						"GARMIN_API_OPTION": {
+							"value": "act",
+							"type": "string"
+						},
+						"DAYS_BEFORETODAY": {
+							"value": "1",
+							"type": "int"
+						},
+						"DAYS_AGO": {
+							"value": "1",
+							"type": "int"
+						},
+						"KEYVAULTNAME": {
+							"value": "judeskv",
+							"type": "string"
+						},
+						"GARMIN_UNAME_KEY": {
+							"value": "GarminUsername",
+							"type": "string"
+						},
+						"GARMIN_PASSW_KEY": {
+							"value": "GarminPassword",
+							"type": "string"
+						},
+						"ABFS_DEST_ACCOUNT": {
+							"value": "abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net",
+							"type": "string"
+						},
+						"ABFS_DEST_FOLDER": {
+							"value": "/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/",
+							"type": "string"
+						}
+					},
 					"snapshot": true,
 					"sparkPool": {
 						"referenceName": "personalsparkp",

@@ -32,6 +32,39 @@
 				}
 			}
 		],
+		"variables": {
+			"GARMIN_API_OPTION": {
+				"type": "String",
+				"defaultValue": "act"
+			},
+			"DAYS_BEFORETODAY": {
+				"type": "Integer",
+				"defaultValue": 1
+			},
+			"DAYS_AGO": {
+				"type": "Integer"
+			},
+			"KEYVAULTNAME": {
+				"type": "String",
+				"defaultValue": "judeskv"
+			},
+			"GARMIN_UNAME_KEY": {
+				"type": "String",
+				"defaultValue": "GarminUsername"
+			},
+			"GARMIN_PASSW_KEY": {
+				"type": "String",
+				"defaultValue": "GarminPassword"
+			},
+			"ABFS_DEST_ACCOUNT": {
+				"type": "String",
+				"defaultValue": "abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net"
+			},
+			"ABFS_DEST_FOLDER": {
+				"type": "String",
+				"defaultValue": "/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/"
+			}
+		},
 		"annotations": []
 	}
 }

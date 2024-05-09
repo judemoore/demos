@@ -6,7 +6,7 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "Garmin_to_parquet_nightly",
+					"referenceName": "Garmin_to_parquet_nightly_old",
 					"type": "PipelineReference"
 				}
 			}

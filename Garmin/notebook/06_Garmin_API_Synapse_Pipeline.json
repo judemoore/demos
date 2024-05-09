@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "34762cde-9eb1-48da-906e-a77d04a2a3a5"
+				"spark.autotune.trackingId": "484f3654-df60-4ff7-804c-07691404b76d"
 			}
 		},
 		"metadata": {
@@ -1024,7 +1024,7 @@
 					"    #option = readchar.readkey() # jm\r\n",
 					"    option = GARMIN_API_OPTION\r\n",
 					"    switch(api, option)\r\n",
-					"    \r\n",
+					"    mssparkutils.notebook.exit(outputval)\r\n",
 					"else:\r\n",
 					"    status = 'Issue logging in.'\r\n",
 					"    print(status)\r\n",

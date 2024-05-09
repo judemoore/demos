@@ -22,7 +22,120 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('workspaceName'), '/Garmin_to_parquet_nightly')]",
+			"name": "[concat(parameters('workspaceName'), '/Garmin_to_parquet_nightly1')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "06_Garmin_API_Synapse_Pipeline1",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "06_Garmin_API_Synapse_Pipeline",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"GARMIN_API_OPTION": {
+									"value": "act",
+									"type": "string"
+								},
+								"DAYS_BEFORETODAY": {
+									"value": "1",
+									"type": "int"
+								},
+								"DAYS_AGO": {
+									"value": "1",
+									"type": "int"
+								},
+								"KEYVAULTNAME": {
+									"value": "judeskv",
+									"type": "string"
+								},
+								"GARMIN_UNAME_KEY": {
+									"value": "GarminUsername",
+									"type": "string"
+								},
+								"GARMIN_PASSW_KEY": {
+									"value": "GarminPassword",
+									"type": "string"
+								},
+								"ABFS_DEST_ACCOUNT": {
+									"value": "abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net",
+									"type": "string"
+								},
+								"ABFS_DEST_FOLDER": {
+									"value": "/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "personalsparkp",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": "Small",
+							"conf": {
+								"spark.dynamicAllocation.enabled": false
+							},
+							"driverSize": "Small"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"GARMIN_API_OPTION": {
+						"type": "String",
+						"defaultValue": "act"
+					},
+					"DAYS_BEFORETODAY": {
+						"type": "Integer",
+						"defaultValue": 1
+					},
+					"DAYS_AGO": {
+						"type": "Integer"
+					},
+					"KEYVAULTNAME": {
+						"type": "String",
+						"defaultValue": "judeskv"
+					},
+					"GARMIN_UNAME_KEY": {
+						"type": "String",
+						"defaultValue": "GarminUsername"
+					},
+					"GARMIN_PASSW_KEY": {
+						"type": "String",
+						"defaultValue": "GarminPassword"
+					},
+					"ABFS_DEST_ACCOUNT": {
+						"type": "String",
+						"defaultValue": "abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net"
+					},
+					"ABFS_DEST_FOLDER": {
+						"type": "String",
+						"defaultValue": "/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/06_Garmin_API_Synapse_Pipeline')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/personalsparkp')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Garmin_to_parquet_nightly_old')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -187,7 +300,7 @@
 				"pipelines": [
 					{
 						"pipelineReference": {
-							"referenceName": "Garmin_to_parquet_nightly",
+							"referenceName": "Garmin_to_parquet_nightly_old",
 							"type": "PipelineReference"
 						},
 						"parameters": {}
@@ -212,7 +325,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/pipelines/Garmin_to_parquet_nightly')]"
+				"[concat(variables('workspaceId'), '/pipelines/Garmin_to_parquet_nightly_old')]"
 			]
 		},
 		{

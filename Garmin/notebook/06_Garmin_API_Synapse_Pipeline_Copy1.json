@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "cdba5cf0-4c9c-4b31-897e-70957b5071b1"
+				"spark.autotune.trackingId": "bc26bcb1-c9ac-4833-a26e-552b6062e323"
 			}
 		},
 		"metadata": {
@@ -68,7 +68,7 @@
 				"source": [
 					"GARMIN_API_OPTION = 'act' # see list below\r\n",
 					"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yester is 1.. \r\n",
-					"DAYS_AGO = 3 # star date as offset from today. IE today = 0, yester is 1.. \r\n",
+					"DAYS_AGO =  0  star date as offset from today. IE today = 0, yester is 1.. \r\n",
 					"KEYVAULTNAME = 'judeskv'\r\n",
 					"KEYVAULTLINKEDSERVICE = 'judeskvlinked'\r\n",
 					"GARMIN_UNAME_KEY = 'GarminUsername' # Key vzult secret\r\n",
@@ -76,7 +76,7 @@
 					"ABFS_DEST_ACCOUNT = 'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net'\r\n",
 					"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'"
 				],
-				"execution_count": 1
+				"execution_count": 14
 			},
 			{
 				"cell_type": "code",
@@ -119,7 +119,7 @@
 					"    GarminConnectTooManyRequestsError,\r\n",
 					")"
 				],
-				"execution_count": 2
+				"execution_count": 15
 			},
 			{
 				"cell_type": "code",
@@ -250,7 +250,7 @@
 					"}\r\n",
 					""
 				],
-				"execution_count": 3
+				"execution_count": 16
 			},
 			{
 				"cell_type": "code",
@@ -958,7 +958,8 @@
 					"            # Invalid menu option chosen\r\n",
 					"            pass\r\n",
 					"    else:\r\n",
-					"        print(\"Could not login to Garmin Connect, try again later.\")\r\n",
+					"        status=\"Could not login to Garmin Connect, try again later.\"\r\n",
+					"        print(status)\r\n",
 					"\r\n",
 					"# Function to fetch keys from keyvault\r\n",
 					"def get_api_key_from_keyvault(key_vault_name, secret_name, linked_service_name): \r\n",
@@ -984,10 +985,11 @@
 					"        #print(status)\r\n",
 					"        logger.error(status)\r\n",
 					"    except Exception as e:\r\n",
-					"        print(f\"Error writing data to :\\n{full_path}\\n {e}\")\r\n",
+					"        status = f\"Error writing data to :\\n{full_path}\\n {e}\"\r\n",
+					"        print(status)\r\n",
 					"        return None"
 				],
-				"execution_count": 4
+				"execution_count": 17
 			},
 			{
 				"cell_type": "code",
@@ -1004,7 +1006,7 @@
 				},
 				"source": [
 					"# Main program \r\n",
-					"print(\"\\n*** Original Garmin Connect API Demo by cyberjunky ***\\n\")\r\n",
+					"print(\"\\n*** Script by Jude Moore May 2024. Original Garmin Connect API code by cyberjunky ***\\n\")\r\n",
 					"\r\n",
 					"# Get API password from Key Vault. Replace with hard-coded values to avoid the KeyVault request\r\n",
 					"try:\r\n",
@@ -1025,14 +1027,14 @@
 					"    #option = readchar.readkey() # jm\r\n",
 					"    option = GARMIN_API_OPTION\r\n",
 					"    switch(api, option)\r\n",
-					"    outputval = '<html><body><h1>My First Heading</h1><p>My First Message.</p></body></html>' # https://stackoverflow.com/questions/75862049/easily-access-notebook-output-run-in-synapse-pipeline\r\n",
+					"    outputval = f'<html><body><h1>My First Heading TEST</h1><p> TEST message.</p></body></html>' # https://stackoverflow.com/questions/75862049/easily-access-notebook-output-run-in-synapse-pipeline\r\n",
 					"    mssparkutils.notebook.exit(outputval)\r\n",
 					"else:\r\n",
 					"    status = 'Issue logging in.'\r\n",
 					"    print(status)\r\n",
 					"    logger.error(status)"
 				],
-				"execution_count": 5
+				"execution_count": 18
 			}
 		]
 	}

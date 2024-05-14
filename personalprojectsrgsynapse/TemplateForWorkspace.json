@@ -3368,7 +3368,7 @@
 						"spark.dynamicAllocation.enabled": "true",
 						"spark.dynamicAllocation.minExecutors": "1",
 						"spark.dynamicAllocation.maxExecutors": "4",
-						"spark.autotune.trackingId": "664e7ab7-e656-4cc2-8597-bccead8eb121"
+						"spark.autotune.trackingId": "49bb6286-e48d-424c-84bd-c93ae19f85eb"
 					}
 				},
 				"metadata": {
@@ -3393,7 +3393,8 @@
 						"sparkVersion": "3.4",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": true
 					},
 					"sessionKeepAliveTimeout": 5
 				},
@@ -3497,8 +3498,16 @@
 							"\r\n",
 							"# Example selections and settings\r\n",
 							"today = datetime.date.today() \r\n",
-							"enddate = today - datetime.timedelta(days=DAYS_BEFORETODAY)\r\n",
-							"startdate = today - datetime.timedelta(days=DAYS_AGO)  \r\n",
+							"\r\n",
+							"if DAYS_BEFORETODAY > 0:\r\n",
+							"    enddate = today - datetime.timedelta(days=DAYS_BEFORETODAY)\r\n",
+							"else:\r\n",
+							"    enddate = today \r\n",
+							"\r\n",
+							"if DAYS_AGO > 0:\r\n",
+							"    startdate = today - datetime.timedelta(days=DAYS_AGO)  \r\n",
+							"else:\r\n",
+							"    startdate = today\r\n",
 							"\r\n",
 							"start = 0\r\n",
 							"limit = 300\r\n",
@@ -3606,6 +3615,7 @@
 					},
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"def print_menu():\r\n",
 							"    \"\"\"Print examples menu.\"\"\"\r\n",

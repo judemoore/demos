@@ -1,9 +1,9 @@
 {
-	"name": "Garmin_to_parquet_nightly1",
+	"name": "Garmin_to_parquet_nightly",
 	"properties": {
 		"activities": [
 			{
-				"name": "06_Garmin_API_Synapse_Pipeline1",
+				"name": "Garmin_API_Synapse_Pipeline",
 				"type": "SynapseNotebook",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "06_Garmin_API_Synapse_Pipeline",
+						"referenceName": "07_Garmin_API_Synapse_Pipeline",
 						"type": "NotebookReference"
 					},
 					"parameters": {
@@ -70,7 +70,7 @@
 				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "06_Garmin_API_Synapse_Pipeline1",
+						"activity": "Garmin_API_Synapse_Pipeline",
 						"dependencyConditions": [
 							"Succeeded"
 						]

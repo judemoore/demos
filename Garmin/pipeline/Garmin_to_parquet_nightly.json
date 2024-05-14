@@ -64,30 +64,6 @@
 					},
 					"driverSize": "Small"
 				}
-			},
-			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Garmin_API_Synapse_Pipeline",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "output",
-					"value": {
-						"value": "@activity('Garmin_API_Synapse_Pipeline').output.status.Output.result.exitValue",
-						"type": "Expression"
-					}
-				}
 			}
 		],
 		"variables": {

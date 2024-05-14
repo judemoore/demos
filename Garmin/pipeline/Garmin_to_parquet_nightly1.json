@@ -64,6 +64,30 @@
 					},
 					"driverSize": "Small"
 				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "06_Garmin_API_Synapse_Pipeline1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "output",
+					"value": {
+						"value": "@activity('06_Garmin_API_Synapse_Pipeline1').output",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"variables": {
@@ -97,6 +121,9 @@
 			"ABFS_DEST_FOLDER": {
 				"type": "String",
 				"defaultValue": "/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/"
+			},
+			"output": {
+				"type": "String"
 			}
 		},
 		"annotations": []

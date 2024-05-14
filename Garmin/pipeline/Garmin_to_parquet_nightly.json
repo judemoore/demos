@@ -25,11 +25,11 @@
 							"type": "string"
 						},
 						"DAYS_BEFORETODAY": {
-							"value": "1",
+							"value": "0",
 							"type": "int"
 						},
 						"DAYS_AGO": {
-							"value": "1095",
+							"value": "0",
 							"type": "int"
 						},
 						"KEYVAULTNAME": {

@@ -1,5 +1,5 @@
 {
-	"name": "06_Garmin_API_Synapse_Pipeline_Copy1",
+	"name": "07_Garmin_API_Synapse_Pipeline",
 	"properties": {
 		"description": "https://pypi.org/project/garminconnect/#description",
 		"nbformat": 4,
@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "bc26bcb1-c9ac-4833-a26e-552b6062e323"
+				"spark.autotune.trackingId": "e57b9612-151f-4190-8ccb-c45a4142aed4"
 			}
 		},
 		"metadata": {

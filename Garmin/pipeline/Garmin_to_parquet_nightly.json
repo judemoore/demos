@@ -29,7 +29,7 @@
 							"type": "int"
 						},
 						"DAYS_AGO": {
-							"value": "1",
+							"value": "1095",
 							"type": "int"
 						},
 						"KEYVAULTNAME": {
@@ -84,7 +84,7 @@
 				"typeProperties": {
 					"variableName": "output",
 					"value": {
-						"value": "@activity('Garmin_API_Synapse_Pipeline').output",
+						"value": "@activity('Garmin_API_Synapse_Pipeline').output.status.Output.result.exitValue",
 						"type": "Expression"
 					}
 				}

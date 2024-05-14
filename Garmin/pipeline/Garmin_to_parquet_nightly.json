@@ -82,16 +82,11 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "pipelineReturnValue",
-					"value": [
-						{
-							"key": "outputval",
-							"value": {
-								"type": "String"
-							}
-						}
-					],
-					"setSystemVariable": true
+					"variableName": "output",
+					"value": {
+						"value": "@activity('Garmin_API_Synapse_Pipeline').output",
+						"type": "Expression"
+					}
 				}
 			}
 		],
@@ -127,6 +122,9 @@
 			"ABFS_DEST_FOLDER": {
 				"type": "String",
 				"defaultValue": "/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/"
+			},
+			"output": {
+				"type": "String"
 			}
 		},
 		"annotations": []

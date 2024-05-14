@@ -82,7 +82,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "output",
+					"variableName": "",
 					"value": {
 						"value": "@activity('06_Garmin_API_Synapse_Pipeline1').output",
 						"type": "Expression"
@@ -97,10 +97,11 @@
 			},
 			"DAYS_BEFORETODAY": {
 				"type": "Integer",
-				"defaultValue": 1
+				"defaultValue": 0
 			},
 			"DAYS_AGO": {
-				"type": "Integer"
+				"type": "Integer",
+				"defaultValue": 0
 			},
 			"KEYVAULTNAME": {
 				"type": "String",
@@ -121,9 +122,6 @@
 			"ABFS_DEST_FOLDER": {
 				"type": "String",
 				"defaultValue": "/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/"
-			},
-			"output": {
-				"type": "String"
 			}
 		},
 		"annotations": []

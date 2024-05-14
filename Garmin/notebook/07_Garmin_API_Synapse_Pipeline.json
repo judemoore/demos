@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "664e7ab7-e656-4cc2-8597-bccead8eb121"
+				"spark.autotune.trackingId": "c8c1cce4-1950-4638-93a3-d5b692aa5795"
 			}
 		},
 		"metadata": {
@@ -146,8 +146,16 @@
 					"\r\n",
 					"# Example selections and settings\r\n",
 					"today = datetime.date.today() \r\n",
-					"enddate = today - datetime.timedelta(days=DAYS_BEFORETODAY)\r\n",
-					"startdate = today - datetime.timedelta(days=DAYS_AGO)  \r\n",
+					"\r\n",
+					"if DAYS_BEFORETODAY > 0:\r\n",
+					"    enddate = today - datetime.timedelta(days=DAYS_BEFORETODAY)\r\n",
+					"else:\r\n",
+					"    enddate = today \r\n",
+					"\r\n",
+					"if DAYS_AGO > 0:\r\n",
+					"    startdate = today - datetime.timedelta(days=DAYS_AGO)  \r\n",
+					"else:\r\n",
+					"    startdate = today\r\n",
 					"\r\n",
 					"start = 0\r\n",
 					"limit = 300\r\n",

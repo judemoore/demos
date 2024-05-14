@@ -8,6 +8,9 @@
 		"personalprojectsrgsynapse-WorkspaceDefaultSqlServer_connectionString": {
 			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:personalprojectsrgsynapse.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
+		"judeskvlinked_properties_typeProperties_baseUrl": {
+			"value": "https://judeskv.vault.azure.net/"
+		},
 		"personalprojectsrgsynapse-WorkspaceDefaultStorage_properties_typeProperties_url": {
 			"value": "https://personalprojectsrslake.dfs.core.windows.net"
 		}

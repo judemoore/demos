@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "d4832fa6-0e7c-4ab6-b9ab-40ee56a09098"
+				"spark.autotune.trackingId": "34be9f3a-b3dc-4a8e-9855-060b5316d796"
 			}
 		},
 		"metadata": {
@@ -66,14 +66,14 @@
 					]
 				},
 				"source": [
-					"GARMIN_API_OPTION = 'act' # see list below\r\n",
+					"GARMIN_API_OPTION = #'act' # see list below\r\n",
 					"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yester is 1.. \r\n",
 					"DAYS_AGO = 0 # star date as offset from today. IE today = 0, yester is 1.. \r\n",
-					"KEYVAULTNAME = 'judeskv'\r\n",
-					"GARMIN_UNAME_KEY = 'GarminUsername' # Key vzult secret\r\n",
-					"GARMIN_PASSW_KEY = 'GarminPassword' # Key vzult secret\r\n",
-					"ABFS_DEST_ACCOUNT = 'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net'\r\n",
-					"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'"
+					"KEYVAULTNAME = #'judeskv'\r\n",
+					"GARMIN_UNAME_KEY = #'GarminUsername' # Key vzult secret\r\n",
+					"GARMIN_PASSW_KEY = #'GarminPassword' # Key vzult secret\r\n",
+					"ABFS_DEST_ACCOUNT = #'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net'\r\n",
+					"ABFS_DEST_FOLDER = #'/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'"
 				],
 				"execution_count": null
 			},

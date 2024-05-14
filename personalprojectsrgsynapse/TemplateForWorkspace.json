@@ -58,7 +58,7 @@
 									"type": "int"
 								},
 								"DAYS_AGO": {
-									"value": "1",
+									"value": "1095",
 									"type": "int"
 								},
 								"KEYVAULTNAME": {
@@ -92,30 +92,6 @@
 								"spark.dynamicAllocation.enabled": false
 							},
 							"driverSize": "Small"
-						}
-					},
-					{
-						"name": "Set variable1",
-						"type": "SetVariable",
-						"dependsOn": [
-							{
-								"activity": "Garmin_API_Synapse_Pipeline",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "output",
-							"value": {
-								"value": "@activity('Garmin_API_Synapse_Pipeline').output",
-								"type": "Expression"
-							}
 						}
 					}
 				],
@@ -3392,7 +3368,7 @@
 						"spark.dynamicAllocation.enabled": "true",
 						"spark.dynamicAllocation.minExecutors": "1",
 						"spark.dynamicAllocation.maxExecutors": "4",
-						"spark.autotune.trackingId": "e57b9612-151f-4190-8ccb-c45a4142aed4"
+						"spark.autotune.trackingId": "664e7ab7-e656-4cc2-8597-bccead8eb121"
 					}
 				},
 				"metadata": {
@@ -3440,8 +3416,8 @@
 						},
 						"source": [
 							"GARMIN_API_OPTION = 'act' # see list below\r\n",
-							"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yester is 1.. \r\n",
-							"DAYS_AGO =  0  star date as offset from today. IE today = 0, yester is 1.. \r\n",
+							"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \r\n",
+							"DAYS_AGO =  0  # start date as offset from today. IE today = 0, yesterday is 1.. \r\n",
 							"KEYVAULTNAME = 'judeskv'\r\n",
 							"KEYVAULTLINKEDSERVICE = 'judeskvlinked'\r\n",
 							"GARMIN_UNAME_KEY = 'GarminUsername' # Key vzult secret\r\n",

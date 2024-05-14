@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "484f3654-df60-4ff7-804c-07691404b76d"
+				"spark.autotune.trackingId": "d4832fa6-0e7c-4ab6-b9ab-40ee56a09098"
 			}
 		},
 		"metadata": {
@@ -1024,6 +1024,7 @@
 					"    #option = readchar.readkey() # jm\r\n",
 					"    option = GARMIN_API_OPTION\r\n",
 					"    switch(api, option)\r\n",
+					"    outputval = '<html><body><h1>My First Heading</h1><p>My First Message.</p></body></html>' # https://stackoverflow.com/questions/75862049/easily-access-notebook-output-run-in-synapse-pipeline\r\n",
 					"    mssparkutils.notebook.exit(outputval)\r\n",
 					"else:\r\n",
 					"    status = 'Issue logging in.'\r\n",

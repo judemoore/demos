@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "07_Garmin_API_Synapse_Pipeline_eb2fbe49-8a80-41fd-a30d-761684221458",
+						"referenceName": "07_Garmin_API_Synapse_Pipeline",
 						"type": "NotebookReference"
 					},
 					"parameters": {

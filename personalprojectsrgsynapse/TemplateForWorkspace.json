@@ -32,7 +32,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Garmin_API_Synapse_Pipeline",
+						"name": "Garmin_Activities",
 						"type": "SynapseNotebook",
 						"dependsOn": [],
 						"policy": {
@@ -58,7 +58,7 @@
 									"type": "int"
 								},
 								"DAYS_AGO": {
-									"value": "0",
+									"value": "7",
 									"type": "int"
 								},
 								"KEYVAULTNAME": {
@@ -204,16 +204,8 @@
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "Garmin_to_parquet_nightly",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
+				"runtimeState": "Stopped",
+				"pipelines": [],
 				"type": "ScheduleTrigger",
 				"typeProperties": {
 					"recurrence": {
@@ -224,9 +216,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/pipelines/Garmin_to_parquet_nightly')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('workspaceName'), '/EveningDaily')]",
@@ -255,6 +245,44 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Weekly1')]",
+			"type": "Microsoft.Synapse/workspaces/triggers",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "Garmin_to_parquet_nightly",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 7,
+						"startTime": "2024-05-24T22:00:00",
+						"timeZone": "GMT Standard Time",
+						"schedule": {
+							"minutes": [
+								0
+							],
+							"hours": [
+								22
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/pipelines/Garmin_to_parquet_nightly')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('workspaceName'), '/AutoResolveIntegrationRuntime')]",
@@ -3369,7 +3397,7 @@
 						"spark.dynamicAllocation.enabled": "true",
 						"spark.dynamicAllocation.minExecutors": "1",
 						"spark.dynamicAllocation.maxExecutors": "4",
-						"spark.autotune.trackingId": "7083ec90-3c33-449c-a0ac-c4ef00d42209"
+						"spark.autotune.trackingId": "57a821ec-0ea0-4ad7-8736-ba4bdcd12cea"
 					}
 				},
 				"metadata": {
@@ -3394,8 +3422,7 @@
 						"sparkVersion": "3.4",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": true
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 5
 				},
@@ -3617,7 +3644,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"def print_menu():\r\n",
 							"    \"\"\"Print examples menu.\"\"\"\r\n",

@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Garmin_API_Synapse_Pipeline",
+				"name": "Garmin_Activities",
 				"type": "SynapseNotebook",
 				"dependsOn": [],
 				"policy": {

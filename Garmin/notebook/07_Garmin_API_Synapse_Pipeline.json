@@ -19,7 +19,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "57a821ec-0ea0-4ad7-8736-ba4bdcd12cea"
+				"spark.autotune.trackingId": "50750e75-1077-4f78-b80d-a3aa6201fef0"
 			}
 		},
 		"metadata": {
@@ -75,8 +75,7 @@
 					"GARMIN_UNAME_KEY = 'GarminUsername' # Key vzult secret\r\n",
 					"GARMIN_PASSW_KEY = 'GarminPassword' # Key vzult secret\r\n",
 					"ABFS_DEST_ACCOUNT = 'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net'\r\n",
-					"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'\r\n",
-					"OUTPUTVAR = \"\""
+					"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'"
 				],
 				"execution_count": 1
 			},
@@ -313,7 +312,7 @@
 					"\r\n",
 					"    try:\r\n",
 					"        msg = f\"Trying to login to Garmin Connect...'\\n\"\r\n",
-					"        OUTPUTVAR = OUTPUTVAR + msg\r\n",
+					"        #OUTPUTVAR = OUTPUTVAR + msg\r\n",
 					"        print(msg)\r\n",
 					"        garmin = Garmin(email=email, password=password, is_cn=False, prompt_mfa=get_mfa)\r\n",
 					"        #garmin = Garmin(email, password)\r\n",
@@ -321,12 +320,12 @@
 					"        if garmin:\r\n",
 					"            msg = 'Login successful.'\r\n",
 					"            print(msg)\r\n",
-					"            OUTPUTVAR = OUTPUTVAR + msg\r\n",
+					"            #OUTPUTVAR = OUTPUTVAR + msg\r\n",
 					"    except (FileNotFoundError, GarthHTTPError, GarminConnectAuthenticationError, requests.exceptions.HTTPError) as err:\r\n",
 					"            logger.error(err)\r\n",
 					"            msg = 'Login failed.'\r\n",
 					"            print(msg)\r\n",
-					"            OUTPUTVAR = OUTPUTVAR + msg\r\n",
+					"            #OUTPUTVAR = OUTPUTVAR + msg\r\n",
 					"            return None\r\n",
 					"\r\n",
 					"    return garmin\r\n",
@@ -983,7 +982,7 @@
 					"    except Exception as e:\r\n",
 					"        msg = f\"Error retrieving API key from Key Vault: {e}\"\r\n",
 					"        print(msg)\r\n",
-					"        OUTPUTVAR = OUTPUTVAR + msg\r\n",
+					"        #OUTPUTVAR = OUTPUTVAR + msg\r\n",
 					"        return None\r\n",
 					"\r\n",
 					"# Function to write Dartaframe to parquet\r\n",
@@ -999,13 +998,13 @@
 					"        df.to_parquet(full_path, engine='pyarrow')\r\n",
 					"        status = f\"SUCCESS: Data written to :\\n{full_path}\"\r\n",
 					"        print(status)\r\n",
-					"        OUTPUTVAR = OUTPUTVAR + status\r\n",
+					"        #OUTPUTVAR = OUTPUTVAR + status\r\n",
 					"        #print(status)\r\n",
 					"        logger.error(status)\r\n",
 					"    except Exception as e:\r\n",
 					"        status = f\"Error writing data to :\\n{full_path}\\n {e}\"\r\n",
 					"        print(status)\r\n",
-					"        OUTPUTVAR = OUTPUTVAR + status\r\n",
+					"        #OUTPUTVAR = OUTPUTVAR + status\r\n",
 					"        return None"
 				],
 				"execution_count": 5
@@ -1046,12 +1045,12 @@
 					"    #option = readchar.readkey() # jm\r\n",
 					"    option = GARMIN_API_OPTION\r\n",
 					"    switch(api, option)\r\n",
-					"    OUTPUTVAR = f'<html><body><h1>HTML Output</h1><p>{OUTPUTVAR}</p></body></html>' # https://stackoverflow.com/questions/75862049/easily-access-notebook-output-run-in-synapse-pipeline\r\n",
+					"    #OUTPUTVAR = f'<html><body><h1>HTML Output</h1><p>{OUTPUTVAR}</p></body></html>' # https://stackoverflow.com/questions/75862049/easily-access-notebook-output-run-in-synapse-pipeline\r\n",
 					"    mssparkutils.notebook.exit(outputval)\r\n",
 					"else:\r\n",
 					"    status = 'Issue logging in.'\r\n",
 					"    print(status)\r\n",
-					"    OUTPUTVAR = OUTPUTVAR + status\r\n",
+					"    #OUTPUTVAR = OUTPUTVAR + status\r\n",
 					"    logger.error(status)"
 				],
 				"execution_count": 6

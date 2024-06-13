@@ -4,8 +4,8 @@
 		"annotations": [],
 		"type": "AzureSqlDatabase",
 		"typeProperties": {
-			"server": "superfront.database.windows.net",
-			"database": "personalprojectdb",
+			"server": "superfrontsql.database.windows.net",
+			"database": "superfrontdb",
 			"encrypt": "mandatory",
 			"trustServerCertificate": true,
 			"authenticationType": "SQL",

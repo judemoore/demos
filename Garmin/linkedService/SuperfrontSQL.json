@@ -4,11 +4,7 @@
 		"annotations": [],
 		"type": "AzureSqlDatabase",
 		"typeProperties": {
-			"server": "superfront.database.windows.net",
-			"database": "personalprojectdb",
-			"encrypt": "mandatory",
-			"trustServerCertificate": true,
-			"authenticationType": "SystemAssignedManagedIdentity",
+			"connectionString": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=superfront.database.windows.net;Initial Catalog=personalprojectdb",
 			"alwaysEncryptedSettings": {
 				"alwaysEncryptedAkvAuthType": "ManagedIdentity"
 			}

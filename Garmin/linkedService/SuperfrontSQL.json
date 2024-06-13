@@ -4,7 +4,20 @@
 		"annotations": [],
 		"type": "AzureSqlDatabase",
 		"typeProperties": {
-			"connectionString": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=superfront.database.windows.net;Initial Catalog=personalprojectdb",
+			"server": "superfront.database.windows.net",
+			"database": "personalprojectdb",
+			"encrypt": "mandatory",
+			"trustServerCertificate": true,
+			"authenticationType": "SQL",
+			"userName": "superfront",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "judeskvlinked",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "supersqlpassword"
+			},
 			"alwaysEncryptedSettings": {
 				"alwaysEncryptedAkvAuthType": "ManagedIdentity"
 			}

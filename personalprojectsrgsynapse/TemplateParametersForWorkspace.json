@@ -8,8 +8,14 @@
 		"personalprojectsrgsynapse-WorkspaceDefaultSqlServer_connectionString": {
 			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:personalprojectsrgsynapse.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
-		"SuperfrontSQL_connectionString": {
-			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=superfront.database.windows.net;Initial Catalog=personalprojectdb"
+		"SuperfrontSQL_properties_typeProperties_server": {
+			"value": "superfrontsql.database.windows.net"
+		},
+		"SuperfrontSQL_properties_typeProperties_database": {
+			"value": "superfrontdb"
+		},
+		"SuperfrontSQL_properties_typeProperties_userName": {
+			"value": "superfront"
 		},
 		"judeskvlinked_properties_typeProperties_baseUrl": {
 			"value": "https://judeskv.vault.azure.net/"

@@ -12,10 +12,17 @@
 			"metadata": "Secure string for 'connectionString' of 'personalprojectsrgsynapse-WorkspaceDefaultSqlServer'",
 			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:personalprojectsrgsynapse.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
-		"SuperfrontSQL_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SuperfrontSQL'",
-			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=superfront.database.windows.net;Initial Catalog=personalprojectdb"
+		"SuperfrontSQL_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "superfrontsql.database.windows.net"
+		},
+		"SuperfrontSQL_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "superfrontdb"
+		},
+		"SuperfrontSQL_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "superfront"
 		},
 		"judeskvlinked_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -145,6 +152,42 @@
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/notebooks/07_Garmin_API_Synapse_Pipeline')]",
 				"[concat(variables('workspaceId'), '/bigDataPools/personalsparkp')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SuperfrontSQL')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('SuperfrontSQL_properties_typeProperties_server')]",
+					"database": "[parameters('SuperfrontSQL_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('SuperfrontSQL_properties_typeProperties_userName')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "judeskvlinked",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "supersqlpassword"
+					},
+					"alwaysEncryptedSettings": {
+						"alwaysEncryptedAkvAuthType": "ManagedIdentity"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]",
+				"[concat(variables('workspaceId'), '/linkedServices/judeskvlinked')]"
 			]
 		},
 		{
@@ -4108,28 +4151,6 @@
 			},
 			"dependsOn": [],
 			"location": "ukwest"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/SuperfrontSQL')]",
-			"type": "Microsoft.Synapse/workspaces/linkedServices",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('SuperfrontSQL_connectionString')]",
-					"alwaysEncryptedSettings": {
-						"alwaysEncryptedAkvAuthType": "ManagedIdentity"
-					}
-				},
-				"connectVia": {
-					"referenceName": "AutoResolveIntegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
-			]
 		}
 	]
 }

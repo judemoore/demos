@@ -19,7 +19,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "285a9e81-befc-4c4b-8ff6-c0e2aaa56e35"
+				"spark.autotune.trackingId": "d75eb03d-51e2-4f59-ab36-6e4d4efe321d"
 			}
 		},
 		"metadata": {
@@ -72,8 +72,8 @@
 					"DAYS_AGO =  0  # start date as offset from today. IE today = 0, yesterday is 1.. \r\n",
 					"KEYVAULTNAME = 'judeskv'\r\n",
 					"KEYVAULTLINKEDSERVICE = 'judeskvlinked'\r\n",
-					"GARMIN_UNAME_KEY = 'GarminUsername' # Key vzult secret\r\n",
-					"GARMIN_PASSW_KEY = 'GarminPassword' # Key vzult secret\r\n",
+					"GARMIN_UNAME_KEY = 'GarminUsername' # Key vault secret\r\n",
+					"GARMIN_PASSW_KEY = 'GarminPassword' # Key vault secret\r\n",
 					"ABFS_DEST_ACCOUNT = 'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net'\r\n",
 					"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'"
 				],
@@ -1014,6 +1014,7 @@
 					"            # Write activities to parquet file\r\n",
 					"            file = \"garmin_\" +garmin_api_endpoint+\"-\" + endofdatadate + \".parquet\"\r\n",
 					"            full_path = f\"{pathacc}{pathfolder}{file}\"\r\n",
+					"            df = df.loc[df['activityId'] > max_id_loaded] \r\n",
 					"            df.to_parquet(full_path, engine='pyarrow')\r\n",
 					"            status = f\"SUCCESS: Total of {df.shape[0]} {garmin_api_endpoint}'s loaded and the data written to :\\n{full_path}\"\r\n",
 					"            print(status)\r\n",

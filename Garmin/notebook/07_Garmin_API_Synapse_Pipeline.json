@@ -19,7 +19,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "dd741178-1103-48ca-b36d-7ed6f150bcd6"
+				"spark.autotune.trackingId": "285a9e81-befc-4c4b-8ff6-c0e2aaa56e35"
 			}
 		},
 		"metadata": {
@@ -1022,7 +1022,7 @@
 					"            max_id_loaded_frame_output = max_id_loaded_frame[['activityId']]\r\n",
 					"            file = \"garmin-\" +garmin_api_endpoint+\"-LatestId.parquet\"\r\n",
 					"            full_path = f\"{pathacc}{pathfolder}{file}\"\r\n",
-					"            max_id_frame_output.to_parquet(full_path, engine='pyarrow')\r\n",
+					"            max_id_loaded_frame_output.to_parquet(full_path, engine='pyarrow')\r\n",
 					"            status = f\"\\tLatest Id also written to :\\n{full_path}\"\r\n",
 					"            print(status)    \r\n",
 					"        else:\r\n",

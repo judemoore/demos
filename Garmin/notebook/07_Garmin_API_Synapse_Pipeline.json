@@ -19,7 +19,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "4fb66655-d0ed-431f-8e7a-e65de4c82a09"
+				"spark.autotune.trackingId": "ee973543-f948-4f89-abbb-c7bc6014dbe1"
 			}
 		},
 		"metadata": {
@@ -77,7 +77,7 @@
 					"ABFS_DEST_ACCOUNT = 'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net'\r\n",
 					"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'"
 				],
-				"execution_count": 28
+				"execution_count": 33
 			},
 			{
 				"cell_type": "code",
@@ -120,7 +120,7 @@
 					"    GarminConnectTooManyRequestsError,\r\n",
 					")"
 				],
-				"execution_count": 29
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -259,7 +259,7 @@
 					"}\r\n",
 					""
 				],
-				"execution_count": 30
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -997,7 +997,7 @@
 					"\r\n",
 					"        # find max id from new loaded Garmin data, and nowrrow down result by col and row\r\n",
 					"        max_id_loaded = df['activityId'].max()\r\n",
-					"        max_id_loaded_frame = df.loc[df['activityId'] == max_id] \r\n",
+					"        max_id_loaded_frame = df.loc[df['activityId'] == max_id_loaded] \r\n",
 					"\r\n",
 					"        # Read max id from last ingest from parquet file in datalake\r\n",
 					"        file = \"garmin-\" +garmin_api_endpoint+\"-LatestId.parquet\"\r\n",
@@ -1022,7 +1022,7 @@
 					"            status = f\"\\tLatest Id written to :\\n{full_path}\"\r\n",
 					"            print(status)    \r\n",
 					"        else:\r\n",
-					"            print(\"SUCCESS : Nothing new to load it seems, not writing anything\")\r\n",
+					"            print(\"SUCCESS: Nothing new to load it seems, so not writing anything.\")\r\n",
 					"\r\n",
 					"        #OUTPUTVAR = OUTPUTVAR + status\r\n",
 					"        #print(status)\r\n",
@@ -1033,7 +1033,7 @@
 					"        #OUTPUTVAR = OUTPUTVAR + status\r\n",
 					"        return None"
 				],
-				"execution_count": 31
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -1079,7 +1079,7 @@
 					"    #OUTPUTVAR = OUTPUTVAR + status\r\n",
 					"    logger.error(status)"
 				],
-				"execution_count": 32
+				"execution_count": null
 			}
 		]
 	}

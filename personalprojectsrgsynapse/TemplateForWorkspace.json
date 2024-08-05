@@ -2017,7 +2017,7 @@
 						"spark.dynamicAllocation.enabled": "true",
 						"spark.dynamicAllocation.minExecutors": "1",
 						"spark.dynamicAllocation.maxExecutors": "4",
-						"spark.autotune.trackingId": "50750e75-1077-4f78-b80d-a3aa6201fef0"
+						"spark.autotune.trackingId": "ba4c87f5-7fe3-44c4-99b8-4cec71d13413"
 					}
 				},
 				"metadata": {
@@ -2025,7 +2025,7 @@
 					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
-						"display_name": "python"
+						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "python"
@@ -2042,7 +2042,8 @@
 						"sparkVersion": "3.4",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": true
 					},
 					"sessionKeepAliveTimeout": 5
 				},
@@ -2075,7 +2076,7 @@
 							"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -2119,7 +2120,7 @@
 							")"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2259,10 +2260,11 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"def print_menu():\r\n",
 							"    \"\"\"Print examples menu.\"\"\"\r\n",
@@ -3008,7 +3010,7 @@
 							"        return None"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -3047,7 +3049,7 @@
 							"    option = GARMIN_API_OPTION\r\n",
 							"    switch(api, option)\r\n",
 							"    #OUTPUTVAR = f'<html><body><h1>HTML Output</h1><p>{OUTPUTVAR}</p></body></html>' # https://stackoverflow.com/questions/75862049/easily-access-notebook-output-run-in-synapse-pipeline\r\n",
-							"    mssparkutils.notebook.exit(outputval)\r\n",
+							"    #mssparkutils.notebook.exit(outputval)\r\n",
 							"else:\r\n",
 							"    status = 'Issue logging in.'\r\n",
 							"    print(status)\r\n",
@@ -3055,7 +3057,7 @@
 							"    logger.error(status)"
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 7
 					}
 				]
 			},

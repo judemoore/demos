@@ -19,7 +19,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "ce65d7ff-ab5d-4e6b-bff5-88945137a955"
+				"spark.autotune.trackingId": "a599336c-4bed-476a-a828-13bbc085b067"
 			}
 		},
 		"metadata": {
@@ -995,7 +995,17 @@
 					"        # File output data as normalised json\r\n",
 					"        df = pd.json_normalize(output)\r\n",
 					"        \r\n",
-					"        print(df['activityId'].max())\r\n",
+					"        # find max id\r\n",
+					"        max_id = df['activityId'].max()\r\n",
+					"        max_id_frame = df.loc[df['activityId'] == max_id] \r\n",
+					"        max_id_frame_output = max_id_frame.select('activityId')\r\n",
+					"\r\n",
+					"         # Write max id to parquet file\r\n",
+					"        file = \"garmin-\" +garmin_api_endpoint+\"-LatestId.parquet\"\r\n",
+					"        full_path = f\"{pathacc}{pathfolder}{file}\"\r\n",
+					"        max_id_frame_output.to_parquet(full_path, engine='pyarrow')\r\n",
+					"        status = f\"SUCCESS: \\tLatest Id written to :\\n{full_path}\"\r\n",
+					"        print(status)           \r\n",
 					"\r\n",
 					"    \r\n",
 					"        # Write activities to parquet file\r\n",

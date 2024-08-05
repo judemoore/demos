@@ -19,7 +19,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "5b3e06cf-1104-403a-a459-752a9b449404"
+				"spark.autotune.trackingId": "980bf513-39fe-4f7c-b809-97b656f5382c"
 			}
 		},
 		"metadata": {
@@ -68,7 +68,7 @@
 				},
 				"source": [
 					"GARMIN_API_OPTION = 'act' # see list below\r\n",
-					"DAYS_BEFORETODAY = 7 # end date as offset from today. IE today = 0, yesterday is 1.. \r\n",
+					"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \r\n",
 					"DAYS_AGO =  0  # start date as offset from today. IE today = 0, yesterday is 1.. \r\n",
 					"KEYVAULTNAME = 'judeskv'\r\n",
 					"KEYVAULTLINKEDSERVICE = 'judeskvlinked'\r\n",

@@ -384,6 +384,26 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 1')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- This is auto-generated code\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://personalprojectsrslake.dfs.core.windows.net/personalprojectsfs/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/garmin_get_activities_by_date-2024-08-02.parquet',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "master",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/00_test_get_token_sparkutils')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
@@ -2017,7 +2037,7 @@
 						"spark.dynamicAllocation.enabled": "true",
 						"spark.dynamicAllocation.minExecutors": "1",
 						"spark.dynamicAllocation.maxExecutors": "4",
-						"spark.autotune.trackingId": "ba4c87f5-7fe3-44c4-99b8-4cec71d13413"
+						"spark.autotune.trackingId": "b97a15bb-712c-40d4-a370-06214e8de1e7"
 					}
 				},
 				"metadata": {
@@ -2066,7 +2086,7 @@
 						},
 						"source": [
 							"GARMIN_API_OPTION = 'act' # see list below\r\n",
-							"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \r\n",
+							"DAYS_BEFORETODAY = 7 # end date as offset from today. IE today = 0, yesterday is 1.. \r\n",
 							"DAYS_AGO =  0  # start date as offset from today. IE today = 0, yesterday is 1.. \r\n",
 							"KEYVAULTNAME = 'judeskv'\r\n",
 							"KEYVAULTLINKEDSERVICE = 'judeskvlinked'\r\n",
@@ -2076,7 +2096,7 @@
 							"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 21
 					},
 					{
 						"cell_type": "code",
@@ -2368,7 +2388,7 @@
 							"                #     f\"api.get_activities_by_date('{startofdata.isoformat()},{endofdatadate.isoformat()}')\",\r\n",
 							"                #     api.get_activities_by_date(startofdata.isoformat(),endofdatadate.isoformat()),\r\n",
 							"                # )\r\n",
-							"                write_dataframe_to_parquet(\r\n",
+							"                (\r\n",
 							"                    f\"api.get_activities_by_date('{startofdata.isoformat()},{endofdatadate.isoformat()}')\",\r\n",
 							"                    api.get_activities_by_date(startofdata.isoformat(),endofdatadate.isoformat()),\r\n",
 							"                    \"get_activities_by_date\",\r\n",
@@ -2994,12 +3014,24 @@
 							"        # pathfolder = ABFS_DEST_FOLDER\r\n",
 							"        #df = pd.DataFrame(output)\r\n",
 							"        df = pd.json_normalize(output)\r\n",
-							"        #df.json_normalize(output, max_level=1)\r\n",
+							"\r\n",
+							"        max_activityId = df['activityId'].max()\r\n",
+							"\r\n",
+							"        #print(max_activityId)\r\n",
+							"\r\n",
+							"        # Write lastest Activityid to parquet file\r\n",
+							"        file = \"garmin-\" +garmin_api_endpoint+\"-LatestId.parquet\"\r\n",
+							"        full_path = f\"{pathacc}{pathfolder}{file}\"\r\n",
+							"        max_activityId.to_parquet(full_path, engine='pyarrow')\r\n",
+							"        status = f\"SUCCESS: \\tLatest Id written to :\\n{full_path}\"\r\n",
+							"        print(status)     \r\n",
+							"    \r\n",
 							"        file = \"garmin_\" +garmin_api_endpoint+\"-\" + endofdatadate + \".parquet\"\r\n",
 							"        full_path = f\"{pathacc}{pathfolder}{file}\"\r\n",
 							"        df.to_parquet(full_path, engine='pyarrow')\r\n",
-							"        status = f\"SUCCESS: Data written to :\\n{full_path}\"\r\n",
+							"        status = f\"SUCCESS: \\tData written to :\\n{full_path}\"\r\n",
 							"        print(status)\r\n",
+							"\r\n",
 							"        #OUTPUTVAR = OUTPUTVAR + status\r\n",
 							"        #print(status)\r\n",
 							"        logger.error(status)\r\n",
@@ -3057,7 +3089,7 @@
 							"    logger.error(status)"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 20
 					}
 				]
 			},

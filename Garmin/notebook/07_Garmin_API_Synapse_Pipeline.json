@@ -19,7 +19,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "14369ae7-e831-47d6-a005-23dcb01fcd43"
+				"spark.autotune.trackingId": "ce65d7ff-ab5d-4e6b-bff5-88945137a955"
 			}
 		},
 		"metadata": {
@@ -995,8 +995,9 @@
 					"        # File output data as normalised json\r\n",
 					"        df = pd.json_normalize(output)\r\n",
 					"        \r\n",
-					"        print(df.max(['activityId']))\r\n",
+					"        print(df['activityId'].max())\r\n",
 					"\r\n",
+					"    \r\n",
 					"        # Write activities to parquet file\r\n",
 					"        file = \"garmin_\" +garmin_api_endpoint+\"-\" + endofdatadate + \".parquet\"\r\n",
 					"        full_path = f\"{pathacc}{pathfolder}{file}\"\r\n",

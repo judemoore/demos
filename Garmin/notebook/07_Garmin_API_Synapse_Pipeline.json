@@ -19,7 +19,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "3dcc7e16-010b-4d76-a2d2-7bd7b855bbf1"
+				"spark.autotune.trackingId": "dd741178-1103-48ca-b36d-7ed6f150bcd6"
 			}
 		},
 		"metadata": {
@@ -77,7 +77,7 @@
 					"ABFS_DEST_ACCOUNT = 'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net'\r\n",
 					"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'"
 				],
-				"execution_count": 33
+				"execution_count": 35
 			},
 			{
 				"cell_type": "code",
@@ -999,6 +999,17 @@
 					"        max_id_loaded = df['activityId'].max()\r\n",
 					"        max_id_loaded_frame = df.loc[df['activityId'] == max_id_loaded] \r\n",
 					"\r\n",
+					"        # Read max id from last ingest from parquet file in datalake\r\n",
+					"        file = \"garmin-\" +garmin_api_endpoint+\"-LatestId.parquet\"\r\n",
+					"        full_path = f\"{pathacc}{pathfolder}{file}\"\r\n",
+					"        try:\r\n",
+					"            max_id_from_datalake_frame = pd.read_parquet(full_path, engine='pyarrow')\r\n",
+					"            max_id_from_datalake = max_id_from_datalake_frame['activityId'].max()\r\n",
+					"        except Exception as e:\r\n",
+					"            msg = f\"Error retrieving existing backup of max id from \" + full_path + \": {e}\" \r\n",
+					"            print(msg)\r\n",
+					"            max_id_from_datalake = 0\r\n",
+					"\r\n",
 					"        if max_id_loaded > max_id_from_datalake:\r\n",
 					"            # Write activities to parquet file\r\n",
 					"            file = \"garmin_\" +garmin_api_endpoint+\"-\" + endofdatadate + \".parquet\"\r\n",
@@ -1018,7 +1029,6 @@
 					"            status = f\"SUCCESS: Nothing new to load it seems, so not writing any of the loaded Total of {df.shape[0]} of the {garmin_api_endpoint}'s to \\n{full_path}\"\r\n",
 					"            print(status)\r\n",
 					"\r\n",
-					"\r\n",
 					"        #OUTPUTVAR = OUTPUTVAR + status\r\n",
 					"        #print(status)\r\n",
 					"        logger.error(status)\r\n",
@@ -1026,22 +1036,9 @@
 					"        status = f\"Error writing data to :\\n{full_path}\\n {e}\"\r\n",
 					"        print(status)\r\n",
 					"        #OUTPUTVAR = OUTPUTVAR + status\r\n",
-					"        return None\r\n",
-					"\r\n",
-					"def read_last_max_id_from_storage(api_call, output, garmin_api_endpoint, endofdatadate ,pathacc, pathfolder)\r\n",
-					"        # Read max id from last ingest from parquet file in datalake\r\n",
-					"        file = \"garmin-\" +garmin_api_endpoint+\"-LatestId.parquet\"\r\n",
-					"        full_path = f\"{pathacc}{pathfolder}{file}\"\r\n",
-					"        try:\r\n",
-					"            max_id_from_datalake_frame = pd.read_parquet(full_path, engine='pyarrow')\r\n",
-					"            max_id_from_datalake = max_id_from_datalake_frame['activityId'].max()\r\n",
-					"        except Exception as e:\r\n",
-					"            msg = f\"Error retrieving existing backup of max id from \" + full_path + \": {e}\" \r\n",
-					"            print(msg)\r\n",
-					"            max_id_from_datalake = 0\r\n",
 					"        return None"
 				],
-				"execution_count": 34
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",

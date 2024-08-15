@@ -4,7 +4,7 @@
 		"nbformat": 4,
 		"nbformat_minor": 2,
 		"bigDataPool": {
-			"referenceName": "default",
+			"referenceName": "personalsparkp",
 			"type": "BigDataPoolReference"
 		},
 		"sessionProperties": {
@@ -12,12 +12,12 @@
 			"driverCores": 4,
 			"executorMemory": "28g",
 			"executorCores": 4,
-			"numExecutors": 2,
+			"numExecutors": 1,
 			"conf": {
-				"spark.dynamicAllocation.enabled": "false",
-				"spark.dynamicAllocation.minExecutors": "2",
-				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "8e231fdc-791b-4aa0-af54-2170a469030e"
+				"spark.dynamicAllocation.enabled": "true",
+				"spark.dynamicAllocation.minExecutors": "1",
+				"spark.dynamicAllocation.maxExecutors": "4",
+				"spark.autotune.trackingId": "882aeed7-c345-46ef-b71e-239d25500d36"
 			}
 		},
 		"metadata": {
@@ -31,12 +31,19 @@
 				"name": "python"
 			},
 			"a365ComputeOptions": {
-				"id": "/trident/default",
-				"name": "default",
+				"id": "/subscriptions/91972177-b241-4547-980b-98433788152e/resourceGroups/personalprojectsrg/providers/Microsoft.Synapse/workspaces/personalprojectsrgsynapse/bigDataPools/personalsparkp",
+				"name": "personalsparkp",
+				"type": "Spark",
+				"endpoint": "https://personalprojectsrgsynapse.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/personalsparkp",
 				"auth": {
 					"type": "AAD",
 					"authResource": "https://dev.azuresynapse.net"
-				}
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": true
 			},
 			"sessionKeepAliveTimeout": 30
 		},
@@ -51,8 +58,8 @@
 				},
 				"source": [
 					"GARMIN_API_OPTION = 'act' # see list below\n",
-					"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
-					"DAYS_AGO =  0  # start date as offset from today. IE today = 0, yesterday is 1.. \n",
+					"DAYS_BEFORETODAY = 15 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
+					"DAYS_AGO =  1  # start date as offset from today. IE today = 0, yesterday is 1.. \n",
 					"USERCREDS= 'keyvault' # choices are text or keyvault\n",
 					"KEYVAULTNAME = 'judeskv'\n",
 					"KEYVAULTLINKEDSERVICE = 'judeskvlinked'\n",
@@ -63,7 +70,7 @@
 					"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'\n",
 					"#ABFS_DEST_FOLDER = '/Garmin/' # Fabric"
 				],
-				"execution_count": 1
+				"execution_count": 6
 			},
 			{
 				"cell_type": "code",
@@ -109,7 +116,7 @@
 					"    GarminConnectTooManyRequestsError,\n",
 					")"
 				],
-				"execution_count": 2
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -252,7 +259,7 @@
 					"}\n",
 					""
 				],
-				"execution_count": 3
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -424,18 +431,18 @@
 					"                # startofdata = startdate\n",
 					"                # endofdatadate = enddate\n",
 					"                # Get sleep data for 'YYYY-MM-DD'\n",
-					"                # display_json(\n",
-					"                #     f\"api.get_activities_by_date('{startofdata.isoformat()},{endofdatadate.isoformat()}')\",\n",
-					"                #     api.get_activities_by_date(startofdata.isoformat(),endofdatadate.isoformat()),\n",
-					"                # )\n",
-					"                write_dataframe_to_parquet(\n",
-					"                    f\"api.get_activities_by_date('{startdate.isoformat()},{enddate.isoformat()}')\",\n",
-					"                    api.get_activities_by_date(startdate.isoformat(),enddate.isoformat()),\n",
-					"                    \"get_activities_by_date\",\n",
-					"                    enddate.isoformat(),\n",
-					"                    ABFS_DEST_ACCOUNT,\n",
-					"                    ABFS_DEST_FOLDER\n",
+					"                display_json(\n",
+					"                    f\"api.get_activities_by_date('{startdate.isoformat()},{enddate..isoformat()}')\",\n",
+					"                    api.get_activities_by_date(startdate.isoformat(),enddate..isoformat()),\n",
 					"                )\n",
+					"                # write_dataframe_to_parquet(\n",
+					"                #     f\"api.get_activities_by_date('{startdate.isoformat()},{enddate.isoformat()}')\",\n",
+					"                #     api.get_activities_by_date(startdate.isoformat(),enddate.isoformat()),\n",
+					"                #     \"get_activities_by_date\",\n",
+					"                #     enddate.isoformat(),\n",
+					"                #     ABFS_DEST_ACCOUNT,\n",
+					"                #     ABFS_DEST_FOLDER\n",
+					"                # )\n",
 					"\n",
 					"            # USER BASICS\n",
 					"            if i == \"1\":\n",
@@ -1095,7 +1102,7 @@
 					"    #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    logger.error(status)"
 				],
-				"execution_count": 6
+				"execution_count": null
 			}
 		]
 	}

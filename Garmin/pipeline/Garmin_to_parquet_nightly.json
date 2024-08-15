@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "07_Garmin_API_Synapse_Pipeline",
+						"referenceName": "07_Garmin_API_Synapse_Pipeline_new",
 						"type": "NotebookReference"
 					},
 					"parameters": {
@@ -25,7 +25,7 @@
 							"type": "string"
 						},
 						"DAYS_BEFORETODAY": {
-							"value": "0",
+							"value": "6",
 							"type": "int"
 						},
 						"DAYS_AGO": {

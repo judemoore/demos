@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "882aeed7-c345-46ef-b71e-239d25500d36"
+				"spark.autotune.trackingId": "6bed5d49-76c8-4f53-99b2-8ac57fc658a1"
 			}
 		},
 		"metadata": {
@@ -70,7 +70,7 @@
 					"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'\n",
 					"#ABFS_DEST_FOLDER = '/Garmin/' # Fabric"
 				],
-				"execution_count": 6
+				"execution_count": 1
 			},
 			{
 				"cell_type": "code",
@@ -360,6 +360,7 @@
 					"    for key in menu_options.keys():\n",
 					"        print(f\"{key} -- {menu_options[key]}\")\n",
 					"    print(\"Make your selection: \", end=\"\", flush=True)\n",
+					"    \n",
 					"# Function to fetch keys from keyvault\n",
 					"def get_api_key_from_keyvault(key_vault_name, secret_name, linked_service_name): \n",
 					"    try:\n",
@@ -393,7 +394,7 @@
 					"        #OUTPUTVAR = OUTPUTVAR + status\n",
 					"        return None"
 				],
-				"execution_count": 4
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -428,13 +429,20 @@
 					"\n",
 					"            # CUSTOM\n",
 					"            if i == \"act\":\n",
-					"                # startofdata = startdate\n",
-					"                # endofdatadate = enddate\n",
+					"                startofdata =  startdate.isoformat()\n",
+					"                endofdatadate = enddate.isoformat()\n",
 					"                # Get sleep data for 'YYYY-MM-DD'\n",
+					"\n",
 					"                display_json(\n",
-					"                    f\"api.get_activities_by_date('{startdate.isoformat()},{enddate..isoformat()}')\",\n",
-					"                    api.get_activities_by_date(startdate.isoformat(),enddate..isoformat()),\n",
+					"                    f\"api.get_activities_by_date('{startofdata},{endofdatadate}')\",\n",
+					"                    api.get_activities_by_date(startofdata,endofdatadate),\n",
 					"                )\n",
+					"\n",
+					"                # display_json(\n",
+					"                #     f\"api.get_activities_by_date('{startdate.isoformat()},{enddate..isoformat()}')\",\n",
+					"                #     api.get_activities_by_date(startdate.isoformat(),enddate..isoformat()),\n",
+					"                # )\n",
+					"\n",
 					"                # write_dataframe_to_parquet(\n",
 					"                #     f\"api.get_activities_by_date('{startdate.isoformat()},{enddate.isoformat()}')\",\n",
 					"                #     api.get_activities_by_date(startdate.isoformat(),enddate.isoformat()),\n",
@@ -1046,7 +1054,7 @@
 					"\n",
 					""
 				],
-				"execution_count": 5
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",

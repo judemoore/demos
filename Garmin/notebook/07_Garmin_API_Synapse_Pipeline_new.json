@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "6bed5d49-76c8-4f53-99b2-8ac57fc658a1"
+				"spark.autotune.trackingId": "3ecfd7eb-596d-4755-a8f5-44bd5cfc5ff0"
 			}
 		},
 		"metadata": {
@@ -59,7 +59,7 @@
 				"source": [
 					"GARMIN_API_OPTION = 'act' # see list below\n",
 					"DAYS_BEFORETODAY = 15 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
-					"DAYS_AGO =  1  # start date as offset from today. IE today = 0, yesterday is 1.. \n",
+					"DAYS_AGO =  0  # start date as offset from today. IE today = 0, yesterday is 1.. \n",
 					"USERCREDS= 'keyvault' # choices are text or keyvault\n",
 					"KEYVAULTNAME = 'judeskv'\n",
 					"KEYVAULTLINKEDSERVICE = 'judeskvlinked'\n",
@@ -70,7 +70,7 @@
 					"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'\n",
 					"#ABFS_DEST_FOLDER = '/Garmin/' # Fabric"
 				],
-				"execution_count": 1
+				"execution_count": 40
 			},
 			{
 				"cell_type": "code",
@@ -90,7 +90,7 @@
 					}
 				},
 				"source": [
-					"# Test connecting to Azure Key Vault in Python and gt Garmin data from Garmin API ref: https://pypi.org/project/garminconnect/\n",
+					"# Test connecting to Azure Key Vault in Python and gt Garmin data from Garmin API ref: https://pypi.org/project/garminconnect/ https://github.com/cyberjunky/python-garminconnect\n",
 					"# Follow this to create a linked service to the Key vault on Azure, then apply permission to the App ID from the Synapse Instance https://stackoverflow.com/questions/77846845/access-key-vault-in-azure-synapse-analytical-pipeline-notebook\n",
 					"# Install the package using pip: pip3 install garminconnect azure-identity azure-keyvault-secrets azure-keyvault \n",
 					"\n",
@@ -116,7 +116,7 @@
 					"    GarminConnectTooManyRequestsError,\n",
 					")"
 				],
-				"execution_count": null
+				"execution_count": 41
 			},
 			{
 				"cell_type": "code",
@@ -259,7 +259,7 @@
 					"}\n",
 					""
 				],
-				"execution_count": null
+				"execution_count": 42
 			},
 			{
 				"cell_type": "code",
@@ -287,21 +287,21 @@
 					"def display_json(api_call, output):\n",
 					"    \"\"\"Format API output for better readability.\"\"\"\n",
 					"\n",
-					"    df = pd.json_normalize(output, max_level=0)\n",
-					"    print (df)\n",
+					"    # df = pd.json_normalize(output, max_level=0)\n",
+					"    # print (df)\n",
 					"\n",
-					"    # dashed = \"-\" * 20\n",
-					"    # header = f\"{dashed} {api_call} {dashed}\"\n",
-					"    # footer = \"-\" * len(header)\n",
+					"    dashed = \"-\" * 20\n",
+					"    header = f\"{dashed} {api_call} {dashed}\"\n",
+					"    footer = \"-\" * len(header)\n",
 					"\n",
-					"    # print(header)\n",
+					"    print(header)\n",
 					"\n",
-					"    # if isinstance(output, (int, str, dict, list)):\n",
-					"    #     print(json.dumps(output, indent=4))\n",
-					"    # else:\n",
-					"    #     print(output)\n",
+					"    if isinstance(output, (int, str, dict, list)):\n",
+					"        print(json.dumps(output, indent=4))\n",
+					"    else:\n",
+					"        print(output)\n",
 					"\n",
-					"    # print(footer)\n",
+					"    print(footer)\n",
 					"\n",
 					"\n",
 					"def display_text(output):\n",
@@ -360,7 +360,7 @@
 					"    for key in menu_options.keys():\n",
 					"        print(f\"{key} -- {menu_options[key]}\")\n",
 					"    print(\"Make your selection: \", end=\"\", flush=True)\n",
-					"    \n",
+					"\n",
 					"# Function to fetch keys from keyvault\n",
 					"def get_api_key_from_keyvault(key_vault_name, secret_name, linked_service_name): \n",
 					"    try:\n",
@@ -394,7 +394,7 @@
 					"        #OUTPUTVAR = OUTPUTVAR + status\n",
 					"        return None"
 				],
-				"execution_count": null
+				"execution_count": 43
 			},
 			{
 				"cell_type": "code",
@@ -430,18 +430,20 @@
 					"            # CUSTOM\n",
 					"            if i == \"act\":\n",
 					"                startofdata =  startdate.isoformat()\n",
-					"                endofdatadate = enddate.isoformat()\n",
-					"                # Get sleep data for 'YYYY-MM-DD'\n",
+					"                endofdata = enddate.isoformat()\n",
+					"                # Get activites data for 'YYYY-MM-DD'\n",
 					"\n",
-					"                display_json(\n",
-					"                    f\"api.get_activities_by_date('{startofdata},{endofdatadate}')\",\n",
-					"                    api.get_activities_by_date(startofdata,endofdatadate),\n",
-					"                )\n",
+					"                print(f'Dates to process {startofdata} until {endofdata}')\n",
 					"\n",
 					"                # display_json(\n",
-					"                #     f\"api.get_activities_by_date('{startdate.isoformat()},{enddate..isoformat()}')\",\n",
-					"                #     api.get_activities_by_date(startdate.isoformat(),enddate..isoformat()),\n",
+					"                #     f\"api.get_activities_by_date('{startofdata},{endofdata}')\",\n",
+					"                #     api.get_activities_by_date(startofdata,endofdata),\n",
 					"                # )\n",
+					"\n",
+					"                display_json(\n",
+					"                    f\"api.get_activities_by_date('{startofdata},{endofdata}')\",\n",
+					"                    api.get_activities_by_date(startofdata,endofdata),\n",
+					"                )\n",
 					"\n",
 					"                # write_dataframe_to_parquet(\n",
 					"                #     f\"api.get_activities_by_date('{startdate.isoformat()},{enddate.isoformat()}')\",\n",
@@ -1054,7 +1056,7 @@
 					"\n",
 					""
 				],
-				"execution_count": null
+				"execution_count": 44
 			},
 			{
 				"cell_type": "code",
@@ -1110,7 +1112,7 @@
 					"    #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    logger.error(status)"
 				],
-				"execution_count": null
+				"execution_count": 45
 			}
 		]
 	}

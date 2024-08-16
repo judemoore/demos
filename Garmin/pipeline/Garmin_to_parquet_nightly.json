@@ -29,7 +29,7 @@
 							"type": "int"
 						},
 						"DAYS_AGO": {
-							"value": "15",
+							"value": "0",
 							"type": "int"
 						},
 						"KEYVAULTNAME": {

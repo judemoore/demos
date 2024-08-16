@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "3ecfd7eb-596d-4755-a8f5-44bd5cfc5ff0"
+				"spark.autotune.trackingId": "ce3c71a7-f7eb-4a8c-8d3a-a8ae83972282"
 			}
 		},
 		"metadata": {
@@ -58,8 +58,8 @@
 				},
 				"source": [
 					"GARMIN_API_OPTION = 'act' # see list below\n",
-					"DAYS_BEFORETODAY = 15 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
-					"DAYS_AGO =  0  # start date as offset from today. IE today = 0, yesterday is 1.. \n",
+					"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
+					"DAYS_AGO =  0 # start date as offset from today. IE today = 0, yesterday is 1.. \n",
 					"USERCREDS= 'keyvault' # choices are text or keyvault\n",
 					"KEYVAULTNAME = 'judeskv'\n",
 					"KEYVAULTLINKEDSERVICE = 'judeskvlinked'\n",
@@ -70,7 +70,7 @@
 					"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'\n",
 					"#ABFS_DEST_FOLDER = '/Garmin/' # Fabric"
 				],
-				"execution_count": 40
+				"execution_count": 54
 			},
 			{
 				"cell_type": "code",
@@ -116,7 +116,7 @@
 					"    GarminConnectTooManyRequestsError,\n",
 					")"
 				],
-				"execution_count": 41
+				"execution_count": 55
 			},
 			{
 				"cell_type": "code",
@@ -259,7 +259,7 @@
 					"}\n",
 					""
 				],
-				"execution_count": 42
+				"execution_count": 56
 			},
 			{
 				"cell_type": "code",
@@ -394,7 +394,7 @@
 					"        #OUTPUTVAR = OUTPUTVAR + status\n",
 					"        return None"
 				],
-				"execution_count": 43
+				"execution_count": 57
 			},
 			{
 				"cell_type": "code",
@@ -414,7 +414,7 @@
 					}
 				},
 				"source": [
-					"def switch(api, i):\n",
+					"def switch(api, i, mode):\n",
 					"    \"\"\"Run selected API call.\"\"\"\n",
 					"\n",
 					"    # Exit example program\n",
@@ -439,20 +439,21 @@
 					"                #     f\"api.get_activities_by_date('{startofdata},{endofdata}')\",\n",
 					"                #     api.get_activities_by_date(startofdata,endofdata),\n",
 					"                # )\n",
-					"\n",
-					"                display_json(\n",
-					"                    f\"api.get_activities_by_date('{startofdata},{endofdata}')\",\n",
-					"                    api.get_activities_by_date(startofdata,endofdata),\n",
-					"                )\n",
-					"\n",
-					"                # write_dataframe_to_parquet(\n",
-					"                #     f\"api.get_activities_by_date('{startdate.isoformat()},{enddate.isoformat()}')\",\n",
-					"                #     api.get_activities_by_date(startdate.isoformat(),enddate.isoformat()),\n",
-					"                #     \"get_activities_by_date\",\n",
-					"                #     enddate.isoformat(),\n",
-					"                #     ABFS_DEST_ACCOUNT,\n",
-					"                #     ABFS_DEST_FOLDER\n",
-					"                # )\n",
+					"                if mode == \"display\":\n",
+					"                    display_json(\n",
+					"                        f\"api.get_activities_by_date('{startofdata},{endofdata}')\",\n",
+					"                        api.get_activities_by_date(startofdata,endofdata),\n",
+					"                    )\n",
+					"                    \n",
+					"                if mode == \"write\":\n",
+					"                    write_dataframe_to_parquet(\n",
+					"                        f\"api.get_activities_by_date('{startdate.isoformat()},{enddate.isoformat()}')\",\n",
+					"                        api.get_activities_by_date(startdate.isoformat(),enddate.isoformat()),\n",
+					"                        \"get_activities_by_date\",\n",
+					"                        enddate.isoformat(),\n",
+					"                        ABFS_DEST_ACCOUNT,\n",
+					"                        ABFS_DEST_FOLDER\n",
+					"                    )\n",
 					"\n",
 					"            # USER BASICS\n",
 					"            if i == \"1\":\n",
@@ -1056,7 +1057,7 @@
 					"\n",
 					""
 				],
-				"execution_count": 44
+				"execution_count": 58
 			},
 			{
 				"cell_type": "code",
@@ -1103,7 +1104,7 @@
 					"    #print_menu() \n",
 					"    #option = readchar.readkey() # jm\n",
 					"    option = GARMIN_API_OPTION\n",
-					"    switch(api, option)\n",
+					"    switch(api, option, \"write\")\n",
 					"    #OUTPUTVAR = f'<html><body><h1>HTML Output</h1><p>{OUTPUTVAR}</p></body></html>' # https://stackoverflow.com/questions/75862049/easily-access-notebook-output-run-in-synapse-pipeline\n",
 					"    #mssparkutils.notebook.exit(outputval)\n",
 					"else:\n",
@@ -1112,7 +1113,7 @@
 					"    #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    logger.error(status)"
 				],
-				"execution_count": 45
+				"execution_count": 59
 			}
 		]
 	}

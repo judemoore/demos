@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "b79a015f-764b-4dad-83d2-36402cee8727"
+				"spark.autotune.trackingId": "742f7bf7-63a0-47fb-a1ff-d3bd77b4d652"
 			}
 		},
 		"metadata": {
@@ -57,10 +57,11 @@
 					}
 				},
 				"source": [
+					"\n",
 					"# GARMIN_API_OPTION = 'act' # see list below\n",
 					"# DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
 					"# DAYS_AGO =  0 # start date as offset from today. IE today = 0, yesterday is 1.. \n",
-					"# USERCREDS= 'keyvault' # choices are text or keyvault\n",
+					"# USERCREDS = 'keyvault' # choices are text or keyvault\n",
 					"# KEYVAULTNAME = 'judeskv'\n",
 					"# KEYVAULTLINKEDSERVICE = 'judeskvlinked'\n",
 					"# GARMIN_UNAME_KEY = 'GarminUsername' # Key vzult secret\n",
@@ -69,7 +70,7 @@
 					"# #ABFS_DEST_ACCOUNT = 'abfss://Garmin@onelake.dfs.fabric.microsoft.com/GarminLakeHouse.Lakehouse/Files' # Fabric\n",
 					"# ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'\n",
 					"# #ABFS_DEST_FOLDER = '/Garmin/' # Fabric\n",
-					"# WRITEMODE = \"write\""
+					"# WRITEMODE = \"write\" # write or display"
 				],
 				"execution_count": 54
 			},

@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "5bdfd21c-ac88-4e97-9e69-4beb271665f4"
+				"spark.autotune.trackingId": "f23c45c7-1927-4c63-9aea-47f1f7e7ab7e"
 			}
 		},
 		"metadata": {
@@ -72,7 +72,7 @@
 					"# #ABFS_DEST_FOLDER = '/Garmin/' # Fabric\n",
 					"# WRITEMODE = \"write\" # write or display"
 				],
-				"execution_count": 54
+				"execution_count": 60
 			},
 			{
 				"cell_type": "code",
@@ -118,7 +118,7 @@
 					"    GarminConnectTooManyRequestsError,\n",
 					")"
 				],
-				"execution_count": 55
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -261,7 +261,7 @@
 					"}\n",
 					""
 				],
-				"execution_count": 56
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -396,7 +396,7 @@
 					"        #OUTPUTVAR = OUTPUTVAR + status\n",
 					"        return None"
 				],
-				"execution_count": 57
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -1059,7 +1059,7 @@
 					"\n",
 					""
 				],
-				"execution_count": 58
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -1095,6 +1095,7 @@
 					"        print(\"Garmin_Password retrieval/initialisation failed. Check your Key Vault configuration/python. {e}\")\n",
 					"else: \n",
 					"    # when not keyvault assumes plain text\n",
+					"    print(\"Assuming plain text Garmin login credentials..\")\n",
 					"    email = \"\"\n",
 					"    password = \"\"\n",
 					"\n",
@@ -1115,7 +1116,7 @@
 					"    #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    logger.error(status)"
 				],
-				"execution_count": 59
+				"execution_count": null
 			}
 		]
 	}

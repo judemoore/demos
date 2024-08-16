@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "ce3c71a7-f7eb-4a8c-8d3a-a8ae83972282"
+				"spark.autotune.trackingId": "b79a015f-764b-4dad-83d2-36402cee8727"
 			}
 		},
 		"metadata": {
@@ -57,18 +57,19 @@
 					}
 				},
 				"source": [
-					"GARMIN_API_OPTION = 'act' # see list below\n",
-					"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
-					"DAYS_AGO =  0 # start date as offset from today. IE today = 0, yesterday is 1.. \n",
-					"USERCREDS= 'keyvault' # choices are text or keyvault\n",
-					"KEYVAULTNAME = 'judeskv'\n",
-					"KEYVAULTLINKEDSERVICE = 'judeskvlinked'\n",
-					"GARMIN_UNAME_KEY = 'GarminUsername' # Key vzult secret\n",
-					"GARMIN_PASSW_KEY = 'GarminPassword' # Key vzult secret\n",
-					"ABFS_DEST_ACCOUNT = 'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net'\n",
-					"#ABFS_DEST_ACCOUNT = 'abfss://Garmin@onelake.dfs.fabric.microsoft.com/GarminLakeHouse.Lakehouse/Files' # Fabric\n",
-					"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'\n",
-					"#ABFS_DEST_FOLDER = '/Garmin/' # Fabric"
+					"# GARMIN_API_OPTION = 'act' # see list below\n",
+					"# DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
+					"# DAYS_AGO =  0 # start date as offset from today. IE today = 0, yesterday is 1.. \n",
+					"# USERCREDS= 'keyvault' # choices are text or keyvault\n",
+					"# KEYVAULTNAME = 'judeskv'\n",
+					"# KEYVAULTLINKEDSERVICE = 'judeskvlinked'\n",
+					"# GARMIN_UNAME_KEY = 'GarminUsername' # Key vzult secret\n",
+					"# GARMIN_PASSW_KEY = 'GarminPassword' # Key vzult secret\n",
+					"# ABFS_DEST_ACCOUNT = 'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net'\n",
+					"# #ABFS_DEST_ACCOUNT = 'abfss://Garmin@onelake.dfs.fabric.microsoft.com/GarminLakeHouse.Lakehouse/Files' # Fabric\n",
+					"# ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'\n",
+					"# #ABFS_DEST_FOLDER = '/Garmin/' # Fabric\n",
+					"# WRITEMODE = \"write\""
 				],
 				"execution_count": 54
 			},
@@ -1104,7 +1105,7 @@
 					"    #print_menu() \n",
 					"    #option = readchar.readkey() # jm\n",
 					"    option = GARMIN_API_OPTION\n",
-					"    switch(api, option, \"write\")\n",
+					"    switch(api, option, WRITEMODE)\n",
 					"    #OUTPUTVAR = f'<html><body><h1>HTML Output</h1><p>{OUTPUTVAR}</p></body></html>' # https://stackoverflow.com/questions/75862049/easily-access-notebook-output-run-in-synapse-pipeline\n",
 					"    #mssparkutils.notebook.exit(outputval)\n",
 					"else:\n",

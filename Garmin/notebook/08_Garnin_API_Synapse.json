@@ -13,7 +13,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "bcaf7711-e340-4cde-9a81-fd5e411ded57"
+				"spark.autotune.trackingId": "1f3f5d53-ac8c-4858-bdeb-3ff3918171a1"
 			}
 		},
 		"metadata": {
@@ -328,7 +328,7 @@
 					"    print(\"Make your selection: \", end=\"\", flush=True)\n",
 					"\n",
 					"\n",
-					"def switch(api, i):\n",
+					"def switch(api, i, mode):\n",
 					"    \"\"\"Run selected API call.\"\"\"\n",
 					"\n",
 					"    # Exit example program\n",
@@ -510,6 +510,7 @@
 					"                    f\"api.get_activities({start}, {limit})\",\n",
 					"                    api.get_activities(start, limit),\n",
 					"                )  # 0=start, 1=limit\n",
+					"\n",
 					"            elif i == \"o\":\n",
 					"                # Get last activity\n",
 					"                display_json(\"api.get_last_activity()\", api.get_last_activity())\n",
@@ -1002,7 +1003,7 @@
 					"    else: \n",
 					"        # when not keyvault assumes plain text\n",
 					"        email = \"\"\n",
-					"        password = i\"\"\n",
+					"        password = \"\"\n",
 					"\n",
 					"    # Init API\n",
 					"    if not api:\n",
@@ -1010,9 +1011,9 @@
 					"\n",
 					"    if api:\n",
 					"        # Display menu\n",
-					"        print_menu()\n",
+					"        # print_menu()\n",
 					"        option = readchar.readkey()\n",
-					"        switch(api, option)\n",
+					"        switch(api, option, \"d\")\n",
 					"    else:\n",
 					"        api = init_api(email, password)\n",
 					""

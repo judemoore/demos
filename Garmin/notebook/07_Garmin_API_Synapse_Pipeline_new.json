@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "742f7bf7-63a0-47fb-a1ff-d3bd77b4d652"
+				"spark.autotune.trackingId": "5bdfd21c-ac88-4e97-9e69-4beb271665f4"
 			}
 		},
 		"metadata": {
@@ -1096,7 +1096,7 @@
 					"else: \n",
 					"    # when not keyvault assumes plain text\n",
 					"    email = \"\"\n",
-					"    password = input(\"\")\n",
+					"    password = \"\"\n",
 					"\n",
 					"# ensure the login works and authenticate with Garmin\n",
 					"api = init_api(email, password)\n",

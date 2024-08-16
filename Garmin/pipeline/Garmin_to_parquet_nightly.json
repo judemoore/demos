@@ -25,11 +25,11 @@
 							"type": "string"
 						},
 						"DAYS_BEFORETODAY": {
-							"value": "6",
+							"value": "0",
 							"type": "int"
 						},
 						"DAYS_AGO": {
-							"value": "1",
+							"value": "15",
 							"type": "int"
 						},
 						"KEYVAULTNAME": {
@@ -50,6 +50,10 @@
 						},
 						"ABFS_DEST_FOLDER": {
 							"value": "/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/",
+							"type": "string"
+						},
+						"WRITEMODE": {
+							"value": "write",
 							"type": "string"
 						}
 					},

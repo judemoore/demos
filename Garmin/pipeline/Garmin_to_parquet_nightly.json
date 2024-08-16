@@ -57,7 +57,7 @@
 							"type": "string"
 						},
 						"USERCREDS": {
-							"value": "keyvault",
+							"value": "text",
 							"type": "string"
 						},
 						"EMAIL": {

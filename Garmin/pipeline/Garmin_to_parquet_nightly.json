@@ -55,6 +55,18 @@
 						"WRITEMODE": {
 							"value": "write",
 							"type": "string"
+						},
+						"USERCREDS": {
+							"value": "keyvault",
+							"type": "string"
+						},
+						"EMAIL": {
+							"value": "jude_moore@outlook.com",
+							"type": "string"
+						},
+						"PASSWORD": {
+							"value": "Boris2022!",
+							"type": "string"
 						}
 					},
 					"snapshot": true,

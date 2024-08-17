@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "70b80212-48b0-4789-a0ec-b569893d133a"
+				"spark.autotune.trackingId": "39cff321-cf47-44d1-aede-00e53e4d84ff"
 			}
 		},
 		"metadata": {
@@ -72,7 +72,7 @@
 					"# #ABFS_DEST_FOLDER = '/Garmin/' # Fabric\n",
 					"WRITEMODE = \"write\" # write or display"
 				],
-				"execution_count": 60
+				"execution_count": 4
 			},
 			{
 				"cell_type": "code",
@@ -118,7 +118,7 @@
 					"    GarminConnectTooManyRequestsError,\n",
 					")"
 				],
-				"execution_count": null
+				"execution_count": 5
 			},
 			{
 				"cell_type": "code",
@@ -261,7 +261,7 @@
 					"}\n",
 					""
 				],
-				"execution_count": null
+				"execution_count": 6
 			},
 			{
 				"cell_type": "code",
@@ -385,8 +385,8 @@
 					"        file = \"garmin_\" +garmin_api_endpoint+\"-\" + enddateparam + \".parquet\"\n",
 					"        #ull_path = f\"{pathacc}{pathfolder}{file}\"\n",
 					"        df.to_parquet(pathacc+pathfolder+file, engine='pyarrow')\n",
-					"        status = f\"SUCCESS: Data written to :\\n{full_path}\"\n",
-					"        print(status)\n",
+					"        status = f\"SUCCESS: Data written\"\n",
+					"        p\n",
 					"        #OUTPUTVAR = OUTPUTVAR + status\n",
 					"        #print(status)\n",
 					"        logger.error(status)\n",
@@ -396,7 +396,7 @@
 					"        #OUTPUTVAR = OUTPUTVAR + status\n",
 					"        return None"
 				],
-				"execution_count": null
+				"execution_count": 7
 			},
 			{
 				"cell_type": "code",
@@ -1059,7 +1059,7 @@
 					"\n",
 					""
 				],
-				"execution_count": null
+				"execution_count": 8
 			},
 			{
 				"cell_type": "code",
@@ -1116,7 +1116,7 @@
 					"    #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    logger.error(status)"
 				],
-				"execution_count": null
+				"execution_count": 9
 			}
 		]
 	}

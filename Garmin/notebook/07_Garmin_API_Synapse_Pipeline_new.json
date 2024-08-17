@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "1c8722b2-22f7-4088-b862-eca3e934383b"
+				"spark.autotune.trackingId": "70b80212-48b0-4789-a0ec-b569893d133a"
 			}
 		},
 		"metadata": {
@@ -58,39 +58,21 @@
 				},
 				"source": [
 					"\n",
-					"# GARMIN_API_OPTION = 'act' # see list below\n",
-					"# DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
-					"# DAYS_AGO =  0 # start date as offset from today. IE today = 0, yesterday is 1.. \n",
-					"# USERCREDS = 'keyvault' # choices are text or keyvault\n",
-					"# KEYVAULTNAME = 'judeskv'\n",
-					"# KEYVAULTLINKEDSERVICE = 'judeskvlinked'\n",
-					"# GARMIN_UNAME_KEY = 'GarminUsername' # Key vzult secret\n",
-					"# GARMIN_PASSW_KEY = 'GarminPassword' # Key vzult secret\n",
-					"# ABFS_DEST_ACCOUNT = 'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net'\n",
+					"GARMIN_API_OPTION = 'act' # see list below\n",
+					"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
+					"DAYS_AGO =  0 # start date as offset from today. IE today = 0, yesterday is 1.. \n",
+					"USERCREDS = 'keyvault' # choices are text or keyvault\n",
+					"KEYVAULTNAME = 'judeskv'\n",
+					"KEYVAULTLINKEDSERVICE = 'judeskvlinked'\n",
+					"GARMIN_UNAME_KEY = 'GarminUsername' # Key vzult secret\n",
+					"GARMIN_PASSW_KEY = 'GarminPassword' # Key vzult secret\n",
+					"ABFS_DEST_ACCOUNT = 'abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net'\n",
 					"# #ABFS_DEST_ACCOUNT = 'abfss://Garmin@onelake.dfs.fabric.microsoft.com/GarminLakeHouse.Lakehouse/Files' # Fabric\n",
-					"# ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'\n",
+					"ABFS_DEST_FOLDER = '/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/'\n",
 					"# #ABFS_DEST_FOLDER = '/Garmin/' # Fabric\n",
-					"# WRITEMODE = \"write\" # write or display"
+					"WRITEMODE = \"write\" # write or display"
 				],
 				"execution_count": 60
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
-					""
-				],
-				"execution_count": null
 			},
 			{
 				"cell_type": "code",

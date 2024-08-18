@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "d4fc30b7-f155-4414-96da-c3e0d87cee8b"
+				"spark.autotune.trackingId": "d4aa77f6-58d0-4c1a-919a-0a80d3b40924"
 			}
 		},
 		"metadata": {
@@ -57,10 +57,9 @@
 					}
 				},
 				"source": [
-					"\n",
 					"GARMIN_API_OPTION = 'act' # see list below\n",
 					"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
-					"DAYS_AGO =  0 # start date as offset from today. IE today = 0, yesterday is 1.. \n",
+					"DAYS_AGO =  1 # start date as offset from today. IE today = 0, yesterday is 1.. \n",
 					"USERCREDS = 'keyvault' # choices are text or keyvault\n",
 					"KEYVAULTNAME = 'judeskv'\n",
 					"KEYVAULTLINKEDSERVICE = 'judeskvlinked'\n",
@@ -72,7 +71,7 @@
 					"# #ABFS_DEST_FOLDER = '/Garmin/' # Fabric\n",
 					"WRITEMODE = \"write\" # write or display"
 				],
-				"execution_count": 4
+				"execution_count": 101
 			},
 			{
 				"cell_type": "code",
@@ -118,7 +117,7 @@
 					"    GarminConnectTooManyRequestsError,\n",
 					")"
 				],
-				"execution_count": 5
+				"execution_count": 102
 			},
 			{
 				"cell_type": "code",
@@ -261,7 +260,7 @@
 					"}\n",
 					""
 				],
-				"execution_count": 6
+				"execution_count": 103
 			},
 			{
 				"cell_type": "code",
@@ -308,7 +307,7 @@
 					"\n",
 					"def display_text(output):\n",
 					"    \"\"\"Format API output for better readability.\"\"\"\n",
-					"\n",
+					"    print(\"Displaying content *writemode*...\")\n",
 					"    dashed = \"-\" * 60\n",
 					"    header = f\"{dashed}\"\n",
 					"    footer = \"-\" * len(header)\n",
@@ -380,23 +379,88 @@
 					"        # pathacc = ABFS_DEST_ACCOUNT #\"abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/\"\n",
 					"        # pathfolder = ABFS_DEST_FOLDER\n",
 					"        #df = pd.DataFrame(output)\n",
-					"        df = pd.json_normalize(output)\n",
+					"        \n",
 					"        #df.json_normalize(output, max_level=1)\n",
-					"        file = \"garmin_\" +garmin_api_endpoint+\"-\" + enddateparam + \".parquet\"\n",
-					"        #full_path = f\"{pathacc}{pathfolder}{file}\"\n",
-					"        df.to_parquet(pathacc+pathfolder+file, engine='pyarrow')\n",
-					"        status = f\"SUCCESS: Data written\"\n",
+					"\n",
+					"\n",
+					"        # File output data as normalised json\n",
+					"        df = pd.json_normalize(output)\n",
+					"\n",
+					"        # find max id from new loaded Garmin data, and nowrrow down result by col and row\n",
+					"        max_id_loaded = df['activityId'].max()\n",
+					"        max_id_loaded_frame = df.loc[df['activityId'] == max_id_loaded] \n",
+					"\n",
+					"        # Read max id from last ingest from parquet file in datalake\n",
+					"        file = \"garmin-\" +garmin_api_endpoint+\"-LatestId.parquet\"\n",
+					"        full_path = f\"{pathacc}{pathfolder}{file}\"\n",
+					"        try:\n",
+					"            max_id_from_datalake_frame = pd.read_parquet(full_path, engine='pyarrow')\n",
+					"            max_id_from_datalake = max_id_from_datalake_frame['activityId'].max()\n",
+					"        except Exception as e:\n",
+					"            msg = f\"Error retrieving existing backup of max id from \" + full_path + \": {e}\" \n",
+					"            print(msg)\n",
+					"            max_id_from_datalake = 0\n",
+					"\n",
+					"        if max_id_loaded > max_id_from_datalake:\n",
+					"            # Write activities to parquet file\n",
+					"            file = \"garmin_\" +garmin_api_endpoint+\"-\" + endofdatadate + \".parquet\"\n",
+					"            full_path = f\"{pathacc}{pathfolder}{file}\"\n",
+					"            df = df.loc[df['activityId'] > max_id_loaded] \n",
+					"            df.to_parquet(full_path, engine='pyarrow')\n",
+					"            status = f\"SUCCESS: Total of {df.shape[0]} {garmin_api_endpoint}'s loaded and the data written to :\\n{full_path}\"\n",
+					"            print(status)\n",
+					"\n",
+					"            # Write max id to parquet file\n",
+					"            max_id_loaded_frame_output = max_id_loaded_frame[['activityId']]\n",
+					"            file = \"garmin-\" +garmin_api_endpoint+\"-LatestId.parquet\"\n",
+					"            full_path = f\"{pathacc}{pathfolder}{file}\"\n",
+					"            max_id_loaded_frame_output.to_parquet(full_path, engine='pyarrow')\n",
+					"            status = f\"\\tLatest Id also written to :\\n{full_path}\"\n",
+					"            print(status)    \n",
+					"        else:\n",
+					"            status = f\"SUCCESS: Nothing new to load it seems, so not writing any of the loaded Total of {df.shape[0]} of the {garmin_api_endpoint}'s to \\n{full_path}\"\n",
+					"            print(status)\n",
 					"\n",
 					"        #OUTPUTVAR = OUTPUTVAR + status\n",
 					"        #print(status)\n",
 					"        logger.error(status)\n",
 					"    except Exception as e:\n",
-					"        status = f\"Error writing data to :{e}\"\n",
-					"        print(status) \n",
+					"        status = f\"Error writing data to :\\n{full_path}\\n {e}\"\n",
+					"        print(status)\n",
 					"        #OUTPUTVAR = OUTPUTVAR + status\n",
-					"        return None"
+					"        return None\n",
+					"\n",
+					"\n",
+					"\n",
+					"\n",
+					"\n",
+					"\n",
+					"\n",
+					"    #     file = \"garmin_\" +garmin_api_endpoint+\"-\" + enddateparam + \".parquet\"\n",
+					"    #     #full_path = f\"{pathacc}{pathfolder}{file}\"\n",
+					"\n",
+					"    #     if  \"sleep\" in garmin_api_endpoint:\n",
+					"    #         df = pd.json_normalize(output, max_level=0)\n",
+					"    #         # print (df)\n",
+					"    #         df.head()\n",
+					"    #         df.info()\n",
+					"    #         df.describe()\n",
+					"    #         status = f\"SUCCESS: Data written\"\n",
+					"    #     else:\n",
+					"    #         df = pd.json_normalize(output)\n",
+					"    #         df.to_parquet(pathacc+pathfolder+file, engine='pyarrow')\n",
+					"    #         status = f\"SUCCESS: Data written\"\n",
+					"    #     #OUTPUTVAR = OUTPUTVAR + status\n",
+					"    #     #print(status)\n",
+					"\n",
+					"    #     logger.error(status)\n",
+					"    # except Exception as e:\n",
+					"    #     status = f\"Error writing data to :{e}\"\n",
+					"    #     print(status) \n",
+					"    #     #OUTPUTVAR = OUTPUTVAR + status\n",
+					"    #     return None"
 				],
-				"execution_count": 7
+				"execution_count": 104
 			},
 			{
 				"cell_type": "code",
@@ -559,21 +623,30 @@
 					"                    api.get_hydration_data(today.isoformat()),\n",
 					"                )\n",
 					"            elif i == \"c\":\n",
-					"                #Get sleep data for 'YYYY-MM-DD'\n",
+					"                startofdata =  startdate.isoformat()\n",
+					"                # Get activites data for 'YYYY-MM-DD'\n",
 					"\n",
-					"                display_json(\n",
-					"                    f\"api.get_sleep_data('{startdate.isoformat()}')\",\n",
-					"                    api.get_sleep_data(enddate.isoformat()),\n",
-					"                )\n",
+					"                print(f'Dates to proces {startofdata} ')\n",
 					"\n",
-					"                # write_dataframe_to_parquet(\n",
-					"                #     f\"api.get_sleep_data('{enddate.isoformat()}')\",\n",
-					"                #     api.get_sleep_data(enddate.isoformat()),\n",
-					"                #     \"get_sleep_data\",\n",
-					"                #     enddate.isoformat(),\n",
-					"                #     ABFS_DEST_ACCOUNT,\n",
-					"                #     ABFS_DEST_FOLDER\n",
+					"                # display_json(\n",
+					"                #     f\"api.get_activities_by_date('{startofdata},{endofdata}')\",\n",
+					"                #     api.get_activities_by_date(startofdata,endofdata),\n",
 					"                # )\n",
+					"                if mode == \"display\":\n",
+					"                    display_json(\n",
+					"                        f\"api.get_sleep_data('{startofdata}')\",\n",
+					"                        api.get_sleep_data(startofdata),\n",
+					"                    )\n",
+					"                    \n",
+					"                if mode == \"write\":\n",
+					"                    write_dataframe_to_parquet(\n",
+					"                        f\"api.get_sleep_data('{startofdata}')\",\n",
+					"                        api.get_activities_by_date(startofdata),\n",
+					"                        \"get_sleep_data\",\n",
+					"                        enddate.isoformat(),\n",
+					"                        ABFS_DEST_ACCOUNT,\n",
+					"                        ABFS_DEST_FOLDER\n",
+					"                    )\n",
 					"\n",
 					"            elif i == \"d\":\n",
 					"                # Get stress data for 'YYYY-MM-DD'\n",
@@ -1059,7 +1132,7 @@
 					"\n",
 					""
 				],
-				"execution_count": 8
+				"execution_count": 105
 			},
 			{
 				"cell_type": "code",
@@ -1116,7 +1189,7 @@
 					"    #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    logger.error(status)"
 				],
-				"execution_count": 9
+				"execution_count": 106
 			}
 		]
 	}

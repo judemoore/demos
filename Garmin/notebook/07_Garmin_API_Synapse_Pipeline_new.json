@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "ed8e3e8b-3df0-4f31-a0e3-ac2865a74100"
+				"spark.autotune.trackingId": "789f8e13-f30a-49da-aef7-276bf82dafe0"
 			}
 		},
 		"metadata": {
@@ -386,7 +386,7 @@
 					"        #full_path = f\"{pathacc}{pathfolder}{file}\"\n",
 					"        df.to_parquet(pathacc+pathfolder+file, engine='pyarrow')\n",
 					"        status = f\"SUCCESS: Data written\"\n",
-					"        p\n",
+					"\n",
 					"        #OUTPUTVAR = OUTPUTVAR + status\n",
 					"        #print(status)\n",
 					"        logger.error(status)\n",

@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "d4aa77f6-58d0-4c1a-919a-0a80d3b40924"
+				"spark.autotune.trackingId": "bf9fe272-61d4-4740-9e65-29131e2821b4"
 			}
 		},
 		"metadata": {
@@ -376,6 +376,7 @@
 					"# Function to write Dartaframe to parquet\n",
 					"def write_dataframe_to_parquet(api_call, output, garmin_api_endpoint, enddateparam ,pathacc, pathfolder ): \n",
 					"    try:\n",
+					"\n",
 					"        # pathacc = ABFS_DEST_ACCOUNT #\"abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/\"\n",
 					"        # pathfolder = ABFS_DEST_FOLDER\n",
 					"        #df = pd.DataFrame(output)\n",
@@ -403,7 +404,7 @@
 					"\n",
 					"        if max_id_loaded > max_id_from_datalake:\n",
 					"            # Write activities to parquet file\n",
-					"            file = \"garmin_\" +garmin_api_endpoint+\"-\" + endofdatadate + \".parquet\"\n",
+					"            file = \"garmin_\" +garmin_api_endpoint+\"-\" + enddateparam + \".parquet\"\n",
 					"            full_path = f\"{pathacc}{pathfolder}{file}\"\n",
 					"            df = df.loc[df['activityId'] > max_id_loaded] \n",
 					"            df.to_parquet(full_path, engine='pyarrow')\n",

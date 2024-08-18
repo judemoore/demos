@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "d876ffda-b93c-43ea-ae47-0254cabc74e7"
+				"spark.autotune.trackingId": "a6bb0d29-f3b4-43c3-96c9-97ea04396db6"
 			}
 		},
 		"metadata": {
@@ -57,7 +57,7 @@
 					}
 				},
 				"source": [
-					"GARMIN_API_OPTION = 'act' # see list below\n",
+					"GARMIN_API_OPTION = 'c' # see list below\n",
 					"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
 					"DAYS_AGO =  1 # start date as offset from today. IE today = 0, yesterday is 1.. \n",
 					"USERCREDS = 'keyvault' # choices are text or keyvault\n",
@@ -71,7 +71,7 @@
 					"# #ABFS_DEST_FOLDER = '/Garmin/' # Fabric\n",
 					"WRITEMODE = \"write\" # write or display"
 				],
-				"execution_count": 75
+				"execution_count": 99
 			},
 			{
 				"cell_type": "code",
@@ -117,7 +117,7 @@
 					"    GarminConnectTooManyRequestsError,\n",
 					")"
 				],
-				"execution_count": 76
+				"execution_count": 100
 			},
 			{
 				"cell_type": "code",
@@ -198,26 +198,26 @@
 					"    \"act\":\"Activities between dates\",\n",
 					"    \"1\": \"Get full name\",\n",
 					"    \"2\": \"Get unit system\",\n",
-					"    \"3\": f\"Get activity data for '{today.isoformat()}'\",\n",
-					"    \"4\": f\"Get activity data for '{today.isoformat()}' (compatible with garminconnect-ha)\",\n",
-					"    \"5\": f\"Get body composition data for '{today.isoformat()}' (compatible with garminconnect-ha)\",\n",
-					"    \"6\": f\"Get body composition data for from '{startdate.isoformat()}' to '{today.isoformat()}' (to be compatible with garminconnect-ha)\",\n",
-					"    \"7\": f\"Get stats and body composition data for '{today.isoformat()}'\",\n",
-					"    \"8\": f\"Get steps data for '{today.isoformat()}'\",\n",
-					"    \"9\": f\"Get heart rate data for '{today.isoformat()}'\",\n",
-					"    \"0\": f\"Get training readiness data for '{today.isoformat()}'\",\n",
-					"    \"-\": f\"Get daily step data for '{startdate.isoformat()}' to '{today.isoformat()}'\",\n",
-					"    \"/\": f\"Get body battery data for '{startdate.isoformat()}' to '{today.isoformat()}'\",\n",
+					"    \"3\": f\"Get activity data for '{startdate.isoformat()}'\",\n",
+					"    \"4\": f\"Get activity data for '{startdate.isoformat()}' (compatible with garminconnect-ha)\",\n",
+					"    \"5\": f\"Get body composition data for '{startdate.isoformat()}' (compatible with garminconnect-ha)\",\n",
+					"    \"6\": f\"Get body composition data for from '{startdate.isoformat()}' to '{enddate.isoformat()}' (to be compatible with garminconnect-ha)\",\n",
+					"    \"7\": f\"Get stats and body composition data for '{startdate.isoformat()}'\",\n",
+					"    \"8\": f\"Get steps data for '{startdate.isoformat()}'\",\n",
+					"    \"9\": f\"Get heart rate data for '{startdate.isoformat()}'\",\n",
+					"    \"0\": f\"Get training readiness data for '{startdate.isoformat()}'\",\n",
+					"    \"-\": f\"Get daily step data for '{startdate.isoformat()}' to '{startdate}'\",\n",
+					"    \"/\": f\"Get body battery data for '{startdate.isoformat()}' to '{enddate.isoformat()}'\",\n",
 					"    \"!\": f\"Get floors data for '{startdate.isoformat()}'\",\n",
-					"    \"?\": f\"Get blood pressure data for '{startdate.isoformat()}' to '{today.isoformat()}'\",\n",
-					"    \".\": f\"Get training status data for '{today.isoformat()}'\",\n",
-					"    \"a\": f\"Get resting heart rate data for {today.isoformat()}'\",\n",
-					"    \"b\": f\"Get hydration data for '{today.isoformat()}'\",\n",
-					"    \"c\": f\"Get sleep data for '{today.isoformat()}'\",\n",
-					"    \"d\": f\"Get stress data for '{today.isoformat()}'\",\n",
-					"    \"e\": f\"Get respiration data for '{today.isoformat()}'\",\n",
-					"    \"f\": f\"Get SpO2 data for '{today.isoformat()}'\",\n",
-					"    \"g\": f\"Get max metric data (like vo2MaxValue and fitnessAge) for '{today.isoformat()}'\",\n",
+					"    \"?\": f\"Get blood pressure data for '{startdate.isoformat()}' to '{enddate.isoformat()}'\",\n",
+					"    \".\": f\"Get training status data for '{startdate.isoformat()}'\",\n",
+					"    \"a\": f\"Get resting heart rate data for {startdate.isoformat()}'\",\n",
+					"    \"b\": f\"Get hydration data for '{startdate.isoformat()}'\",\n",
+					"    \"c\": f\"Get sleep data for '{startdate.isoformat()}'\",\n",
+					"    \"d\": f\"Get stress data for '{startdate.isoformat()}'\",\n",
+					"    \"e\": f\"Get respiration data for '{startdate.isoformat()}'\",\n",
+					"    \"f\": f\"Get SpO2 data for '{startdate.isoformat()}'\",\n",
+					"    \"g\": f\"Get max metric data (like vo2MaxValue and fitnessAge) for '{startdate.isoformat()}'\",\n",
 					"    \"h\": \"Get personal record for user\",\n",
 					"    \"i\": \"Get earned badges for user\",\n",
 					"    \"j\": f\"Get adhoc challenges data from start '{start}' and limit '{limit}'\",\n",
@@ -226,7 +226,7 @@
 					"    \"m\": f\"Get non completed badge challenges data from '{start_badge}' and limit '{limit}'\",\n",
 					"    \"n\": f\"Get activities data from start '{start}' and limit '{limit}'\",\n",
 					"    \"o\": \"Get last activity\",\n",
-					"    \"p\": f\"Download activities data by date from '{startdate.isoformat()}' to '{today.isoformat()}'\",\n",
+					"    \"p\": f\"Download activities data by date from '{startdate.isoformat()}' to '{enddate.isoformat()}'\",\n",
 					"    \"r\": f\"Get all kinds of activities data from '{start}'\",\n",
 					"    \"s\": f\"Upload activity data from file '{activityfile}'\",\n",
 					"    \"t\": \"Get all kinds of Garmin device info\",\n",
@@ -234,33 +234,33 @@
 					"    \"v\": \"Get future goals\",\n",
 					"    \"w\": \"Get past goals\",\n",
 					"    \"y\": \"Get all Garmin device alarms\",\n",
-					"    \"x\": f\"Get Heart Rate Variability data (HRV) for '{today.isoformat()}'\",\n",
-					"    \"z\": f\"Get progress summary from '{startdate.isoformat()}' to '{today.isoformat()}' for all metrics\",\n",
+					"    \"x\": f\"Get Heart Rate Variability data (HRV) for '{startdate.isoformat()}'\",\n",
+					"    \"z\": f\"Get progress summary from '{startdate.isoformat()}' to '{enddate.isoformat()}' for all metrics\",\n",
 					"    \"A\": \"Get gear, the defaults, activity types and statistics\",\n",
-					"    \"B\": f\"Get weight-ins from '{startdate.isoformat()}' to '{today.isoformat()}'\",\n",
-					"    \"C\": f\"Get daily weigh-ins for '{today.isoformat()}'\",\n",
-					"    \"D\": f\"Delete all weigh-ins for '{today.isoformat()}'\",\n",
-					"    \"E\": f\"Add a weigh-in of {weight}{weightunit} on '{today.isoformat()}'\",\n",
-					"    \"F\": f\"Get virtual challenges/expeditions from '{startdate.isoformat()}' to '{today.isoformat()}'\",\n",
-					"    \"G\": f\"Get hill score data from '{startdate.isoformat()}' to '{today.isoformat()}'\",\n",
-					"    \"H\": f\"Get endurance score data from '{startdate.isoformat()}' to '{today.isoformat()}'\",\n",
-					"    \"I\": f\"Get activities for date '{today.isoformat()}'\",\n",
+					"    \"B\": f\"Get weight-ins from '{startdate.isoformat()}' to '{enddate.isoformat()}'\",\n",
+					"    \"C\": f\"Get daily weigh-ins for '{startdate.isoformat()}'\",\n",
+					"    \"D\": f\"Delete all weigh-ins for '{startdate.isoformat()}'\",\n",
+					"    \"E\": f\"Add a weigh-in of {weight}{weightunit} on '{startdate.isoformat()}'\",\n",
+					"    \"F\": f\"Get virtual challenges/expeditions from '{startdate.isoformat()}' to '{enddate.isoformat()}'\",\n",
+					"    \"G\": f\"Get hill score data from '{startdate.isoformat()}' to '{enddate.isoformat()}'\",\n",
+					"    \"H\": f\"Get endurance score data from '{startdate.isoformat()}' to '{enddate.isoformat()}'\",\n",
+					"    \"I\": f\"Get activities for date '{startdate.isoformat()}'\",\n",
 					"    \"J\": \"Get race predictions\",\n",
-					"    \"K\": f\"Get all day stress data for '{today.isoformat()}'\",\n",
-					"    \"L\": f\"Add body composition for '{today.isoformat()}'\",\n",
+					"    \"K\": f\"Get all day stress data for '{startdate.isoformat()}'\",\n",
+					"    \"L\": f\"Add body composition for '{startdate.isoformat()}'\",\n",
 					"    \"M\": \"Set blood pressure '120,80,80,notes='Testing with example.py'\",\n",
 					"    \"N\": \"Get user profile/settings\",\n",
-					"    \"O\": f\"Reload epoch data for {today.isoformat()}\",\n",
+					"    \"O\": f\"Reload epoch data for {startdate.isoformat()}\",\n",
 					"    \"P\": \"Get workouts 0-100, get and download last one to .FIT file\",\n",
 					"    # \"Q\": \"Upload workout from json data\",\n",
 					"    \"R\": \"Get solar data from your devices\",\n",
 					"    \"S\": \"Get pregnancy summary data\",\n",
 					"    \"Z\": \"Remove stored login tokens (logout)\",\n",
-					"    \"q\": \"Exit\",\n",
+					"    \"q\": \"Exit\"\n",
 					"}\n",
 					""
 				],
-				"execution_count": 77
+				"execution_count": 101
 			},
 			{
 				"cell_type": "code",
@@ -473,7 +473,7 @@
 					"    #     #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    #     return None"
 				],
-				"execution_count": 78
+				"execution_count": 102
 			},
 			{
 				"cell_type": "code",
@@ -526,7 +526,7 @@
 					"                    \n",
 					"                if mode == \"write\":\n",
 					"                    write_dataframe_to_parquet(\n",
-					"                        f\"api.get_activities_by_date('{startdate.isoformat()},{enddate.isoformat()}')\",\n",
+					"                        f\"api.get_activities_by_date('{startdate.isoformat()},{enddate}')\",\n",
 					"                        api.get_activities_by_date(startdate.isoformat(),enddate.isoformat()),\n",
 					"                        \"get_activities_by_date\",\n",
 					"                        enddate.isoformat(),\n",
@@ -1146,7 +1146,7 @@
 					"\n",
 					""
 				],
-				"execution_count": 79
+				"execution_count": 103
 			},
 			{
 				"cell_type": "code",
@@ -1203,7 +1203,7 @@
 					"    #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    logger.error(status)"
 				],
-				"execution_count": 80
+				"execution_count": 104
 			}
 		]
 	}

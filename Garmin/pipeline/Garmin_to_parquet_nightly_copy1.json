@@ -1,0 +1,124 @@
+{
+	"name": "Garmin_to_parquet_nightly_copy1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Garmin_Activities",
+				"type": "SynapseNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebook": {
+						"referenceName": "07_Garmin_API_Synapse_Pipeline_Copy1",
+						"type": "NotebookReference"
+					},
+					"parameters": {
+						"GARMIN_API_OPTION": {
+							"value": "c",
+							"type": "string"
+						},
+						"DAYS_BEFORETODAY": {
+							"value": "0",
+							"type": "int"
+						},
+						"DAYS_AGO": {
+							"value": "0",
+							"type": "int"
+						},
+						"KEYVAULTNAME": {
+							"value": "judeskv",
+							"type": "string"
+						},
+						"GARMIN_UNAME_KEY": {
+							"value": "GarminUsername",
+							"type": "string"
+						},
+						"GARMIN_PASSW_KEY": {
+							"value": "GarminPassword",
+							"type": "string"
+						},
+						"ABFS_DEST_ACCOUNT": {
+							"value": "abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net",
+							"type": "string"
+						},
+						"ABFS_DEST_FOLDER": {
+							"value": "/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/",
+							"type": "string"
+						},
+						"WRITEMODE": {
+							"value": "write",
+							"type": "string"
+						},
+						"USERCREDS": {
+							"value": "text",
+							"type": "string"
+						},
+						"EMAIL": {
+							"value": "jude_moore@outlook.com",
+							"type": "string"
+						},
+						"PASSWORD": {
+							"value": "Boris2022!",
+							"type": "string"
+						}
+					},
+					"snapshot": true,
+					"sparkPool": {
+						"referenceName": "personalsparkp",
+						"type": "BigDataPoolReference"
+					},
+					"executorSize": "Small",
+					"conf": {
+						"spark.dynamicAllocation.enabled": false
+					},
+					"driverSize": "Small"
+				}
+			}
+		],
+		"variables": {
+			"GARMIN_API_OPTION": {
+				"type": "String",
+				"defaultValue": "act"
+			},
+			"DAYS_BEFORETODAY": {
+				"type": "Integer",
+				"defaultValue": 0
+			},
+			"DAYS_AGO": {
+				"type": "Integer",
+				"defaultValue": 0
+			},
+			"KEYVAULTNAME": {
+				"type": "String",
+				"defaultValue": "judeskv"
+			},
+			"GARMIN_UNAME_KEY": {
+				"type": "String",
+				"defaultValue": "GarminUsername"
+			},
+			"GARMIN_PASSW_KEY": {
+				"type": "String",
+				"defaultValue": "GarminPassword"
+			},
+			"ABFS_DEST_ACCOUNT": {
+				"type": "String",
+				"defaultValue": "abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net"
+			},
+			"ABFS_DEST_FOLDER": {
+				"type": "String",
+				"defaultValue": "/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/"
+			},
+			"output": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}

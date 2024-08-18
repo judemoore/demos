@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "789f8e13-f30a-49da-aef7-276bf82dafe0"
+				"spark.autotune.trackingId": "d4fc30b7-f155-4414-96da-c3e0d87cee8b"
 			}
 		},
 		"metadata": {
@@ -392,7 +392,7 @@
 					"        logger.error(status)\n",
 					"    except Exception as e:\n",
 					"        status = f\"Error writing data to :{e}\"\n",
-					"        print(status\n",
+					"        print(status) \n",
 					"        #OUTPUTVAR = OUTPUTVAR + status\n",
 					"        return None"
 				],

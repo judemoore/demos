@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "760477ce-b6d0-4070-bf48-5a7881d0c5fe"
+				"spark.autotune.trackingId": "d8bb7762-3246-4f3a-b18b-96990df80a80"
 			}
 		},
 		"metadata": {
@@ -57,7 +57,7 @@
 					}
 				},
 				"source": [
-					"GARMIN_API_OPTION = 'c' # see list below\n",
+					"GARMIN_API_OPTION = 'act' # see list below\n",
 					"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
 					"DAYS_AGO =  1 # start date as offset from today. IE today = 0, yesterday is 1.. \n",
 					"USERCREDS = 'keyvault' # choices are text or keyvault\n",
@@ -71,7 +71,7 @@
 					"# #ABFS_DEST_FOLDER = '/Garmin/' # Fabric\n",
 					"WRITEMODE = \"write\" # write or display"
 				],
-				"execution_count": 61
+				"execution_count": 67
 			},
 			{
 				"cell_type": "code",
@@ -117,7 +117,7 @@
 					"    GarminConnectTooManyRequestsError,\n",
 					")"
 				],
-				"execution_count": 62
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -260,7 +260,7 @@
 					"}\n",
 					""
 				],
-				"execution_count": 63
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -473,7 +473,7 @@
 					"    #     #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    #     return None"
 				],
-				"execution_count": 64
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -1193,7 +1193,7 @@
 					"    # Display menu\n",
 					"    #print_menu() \n",
 					"    #option = readchar.readkey() # jm\n",
-					"    option = GARMIN_API_OPTION\n",
+					"    option = GARMIN_API_OPTION.lower()\n",
 					"    switch(api, option, WRITEMODE)\n",
 					"    #OUTPUTVAR = f'<html><body><h1>HTML Output</h1><p>{OUTPUTVAR}</p></body></html>' # https://stackoverflow.com/questions/75862049/easily-access-notebook-output-run-in-synapse-pipeline\n",
 					"    #mssparkutils.notebook.exit(outputval)\n",

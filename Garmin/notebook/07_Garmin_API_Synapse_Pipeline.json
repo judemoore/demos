@@ -1,5 +1,5 @@
 {
-	"name": "07_Garmin_API_Synapse_Pipeline_new",
+	"name": "07_Garmin_API_Synapse_Pipeline",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "bf9fe272-61d4-4740-9e65-29131e2821b4"
+				"spark.autotune.trackingId": "c846136d-5e9f-45ff-b9d7-9756a8a1e4b0"
 			}
 		},
 		"metadata": {
@@ -59,7 +59,7 @@
 				"source": [
 					"GARMIN_API_OPTION = 'act' # see list below\n",
 					"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
-					"DAYS_AGO =  1 # start date as offset from today. IE today = 0, yesterday is 1.. \n",
+					"DAYS_AGO =  0 # start date as offset from today. IE today = 0, yesterday is 1.. \n",
 					"USERCREDS = 'keyvault' # choices are text or keyvault\n",
 					"KEYVAULTNAME = 'judeskv'\n",
 					"KEYVAULTLINKEDSERVICE = 'judeskvlinked'\n",

@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "e9215226-59a2-4b48-b2ab-9e8208d82541"
+				"spark.autotune.trackingId": "0fa7e878-70ec-4339-a5ba-825a9b3f6fd4"
 			}
 		},
 		"metadata": {
@@ -71,7 +71,7 @@
 					"# #ABFS_DEST_FOLDER = '/Garmin/' # Fabric\n",
 					"WRITEMODE = \"write\" # write or display"
 				],
-				"execution_count": 101
+				"execution_count": 46
 			},
 			{
 				"cell_type": "code",
@@ -119,7 +119,7 @@
 					"\n",
 					"from datetime import date, timedelta"
 				],
-				"execution_count": 102
+				"execution_count": 47
 			},
 			{
 				"cell_type": "code",
@@ -262,7 +262,7 @@
 					"}\n",
 					""
 				],
-				"execution_count": 103
+				"execution_count": 48
 			},
 			{
 				"cell_type": "code",
@@ -286,7 +286,7 @@
 					"    days = int((end_date - start_date).days)\n",
 					"    for n in range(days):\n",
 					"        yield start_date + timedelta(n)\n",
-					"        \n",
+					"\n",
 					"def print_menu():\n",
 					"    \"\"\"Print examples menu.\"\"\"\n",
 					"    for key in menu_options.keys():\n",
@@ -382,6 +382,8 @@
 					"\n",
 					"# Function to write Dartaframe to parquet\n",
 					"def write_dataframe_to_parquet(api_call, output, garmin_api_endpoint, enddateparam ,pathacc, pathfolder ): \n",
+					"    file = \"garmin_\" +garmin_api_endpoint+\"-\" + enddateparam + \".parquet\"\n",
+					"    full_path = f\"{pathacc}{pathfolder}{file}\"\n",
 					"    try:\n",
 					"\n",
 					"        # pathacc = ABFS_DEST_ACCOUNT #\"abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/\"\n",
@@ -444,6 +446,7 @@
 					"\n",
 					"\n",
 					"\n",
+					"\n",
 					"    #     file = \"garmin_\" +garmin_api_endpoint+\"-\" + enddateparam + \".parquet\"\n",
 					"    #     #full_path = f\"{pathacc}{pathfolder}{file}\"\n",
 					"\n",
@@ -468,7 +471,7 @@
 					"    #     #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    #     return None"
 				],
-				"execution_count": 104
+				"execution_count": 49
 			},
 			{
 				"cell_type": "code",
@@ -521,10 +524,10 @@
 					"                    \n",
 					"                if mode == \"write\":\n",
 					"                    write_dataframe_to_parquet(\n",
-					"                        f\"api.get_activities_by_date('{startdate.isoformat()},{enddate.isoformat()}')\",\n",
-					"                        api.get_activities_by_date(startdate.isoformat(),enddate.isoformat()),\n",
+					"                        f\"api.get_activities_by_date('{startofdata},{endofdata}')\",\n",
+					"                        api.get_activities_by_date(startofdata,endofdata),\n",
 					"                        \"get_activities_by_date\",\n",
-					"                        enddate.isoformat(),\n",
+					"                        endofdata,\n",
 					"                        ABFS_DEST_ACCOUNT,\n",
 					"                        ABFS_DEST_FOLDER\n",
 					"                    )\n",
@@ -647,14 +650,18 @@
 					"                    )\n",
 					"                    \n",
 					"                if mode == \"write\":\n",
-					"                    write_dataframe_to_parquet(\n",
-					"                        f\"api.get_sleep_data('{startofdata}')\",\n",
-					"                        api.get_activities_by_date(startofdata),\n",
-					"                        \"get_sleep_data\",\n",
-					"                        enddate.isoformat(),\n",
-					"                        ABFS_DEST_ACCOUNT,\n",
-					"                        ABFS_DEST_FOLDER\n",
-					"                    )\n",
+					"                    garmin_api_endpoint= f\"api.get_sleep_data('{startofdata}')\"\n",
+					"                    filename = \"garmin_\" +garmin_api_endpoint+\"-\" + startofdata + \".parquet\"    \n",
+					"                    full_path=\"\"\n",
+					"                    full_path = f\"{ABFS_DEST_ACCOUNT}{ABFS_DEST_FOLDER}{filename}\"\n",
+					"                    output=api.get_sleep_data(startofdata)\n",
+					"                    df = pd.json_normalize(output, max_level=0)\n",
+					"                    df = df[['dailySleepDTO']]\n",
+					"                    df.to_parquet(full_path, engine='pyarrow')\n",
+					"                    status = f\"SUCCESS: Data written to: \\n{full_path}\"\n",
+					"                    print(df)\n",
+					"                else:\n",
+					"                    print(\"Quit: no mode speficied\")\n",
 					"\n",
 					"            elif i == \"d\":\n",
 					"                # Get stress data for 'YYYY-MM-DD'\n",
@@ -1140,7 +1147,7 @@
 					"\n",
 					""
 				],
-				"execution_count": 105
+				"execution_count": 50
 			},
 			{
 				"cell_type": "code",
@@ -1197,7 +1204,7 @@
 					"    #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    logger.error(status)"
 				],
-				"execution_count": 106
+				"execution_count": 51
 			}
 		]
 	}

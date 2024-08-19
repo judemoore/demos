@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "612fad59-4f02-4fac-bd00-6764e2e5a1ae"
+				"spark.autotune.trackingId": "6817b8ff-5ac1-483d-98be-c69d28148685"
 			}
 		},
 		"metadata": {
@@ -71,7 +71,7 @@
 					"# #ABFS_DEST_FOLDER = '/Garmin/' # Fabric\n",
 					"WRITEMODE = \"write\" # write or display"
 				],
-				"execution_count": 43
+				"execution_count": 49
 			},
 			{
 				"cell_type": "code",
@@ -118,7 +118,7 @@
 					"    GarminConnectTooManyRequestsError,\n",
 					")"
 				],
-				"execution_count": 44
+				"execution_count": 50
 			},
 			{
 				"cell_type": "code",
@@ -261,7 +261,7 @@
 					"}\n",
 					""
 				],
-				"execution_count": 45
+				"execution_count": 51
 			},
 			{
 				"cell_type": "code",
@@ -394,28 +394,6 @@
 					"        full_path = \"\"       \n",
 					"        full_path = f\"{pathacc}{pathfolder}{file}\"\n",
 					"\n",
-					"\n",
-					"        def flatten_json(y):\n",
-					"            out = {}\n",
-					"\n",
-					"            def flatten(x, name=''):\n",
-					"                if type(x) is dict:\n",
-					"                    for a in x:\n",
-					"                        flatten(x[a], name + a + '_')\n",
-					"                elif type(x) is list:\n",
-					"                    i = 0\n",
-					"                    for a in x:\n",
-					"                        flatten(a, name + str(i) + '_')\n",
-					"                        i += 1\n",
-					"                else:\n",
-					"                    out[name[:-1]] = x\n",
-					"\n",
-					"            flatten(y)\n",
-					"            return out\n",
-					"\n",
-					"            flat = flatten_json(sample_object2)\n",
-					"            json_normalize(flat)\n",
-					"\n",
 					"        if  \"sleep\" in garmin_api_endpoint:\n",
 					"            df = pd.json_normalize(output, max_level=0)\n",
 					"            df = df[['dailySleepDTO']]\n",
@@ -494,7 +472,7 @@
 					"    #     #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    #     return None"
 				],
-				"execution_count": 46
+				"execution_count": 52
 			},
 			{
 				"cell_type": "code",
@@ -1172,7 +1150,7 @@
 					"\n",
 					""
 				],
-				"execution_count": 47
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -1231,7 +1209,7 @@
 					"    #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    logger.error(status)"
 				],
-				"execution_count": 48
+				"execution_count": null
 			}
 		]
 	}

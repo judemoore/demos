@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "c846136d-5e9f-45ff-b9d7-9756a8a1e4b0"
+				"spark.autotune.trackingId": "e9215226-59a2-4b48-b2ab-9e8208d82541"
 			}
 		},
 		"metadata": {
@@ -115,7 +115,9 @@
 					"    GarminConnectAuthenticationError,\n",
 					"    GarminConnectConnectionError,\n",
 					"    GarminConnectTooManyRequestsError,\n",
-					")"
+					")\n",
+					"\n",
+					"from datetime import date, timedelta"
 				],
 				"execution_count": 102
 			},
@@ -280,6 +282,11 @@
 					}
 				},
 				"source": [
+					"def daterange(start_date: date, end_date: date):\n",
+					"    days = int((end_date - start_date).days)\n",
+					"    for n in range(days):\n",
+					"        yield start_date + timedelta(n)\n",
+					"        \n",
 					"def print_menu():\n",
 					"    \"\"\"Print examples menu.\"\"\"\n",
 					"    for key in menu_options.keys():\n",

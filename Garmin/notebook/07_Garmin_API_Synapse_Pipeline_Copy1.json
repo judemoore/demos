@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "5f9f6a63-ad39-4c16-bce4-82b4d37351ff"
+				"spark.autotune.trackingId": "65026fa2-e31b-4a5e-924a-2bcec628a439"
 			}
 		},
 		"metadata": {
@@ -57,7 +57,7 @@
 					}
 				},
 				"source": [
-					"GARMIN_API_OPTION = 'c' # see list below\n",
+					"GARMIN_API_OPTION = 'act' # see list below\n",
 					"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
 					"DAYS_AGO =  1 # start date as offset from today. IE today = 0, yesterday is 1.. \n",
 					"USERCREDS = 'keyvault' # choices are text or keyvault\n",
@@ -71,7 +71,7 @@
 					"# #ABFS_DEST_FOLDER = '/Garmin/' # Fabric\n",
 					"WRITEMODE = \"write\" # write or display"
 				],
-				"execution_count": 49
+				"execution_count": 95
 			},
 			{
 				"cell_type": "code",
@@ -118,7 +118,7 @@
 					"    GarminConnectTooManyRequestsError,\n",
 					")"
 				],
-				"execution_count": 50
+				"execution_count": 96
 			},
 			{
 				"cell_type": "code",
@@ -261,7 +261,7 @@
 					"}\n",
 					""
 				],
-				"execution_count": 51
+				"execution_count": 97
 			},
 			{
 				"cell_type": "code",
@@ -390,63 +390,54 @@
 					"        \n",
 					"        #df.json_normalize(output, max_level=1)\n",
 					"\n",
-					"        file = \"garmin_\" +garmin_api_endpoint+\"-\" + enddateparam + \".parquet\"\n",
-					"        full_path = \"\"       \n",
+					"\n",
+					"        # File output data as normalised json\n",
+					"        df = pd.json_normalize(output)\n",
+					"\n",
+					"        # find max id from new loaded Garmin data, and nowrrow down result by col and row\n",
+					"        max_id_loaded = df['activityId'].max()\n",
+					"        max_id_loaded_frame = df.loc[df['activityId'] == max_id_loaded] \n",
+					"\n",
+					"        # Read max id from last ingest from parquet file in datalake\n",
+					"        file = \"garmin-\" +garmin_api_endpoint+\"-LatestId.parquet\"\n",
 					"        full_path = f\"{pathacc}{pathfolder}{file}\"\n",
+					"        try:\n",
+					"            max_id_from_datalake_frame = pd.read_parquet(full_path, engine='pyarrow')\n",
+					"            max_id_from_datalake = max_id_from_datalake_frame['activityId'].max()\n",
+					"        except Exception as e:\n",
+					"            msg = f\"Error retrieving existing backup of max id from \" + full_path + \": {e}\" \n",
+					"            print(msg)\n",
+					"            max_id_from_datalake = 0\n",
 					"\n",
-					"        if  \"sleep\" in garmin_api_endpoint:\n",
-					"            df = pd.json_normalize(output, max_level=0)\n",
-					"            df = df[['dailySleepDTO']]\n",
+					"        if max_id_loaded > max_id_from_datalake:\n",
+					"            # Write activities to parquet file\n",
+					"            file = \"garmin_\" +garmin_api_endpoint+\"-\" + enddateparam + \".parquet\"\n",
+					"            full_path = f\"{pathacc}{pathfolder}{file}\"\n",
+					"            df = df.loc[df['activityId'] > max_id_loaded] \n",
 					"            df.to_parquet(full_path, engine='pyarrow')\n",
-					"            status = f\"SUCCESS: Data written to: \\n{full_path}\"\n",
-					"            print(df)\n",
-					"        else:\n",
-					"            # File output data as normalised json\n",
-					"            df = pd.json_normalize(output)\n",
+					"            status = f\"SUCCESS: Total of {df.shape[0]} {garmin_api_endpoint}'s loaded and the data written to :\\n{full_path}\"\n",
+					"            print(status)\n",
 					"\n",
-					"            # find max id from new loaded Garmin data, and nowrrow down result by col and row\n",
-					"            max_id_loaded = df['activityId'].max()\n",
-					"            max_id_loaded_frame = df.loc[df['activityId'] == max_id_loaded] \n",
-					"\n",
-					"            # Read max id from last ingest from parquet file in datalake\n",
+					"            # Write max id to parquet file\n",
+					"            max_id_loaded_frame_output = max_id_loaded_frame[['activityId']]\n",
 					"            file = \"garmin-\" +garmin_api_endpoint+\"-LatestId.parquet\"\n",
 					"            full_path = f\"{pathacc}{pathfolder}{file}\"\n",
-					"            try:\n",
-					"                max_id_from_datalake_frame = pd.read_parquet(full_path, engine='pyarrow')\n",
-					"                max_id_from_datalake = max_id_from_datalake_frame['activityId'].max()\n",
-					"            except Exception as e:\n",
-					"                msg = f\"Error retrieving existing backup of max id from \" + full_path + \": {e}\" \n",
-					"                print(msg)\n",
-					"                max_id_from_datalake = 0\n",
+					"            max_id_loaded_frame_output.to_parquet(full_path, engine='pyarrow')\n",
+					"            status = f\"\\tLatest Id also written to :\\n{full_path}\"\n",
+					"            print(status)    \n",
+					"        else:\n",
+					"            status = f\"SUCCESS: Nothing new to load it seems, so not writing any of the loaded Total of {df.shape[0]} of the {garmin_api_endpoint}'s to \\n{full_path}\"\n",
+					"            print(status)\n",
 					"\n",
-					"            if max_id_loaded > max_id_from_datalake:\n",
-					"                # Write activities to parquet file\n",
-					"                file = \"garmin_\" +garmin_api_endpoint+\"-\" + enddateparam + \".parquet\"\n",
-					"                full_path = f\"{pathacc}{pathfolder}{file}\"\n",
-					"                df = df.loc[df['activityId'] > max_id_loaded] \n",
-					"                df.to_parquet(full_path, engine='pyarrow')\n",
-					"                status = f\"SUCCESS: Total of {df.shape[0]} {garmin_api_endpoint}'s loaded and the data written to :\\n{full_path}\"\n",
-					"                print(status)\n",
-					"\n",
-					"                # Write max id to parquet file\n",
-					"                max_id_loaded_frame_output = max_id_loaded_frame[['activityId']]\n",
-					"                file = \"garmin-\" +garmin_api_endpoint+\"-LatestId.parquet\"\n",
-					"                full_path = f\"{pathacc}{pathfolder}{file}\"\n",
-					"                max_id_loaded_frame_output.to_parquet(full_path, engine='pyarrow')\n",
-					"                status = f\"\\tLatest Id also written to :\\n{full_path}\"\n",
-					"                print(status)    \n",
-					"            else:\n",
-					"                status = f\"SUCCESS: Nothing new to load it seems, so not writing any of the loaded Total of {df.shape[0]} of the {garmin_api_endpoint}'s to \\n{full_path}\"\n",
-					"                print(status)\n",
-					"\n",
-					"            #OUTPUTVAR = OUTPUTVAR + status\n",
-					"            #print(status)\n",
-					"            logger.error(status)\n",
+					"        #OUTPUTVAR = OUTPUTVAR + status\n",
+					"        #print(status)\n",
+					"        logger.error(status)\n",
 					"    except Exception as e:\n",
 					"        status = f\"Error writing data to :\\n{full_path}\\n {e}\"\n",
 					"        print(status)\n",
 					"        #OUTPUTVAR = OUTPUTVAR + status\n",
 					"        return None\n",
+					"\n",
 					"\n",
 					"    #     file = \"garmin_\" +garmin_api_endpoint+\"-\" + enddateparam + \".parquet\"\n",
 					"    #     #full_path = f\"{pathacc}{pathfolder}{file}\"\n",
@@ -472,7 +463,7 @@
 					"    #     #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    #     return None"
 				],
-				"execution_count": 52
+				"execution_count": 98
 			},
 			{
 				"cell_type": "code",
@@ -657,15 +648,18 @@
 					"                    )\n",
 					"                    \n",
 					"                if mode == \"write\":\n",
-					"                    write_dataframe_to_parquet(\n",
-					"                        f\"api.get_sleep_data('{startofdata}')\",\n",
-					"                        api.get_sleep_data(startofdata),\n",
-					"                        \"get_sleep_data\",\n",
-					"                        startofdata,\n",
-					"                        ABFS_DEST_ACCOUNT,\n",
-					"                        ABFS_DEST_FOLDER\n",
-					"                    )\n",
-					"\n",
+					"                    garmin_api_endpoint= f\"api.get_sleep_data('{startofdata.isoformat()}')\"\n",
+					"                    filename = \"garmin_\" +garmin_api_endpoint+\"-\" + startofdata.isoformat() + \".parquet\"    \n",
+					"                    full_path = f\"{ABFS_DEST_ACCOUNT}{ABFS_DEST_FOLDER}{filename}\"\n",
+					"                    output=api.get_sleep_data(startofdata.isoformat())\n",
+					"                    df = pd.json_normalize(output, max_level=0)\n",
+					"                    df = df[['dailySleepDTO']]\n",
+					"                    df.to_parquet(full_path, engine='pyarrow')\n",
+					"                    status = f\"SUCCESS: Data written to: \\n{full_path}\"\n",
+					"                    print(df)\n",
+					"                else:\n",
+					"                    print(\"Quit: no mode speficied\")\n",
+					"                    \n",
 					"            elif i == \"d\":\n",
 					"                # Get stress data for 'YYYY-MM-DD'\n",
 					"                display_json(\n",
@@ -1150,7 +1144,7 @@
 					"\n",
 					""
 				],
-				"execution_count": 53
+				"execution_count": 99
 			},
 			{
 				"cell_type": "code",
@@ -1209,7 +1203,7 @@
 					"    #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    logger.error(status)"
 				],
-				"execution_count": 54
+				"execution_count": 100
 			}
 		]
 	}

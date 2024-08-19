@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "8b76c4cf-90fc-4886-8993-c77835389201"
+				"spark.autotune.trackingId": "612fad59-4f02-4fac-bd00-6764e2e5a1ae"
 			}
 		},
 		"metadata": {
@@ -71,7 +71,7 @@
 					"# #ABFS_DEST_FOLDER = '/Garmin/' # Fabric\n",
 					"WRITEMODE = \"write\" # write or display"
 				],
-				"execution_count": 19
+				"execution_count": 43
 			},
 			{
 				"cell_type": "code",
@@ -102,6 +102,7 @@
 					"import json\n",
 					"import logging\n",
 					"import pandas as pd\n",
+					"from datetime import date, timedelta\n",
 					"# import os\n",
 					"# import sys\n",
 					"# from getpass import getpass\n",
@@ -117,7 +118,7 @@
 					"    GarminConnectTooManyRequestsError,\n",
 					")"
 				],
-				"execution_count": 20
+				"execution_count": 44
 			},
 			{
 				"cell_type": "code",
@@ -260,7 +261,7 @@
 					"}\n",
 					""
 				],
-				"execution_count": 21
+				"execution_count": 45
 			},
 			{
 				"cell_type": "code",
@@ -284,6 +285,11 @@
 					"    \"\"\"Print examples menu.\"\"\"\n",
 					"    for key in menu_options.keys():\n",
 					"        print(f\"{key} -- {menu_options[key]}\")\n",
+					"\n",
+					"def daterange(start_date: date, end_date: date):\n",
+					"    days = int((end_date - start_date).days)\n",
+					"    for n in range(days):\n",
+					"        yield start_date + timedelta(n)\n",
 					"\n",
 					"def display_json(api_call, output):\n",
 					"    \"\"\"Format API output for better readability.\"\"\"\n",
@@ -388,6 +394,28 @@
 					"        full_path = \"\"       \n",
 					"        full_path = f\"{pathacc}{pathfolder}{file}\"\n",
 					"\n",
+					"\n",
+					"        def flatten_json(y):\n",
+					"            out = {}\n",
+					"\n",
+					"            def flatten(x, name=''):\n",
+					"                if type(x) is dict:\n",
+					"                    for a in x:\n",
+					"                        flatten(x[a], name + a + '_')\n",
+					"                elif type(x) is list:\n",
+					"                    i = 0\n",
+					"                    for a in x:\n",
+					"                        flatten(a, name + str(i) + '_')\n",
+					"                        i += 1\n",
+					"                else:\n",
+					"                    out[name[:-1]] = x\n",
+					"\n",
+					"            flatten(y)\n",
+					"            return out\n",
+					"\n",
+					"            flat = flatten_json(sample_object2)\n",
+					"            json_normalize(flat)\n",
+					"\n",
 					"        if  \"sleep\" in garmin_api_endpoint:\n",
 					"            df = pd.json_normalize(output, max_level=0)\n",
 					"            df = df[['dailySleepDTO']]\n",
@@ -466,7 +494,7 @@
 					"    #     #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    #     return None"
 				],
-				"execution_count": 22
+				"execution_count": 46
 			},
 			{
 				"cell_type": "code",
@@ -629,10 +657,15 @@
 					"                    api.get_hydration_data(today.isoformat()),\n",
 					"                )\n",
 					"            elif i == \"c\":\n",
-					"                startofdata =  startdate.isoformat()\n",
-					"                # Get activites data for 'YYYY-MM-DD'\n",
 					"\n",
-					"                print(f'Dates to process {startofdata} ')\n",
+					"                # for single_date in daterange(start_date, end_date):\n",
+					"                #     print(single_date.strftime(\"%Y-%m-%d\"))\n",
+					"\n",
+					"                startofdata =  startdate.isoformat()\n",
+					"                # Get sleep data for 'YYYY-MM-DD'\n",
+					"\n",
+					"                print(f'Sleep dates to process {startofdata} ')\n",
+					"\n",
 					"\n",
 					"                # display_json(\n",
 					"                #     f\"api.get_activities_by_date('{startofdata},{endofdata}')\",\n",
@@ -1139,7 +1172,7 @@
 					"\n",
 					""
 				],
-				"execution_count": 23
+				"execution_count": 47
 			},
 			{
 				"cell_type": "code",
@@ -1198,7 +1231,7 @@
 					"    #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    logger.error(status)"
 				],
-				"execution_count": 24
+				"execution_count": 48
 			}
 		]
 	}

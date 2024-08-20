@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "true",
 				"spark.dynamicAllocation.minExecutors": "1",
 				"spark.dynamicAllocation.maxExecutors": "4",
-				"spark.autotune.trackingId": "0fa7e878-70ec-4339-a5ba-825a9b3f6fd4"
+				"spark.autotune.trackingId": "adad5cba-a74b-4e8d-b732-b59b61ee1015"
 			}
 		},
 		"metadata": {
@@ -57,7 +57,7 @@
 					}
 				},
 				"source": [
-					"GARMIN_API_OPTION = 'act' # see list below\n",
+					"GARMIN_API_OPTION = 'c' # see list below\n",
 					"DAYS_BEFORETODAY = 0 # end date as offset from today. IE today = 0, yesterday is 1.. \n",
 					"DAYS_AGO =  0 # start date as offset from today. IE today = 0, yesterday is 1.. \n",
 					"USERCREDS = 'keyvault' # choices are text or keyvault\n",
@@ -71,7 +71,7 @@
 					"# #ABFS_DEST_FOLDER = '/Garmin/' # Fabric\n",
 					"WRITEMODE = \"write\" # write or display"
 				],
-				"execution_count": 46
+				"execution_count": 58
 			},
 			{
 				"cell_type": "code",
@@ -119,7 +119,7 @@
 					"\n",
 					"from datetime import date, timedelta"
 				],
-				"execution_count": 47
+				"execution_count": 59
 			},
 			{
 				"cell_type": "code",
@@ -262,7 +262,7 @@
 					"}\n",
 					""
 				],
-				"execution_count": 48
+				"execution_count": 60
 			},
 			{
 				"cell_type": "code",
@@ -471,7 +471,7 @@
 					"    #     #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    #     return None"
 				],
-				"execution_count": 49
+				"execution_count": 61
 			},
 			{
 				"cell_type": "code",
@@ -524,10 +524,10 @@
 					"                    \n",
 					"                if mode == \"write\":\n",
 					"                    write_dataframe_to_parquet(\n",
-					"                        f\"api.get_activities_by_date('{startofdata},{endofdata}')\",\n",
-					"                        api.get_activities_by_date(startofdata,endofdata),\n",
+					"                        f\"api.get_activities_by_date('{startdate.isoformat()},{enddate.isoformat()}')\",\n",
+					"                        api.get_activities_by_date(startdate.isoformat(),enddate.isoformat()),\n",
 					"                        \"get_activities_by_date\",\n",
-					"                        endofdata,\n",
+					"                        enddate.isoformat(),\n",
 					"                        ABFS_DEST_ACCOUNT,\n",
 					"                        ABFS_DEST_FOLDER\n",
 					"                    )\n",
@@ -650,7 +650,7 @@
 					"                    )\n",
 					"                    \n",
 					"                if mode == \"write\":\n",
-					"                    garmin_api_endpoint= f\"api.get_sleep_data('{startofdata}')\"\n",
+					"                    garmin_api_endpoint= f\"api.get_sleep_data({startofdata})\"\n",
 					"                    filename = \"garmin_\" +garmin_api_endpoint+\"-\" + startofdata + \".parquet\"    \n",
 					"                    full_path=\"\"\n",
 					"                    full_path = f\"{ABFS_DEST_ACCOUNT}{ABFS_DEST_FOLDER}{filename}\"\n",
@@ -1147,7 +1147,7 @@
 					"\n",
 					""
 				],
-				"execution_count": 50
+				"execution_count": 62
 			},
 			{
 				"cell_type": "code",
@@ -1204,7 +1204,7 @@
 					"    #OUTPUTVAR = OUTPUTVAR + status\n",
 					"    logger.error(status)"
 				],
-				"execution_count": 51
+				"execution_count": 63
 			}
 		]
 	}

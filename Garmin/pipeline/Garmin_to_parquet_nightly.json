@@ -5,6 +5,92 @@
 			{
 				"name": "Garmin_Activities",
 				"type": "SynapseNotebook",
+				"dependsOn": [
+					{
+						"activity": "Garmin_Sleep",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebook": {
+						"referenceName": "07_Garmin_API_Synapse_Pipeline",
+						"type": "NotebookReference"
+					},
+					"parameters": {
+						"GARMIN_API_OPTION": {
+							"value": "act",
+							"type": "string"
+						},
+						"DAYS_BEFORETODAY": {
+							"value": "0",
+							"type": "int"
+						},
+						"DAYS_AGO": {
+							"value": "0",
+							"type": "int"
+						},
+						"KEYVAULTNAME": {
+							"value": "judeskv",
+							"type": "string"
+						},
+						"GARMIN_UNAME_KEY": {
+							"value": "GarminUsername",
+							"type": "string"
+						},
+						"GARMIN_PASSW_KEY": {
+							"value": "GarminPassword",
+							"type": "string"
+						},
+						"ABFS_DEST_ACCOUNT": {
+							"value": "abfss://personalprojectsfs@personalprojectsrslake.dfs.core.windows.net",
+							"type": "string"
+						},
+						"ABFS_DEST_FOLDER": {
+							"value": "/synapse/workspaces/personalprojectsrgsynapse/DataFiles/Garmin/",
+							"type": "string"
+						},
+						"WRITEMODE": {
+							"value": "write",
+							"type": "string"
+						},
+						"USERCREDS": {
+							"value": "text",
+							"type": "string"
+						},
+						"EMAIL": {
+							"value": "jude_moore@outlook.com",
+							"type": "string"
+						},
+						"PASSWORD": {
+							"value": "Boris2022!",
+							"type": "string"
+						}
+					},
+					"snapshot": true,
+					"sparkPool": {
+						"referenceName": "personalsparkp",
+						"type": "BigDataPoolReference"
+					},
+					"executorSize": "Small",
+					"conf": {
+						"spark.dynamicAllocation.enabled": false
+					},
+					"driverSize": "Small"
+				}
+			},
+			{
+				"name": "Garmin_Sleep",
+				"type": "SynapseNotebook",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -16,16 +102,16 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "07_Garmin_API_Synapse_Pipeline_new",
+						"referenceName": "07_Garmin_API_Synapse_Pipeline",
 						"type": "NotebookReference"
 					},
 					"parameters": {
 						"GARMIN_API_OPTION": {
-							"value": "act",
+							"value": "d",
 							"type": "string"
 						},
 						"DAYS_BEFORETODAY": {
-							"value": "0",
+							"value": "1",
 							"type": "int"
 						},
 						"DAYS_AGO": {

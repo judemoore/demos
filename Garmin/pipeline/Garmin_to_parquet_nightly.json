@@ -107,7 +107,7 @@
 					},
 					"parameters": {
 						"GARMIN_API_OPTION": {
-							"value": "d",
+							"value": "c",
 							"type": "string"
 						},
 						"DAYS_BEFORETODAY": {

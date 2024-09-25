@@ -1,0 +1,117 @@
+{
+	"name": "garminpipeline",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "6a6bd466-501e-4190-8f97-8486ce8cf9fe"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "markdown",
+				"source": [
+					"# 04_Garmin_API_Call_Key_Vault_Python for Synapse"
+				]
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"# Install required libraries in the Synapse environment\n",
+					"%pip install garminconnect azure-identity azure-keyvault-secrets azure-keyvault\n",
+					""
+				],
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"# Import necessary packages\n",
+					"import garminconnect\n",
+					"from datetime import datetime, timedelta\n",
+					"from azure.identity import DefaultAzureCredential\n",
+					"from azure.keyvault.secrets import SecretClient\n",
+					"\n",
+					"# Define a function to retrieve secrets from Azure Key Vault\n",
+					"def get_api_key_from_keyvault(key_vault_name, secret_name, secret_version=None):\n",
+					"    try:\n",
+					"        # Initialize Azure Key Vault client\n",
+					"        kv_uri = f\"https://{key_vault_name}.vault.azure.net\"\n",
+					"        credential = DefaultAzureCredential()\n",
+					"        secret_client = SecretClient(vault_url=kv_uri, credential=credential)\n",
+					"\n",
+					"        # Retrieve the secret\n",
+					"        api_key = secret_client.get_secret(secret_name).value\n",
+					"        return api_key\n",
+					"    except Exception as e:\n",
+					"        print(f\"Error retrieving API key from Key Vault: {e}\")\n",
+					"        return None\n",
+					""
+				],
+				"execution_count": 2
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"# Main function to initialize Garmin client and retrieve data\n",
+					"def main():\n",
+					"    try:\n",
+					"        # Retrieve credentials from Key Vault\n",
+					"        Garmin_Username = get_api_key_from_keyvault(\"judeskv\", \"GarminUsername\")\n",
+					"        Garmin_Password = get_api_key_from_keyvault(\"judeskv\", \"GarminPassword\")\n",
+					"\n",
+					"        if not Garmin_Username or not Garmin_Password:\n",
+					"            print(\"Failed to retrieve Garmin credentials from Key Vault.\")\n",
+					"            return\n",
+					"\n",
+					"        # Initialize Garmin Connect client\n",
+					"        client = garminconnect.Garmin(Garmin_Username, Garmin_Password)\n",
+					"        client.login()\n",
+					"\n",
+					"        # Get the date range for the last three months\n",
+					"        today = datetime.today()\n",
+					"        three_months_ago = today - timedelta(days=90)\n",
+					"\n",
+					"        # Retrieve Garmin activities data for the last three months\n",
+					"        activities_data = client.get_activities_by_date(three_months_ago.strftime(\"%Y-%m-%d\"), today.strftime(\"%Y-%m-%d\"))\n",
+					"        print(f\"Activities data for the last three months: {activities_data}\")\n",
+					"    except Exception as e:\n",
+					"        print(f\"Error: {e}\")\n",
+					""
+				],
+				"execution_count": 3
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"# Run the main function\n",
+					"if __name__ == \"__main__\":\n",
+					"    main()\n",
+					""
+				],
+				"execution_count": 4
+			}
+		]
+	}
+}
